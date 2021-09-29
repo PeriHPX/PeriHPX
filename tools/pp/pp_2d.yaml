@@ -1,0 +1,175 @@
+# provide directory where simulation input file is located
+Source_Path: ./
+# provide simulation input file name
+Simulation_Input_File: input.yaml
+# name of the vtu file which contains data like
+# displacement, velocity
+# default name is used in below if it is not provided
+Filename_To_Read: output
+# Specify start and end output step for processing
+# This overrides the compute set if compute set does not specify them
+Dt_Start: 5
+Dt_End: 20
+# Specify the number at which change in interval takes place
+Dt_Out_Change: 10
+# provide necessary material properties if not provided in the simulation
+# input file above
+Material:
+  Poisson_Ratio: 0.25
+  E: 1.0
+Output:
+  # specify output directory
+  Path: pp/modify_v/new/
+# specify what to compute
+Compute:
+  # specify filename for damage (code it will append output number at the
+  # end of filename)
+  File_Z: .pp/Z/Z
+  # specify the tag of damage to read (Default is Damage_Z)
+  Tag_Z: Damage_Z
+  # Specify if we consider u(n+1) or u(n). default is u(n) i.e. false
+  # some calculation such as Damage and crack tip may give better result with
+  # u(n+1)
+  Take_U_Plus: true
+  # set true if compute crack tip in reference configuration
+  # can be overridden by the set
+  # This makes the value default for all sets so if for some sets this is
+  # not desired, override it in the set
+  # Or if this is desired in only few sets, then remove this from here
+  # and just declare in the sets where this flag is required to be true
+  Calculate_In_Ref_Config: true
+  Sets: 4
+  Set_1:
+    # Provide unique tag for filename for this set
+    # if not provided then it will assign tag "set_1" by default
+    Tag_Filename: mark_v
+    # set true if output nodal data and not whole mesh
+    # default is true
+    Output_Only_Nodes: true
+    # specify file format for output
+    File_Format: vtu
+    # Valid value is integer >= 1. Default is 1.
+    Dt_Interval: 10
+    # specify compression type (default is none) for .vtu files
+    Compress_Type: zlib
+    # mark velocity as zero in given region
+    Mark_V_0: 
+      #####
+      # provide rectangle within which nodes will be marked
+      # with zero velocity
+      Rectangle: [0.049, 0.0, 0.052, 0.032]
+      # Rectangle: [0.049, 0.0, 0.052, 0.044]
+      #####
+      # # provide list of points on which nodes will be marked zero
+      # Points:
+      #   # can provide 3 components or just 2 components (for 2-d providing
+      #   # only 2 component is efficient)
+      #   - [0.0, 0.1, 0.0]
+      #   - [0.1, 0.0]
+      # # specify if the points are in current or in reference configuration 
+      # # (default is current)
+      # Points_Current_Config: true
+      #####
+      # Provide ids of node to mark
+      Nodes:
+        # for output_20
+        - 1972
+        - 1260
+        # # for output_15
+        # - 1366
+        # - 1260
+        # - 654
+    # symmetrize velocity along given line of symmetry
+    Symmetrize_V:
+      # specify if this operation needs to be combined with
+      # Mark_V_0 operation (default is false)
+      Combine_Mark_V_0: true
+      # specify if line is vertical or horizontal
+      Axis: y
+      # specify the location of line
+      Axis_Line: 0.05
+  Set_2:
+    Tag_Filename: strain
+    Output_Only_Nodes: false
+    Compress_Type: zlib
+    # compute magnitude of strain tensor
+    Magnitude_Strain_Tensor:
+      # specify component if any
+      Component: xx
+    # compute strain and stress
+    Strain_Stress: true
+  Set_3:
+    Tag_Filename: crack_tip
+    Dt_Start: 70
+    Dt_End: 100
+    Output_Only_Nodes: true
+    # set true if compute crack tip in reference configuration
+    Calculate_In_Ref_Config: true
+    # compute crack tip location and velocity
+    Crack_Tip:
+      # specify the max value of damage to be considered in searching for tip
+      # default is 50
+      Max_Z_Allowed: 50.0
+      # specify the min value of damage to be considered in searching for tip
+      # default is 1
+      Min_Z_Allowed: 1.0
+  Set_4:
+    Tag_Filename: crack_energy
+    Dt_Start: 70
+    Dt_End: 100
+    # specify number of simulation files to skip.
+    Output_Only_Nodes: true
+    J_Integral:
+      # specify the orientation of crack
+      # -1 for vertical and 1 for horizontal
+      Crack_Orient: 1
+      # specify the id of crack (crack data file may have data for multiple
+      # cracks, so we need the id of crack for which J integral is computed)
+      Crack_Id: 1
+      # file which contains crack tip location and velocity
+      # format: <crack id>, <output step>, <tip x>, <tip y>, <tip vx>, <tip vy>
+      Crack_Tip_File: crack_tip_data.csv
+      # factor (for x and y direction) to compute the contour around crack tip
+      Contour_Size: [4.0, 4.0]
+      # set lateral component of crack velocity zero
+      Set_V_Lateral_Comp_Zero: true
+      # set lateral component of crack tip to initial value
+      Set_U_Lateral_Comp_Zero: true
+      # If Set_U_Lateral_Comp_Zero is set to true, specify the initial value
+      # of lateral component of crack tip
+      Set_X_Lateral_Comp: 0.05
+  Set_5:
+    Tag_Filename: damage
+    Dt_Start: 70
+    Dt_End: 100
+    Output_Only_Nodes: true
+    # compute damage function Z
+    Damage_Z: true
+    Compress_Type: zlib
+  Set_6:
+    Tag_Filename: crack_energy
+    Dt_Start: 70
+    Dt_End: 100
+    # specify number of simulation files to skip.
+    Output_Only_Nodes: true
+    J_Integral:
+      # if below is set to true then the crack file must also provide the
+      # direction of crack.
+      # This forces compute to use J_integral function which takes dot product
+      # of arbitrary inclined crack line
+      Is_Crack_Inclined: true
+      # specify the orientation (initial) of crack
+      # -1 for vertical and 1 for horizontal
+      Crack_Orient: 1
+      # specify the id of crack (crack data file may have data for multiple
+      # cracks, so we need the id of crack for which J integral is computed)
+      Crack_Id: 1
+      # file which contains crack tip location and velocity
+      # format: <crack id>, <output step>, <tip x>, <tip y>, <tip vx>, <tip vy>,
+      # <tip dx> , <tip dy>
+      # Note that file must also provide direction of crack tip
+      Crack_Tip_File: crack_tip_data.csv
+      # factor (for x and y direction) to compute the contour around crack tip
+      Contour_Size: [4.0, 4.0]
+HPX:
+  Partitions: 1
