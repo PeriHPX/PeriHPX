@@ -1,6 +1,7 @@
 # PeriHPX 
 
-|JOSS|
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/dba3a9de609941adad34f3a49e3b813c)](https://www.codacy.com/gh/PeriHPX/PeriHPX/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PeriHPX/PeriHPX&amp;utm_campaign=Badge_Grade) [![DOI](https://joss.theoj.org/papers/10.21105/joss.03020/status.svg)](https://doi.org/10.21105/joss.03020) [![DOI](https://zenodo.org/badge/4455628.svg)](https://zenodo.org/badge/latestdoi/4455628)
+
 
 ## Introduction
 Welcome to the NLMech repository. In this project, we implement Peridynamics model of fracture using meshfree and finite element discretizations. A brief overview of the equations is available [here](https://nonlocalmodels.github.io/documentation/md_content_equations.html). NLMech primarily served as a code for academic research (e.g., [1,2]), however, we plan to improve it further for a large-scale usage. The plan also includes development of fully distributed solver using HPX library for asynchronous computation to its maximum potential. In [3], we discuss the structure of NLMech and use HPX library for multi-threading computation. For further list of publications based on this library, we refer to the [publication list](https://nonlocalmodels.github.io/publications/).
@@ -191,8 +192,3 @@ NLMech has been funded by:
 [2] Jha, P. K., & Lipton, R. P. (2020). Kinetic relations and local energy balance for LEFM from a nonlocal peridynamic model. International Journal of Fracture, 226(1), 81-95.
 
 [3] Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21.
-
-
-.. |JOSS| image:: https://joss.theoj.org/papers/10.21105/joss.03020/status.svg
-    :target: https://joss.theoj.org/papers/10.21105/joss.03020
-    :alt: JOSS Paper about NLMech
