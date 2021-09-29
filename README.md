@@ -13,7 +13,7 @@ At present, the library consists of multiple material models such as
 One of the main features of PeriHPX is the implementation of both explicit time discretization for dynamic problems (see [FDModel](src/model/fd/fDModel.h)) and implicit discretization for quasi-static problems (see [QuasiStaticModel](src/model/quasistatic/QuasiStaticModel.h)). 
 
 ## Documentation and getting started
-All source and header files are fairly well documented. We used doxygen to automatically generate the documentation of methods, classes, etc. For complete documentation follow this [link](perihpx.github.io/documentation/).
+All source and header files are fairly well documented. We used doxygen to automatically generate the documentation of methods, classes, etc. For complete documentation follow this [link](http://perihpx.stellar-group.org/documentation/).
 
 We provide shell scripts to help with the installation of dependencies and the PeriHPX itself. We also provide Docker images for a quick test of the library and to run the examples. In section `Installation`, we describe the dependencies, installation of dependencies, and building PeriHPX code. In section `Running PeriHPX`, we discuss how to run the examples.
 
