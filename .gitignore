@@ -1,0 +1,67 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Documentation
+*.html
+*.js
+#*.png
+*.css
+
+# Debugger
+core.*
+
+# build directory
+build
+build_2
+
+# ide configurattion files
+.idea
+.idea/workspace.xml
+.vscode
+.project
+cmake-build-debug
+cmake-build_release
+
+# docs directory
+docs/doxy
+docs/doxy.log
+docs/conf.doxy
+
+# src directory
+src/Config.h 
+
+# configuration files
+./clang-format
+
+# swap files
+*.*~
+
+#Format
+.clang-format
