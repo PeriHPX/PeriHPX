@@ -9,9 +9,9 @@ set(CPACK_GENERATOR "RPM")
 set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME})
 set(CPACK_PACKAGE_RELEASE 1)
 set(CPACK_PACKAGE_CONTACT "patrickdiehl@lsu.edu")
-set(CPACK_PACKAGE_VENDOR "Nonlocalmodels")
+set(CPACK_PACKAGE_VENDOR "perihpx")
 set(CPACK_RPM_PACKAGE_LICENSE "BSL-1.0")
-set(CPACK_RPM_PACKAGE_URL "https://github.com/nonlocalmodels/NLMech")
+set(CPACK_RPM_PACKAGE_URL "https://github.com/perihpx/PeriHPX")
 set(CPACK_RPM_PACKAGE_SUMMARY
 ${CMAKE_PROJECT_DESCRIPTION}
 )

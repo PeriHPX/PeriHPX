@@ -4,24 +4,24 @@
 
 
 ## Introduction
-Welcome to the NLMech repository. In this project, we implement Peridynamics model of fracture using meshfree and finite element discretizations. A brief overview of the equations is available [here](https://nonlocalmodels.github.io/documentation/md_content_equations.html). NLMech primarily served as a code for academic research (e.g., [1,2]), however, we plan to improve it further for a large-scale usage. The plan also includes development of fully distributed solver using HPX library for asynchronous computation to its maximum potential. In [3], we discuss the structure of NLMech and use HPX library for multi-threading computation. For further list of publications based on this library, we refer to the [publication list](https://nonlocalmodels.github.io/publications/).
+Welcome to the PeriHPX repository. In this project, we implement Peridynamics model of fracture using meshfree and finite element discretizations. A brief overview of the equations is available [here](https://perihpx.github.io/documentation/md_content_equations.html). PeriHPX primarily served as a code for academic research (e.g., [1,2]), however, we plan to improve it further for a large-scale usage. The plan also includes development of fully distributed solver using HPX library for asynchronous computation to its maximum potential. In [3], we discuss the structure of PeriHPX and use HPX library for multi-threading computation. For further list of publications based on this library, we refer to the [publication list](https://perihpx.github.io/publications/).
 
 At present, the library consists of multiple material models such as 
 - **RNP** - Regularized Nonlinear Potential. This is implemented in class [RNPBond](src/material/pd/rnpBond.h).
 - **State-based peridynamics** - State-based peridynamics model. This is implemented in class [ElasticState](src/material/pd/ElasticState.h).
 
-One of the main features of NLMech is the implementation of both explicit time discretization for dynamic problems (see [FDModel](src/model/fd/fDModel.h)) and implicit discretization for quasi-static problems (see [QuasiStaticModel](src/model/quasistatic/QuasiStaticModel.h)). 
+One of the main features of PeriHPX is the implementation of both explicit time discretization for dynamic problems (see [FDModel](src/model/fd/fDModel.h)) and implicit discretization for quasi-static problems (see [QuasiStaticModel](src/model/quasistatic/QuasiStaticModel.h)). 
 
 ## Documentation and getting started
-All source and header files are fairly well documented. We used doxygen to automatically generate the documentation of methods, classes, etc. For complete documentation follow this [link](https://nonlocalmodels.github.io/documentation/).
+All source and header files are fairly well documented. We used doxygen to automatically generate the documentation of methods, classes, etc. For complete documentation follow this [link](perihpx.github.io/documentation/).
 
-We provide shell scripts to help with the installation of dependencies and the NLMech itself. We also provide Docker images for a quick test of the library and to run the examples. In section `Installation`, we describe the dependencies, installation of dependencies, and building NLMech code. In section `Running NLMech`, we discuss how to run the examples.
+We provide shell scripts to help with the installation of dependencies and the PeriHPX itself. We also provide Docker images for a quick test of the library and to run the examples. In section `Installation`, we describe the dependencies, installation of dependencies, and building PeriHPX code. In section `Running PeriHPX`, we discuss how to run the examples.
 
 
 ## Installation
 
 ### Build tools
-The following build tools are needed to compile the NLMech and its dependencies:
+The following build tools are needed to compile the PeriHPX and its dependencies:
   * GCC compiler collection (gcc) > 4.9, however, gcc >= 8 is recommended
   * [autoconf](https://www.gnu.org/software/autoconf/)
   * [wget](https://www.gnu.org/software/wget/)
@@ -84,24 +84,24 @@ Following dependencies are optional, but are recommended for the large simulatio
     - Required to build PCL library
 
 ### Building dependencies
-Building above dependencies is quite a challenge. To help with this, we provide the bash scripts for Ubuntu-20.04 and Fedor operating systems: [Bash scripts](https://github.com/nonlocalmodels/buildscripts/tree/main/bash)).
+Building above dependencies is quite a challenge. To help with this, we provide the bash scripts for Ubuntu-20.04 and Fedor operating systems: [Bash scripts](https://github.com/perihpx/buildscripts/tree/main/bash)).
 
 Further, we provide various docker files
-* to build the code on Fedora using Fedora packages, see [Using Fedora Packages](https://github.com/nonlocalmodels/buildscripts/blob/main/Docker/Fedora) 
-* to build all the dependencies and the code on Fedora, see [Build Dependencies and Code on Fedora](https://github.com/nonlocalmodels/buildscripts/blob/main/Docker/FedoraAll)
-* to build dependencies and the code on Ubuntu-20.04, see [Build Dependencies and Code on Ubuntu](https://github.com/nonlocalmodels/buildscripts/blob/main/Docker/FedoraAll).
+* to build the code on Fedora using Fedora packages, see [Using Fedora Packages](https://github.com/perihpx/buildscripts/blob/main/Docker/Fedora) 
+* to build all the dependencies and the code on Fedora, see [Build Dependencies and Code on Fedora](https://github.com/perihpx/buildscripts/blob/main/Docker/FedoraAll)
+* to build dependencies and the code on Ubuntu-20.04, see [Build Dependencies and Code on Ubuntu](https://github.com/perihpx/buildscripts/blob/main/Docker/FedoraAll).
 
-In [Scripts](https://github.com/nonlocalmodels/HPCBuildInfrastructure), bash scripts to build individual dependencies such as blaze, vtk, hpx, etc, on HPC systems is provided.
+In [Scripts](https://github.com/perihpx/HPCBuildInfrastructure), bash scripts to build individual dependencies such as blaze, vtk, hpx, etc, on HPC systems is provided.
 
-A more detailed version of the build instruction is available [here](https://nonlocalmodels.github.io/documentation/md_content_install_instructions.html).
+A more detailed version of the build instruction is available [here](https://perihpx.github.io/documentation/md_content_install_instructions.html).
 
-> :exclamation: We recommend to use the same CMake version and same compiler version to build the HPX and NLMech.
+> :exclamation: We recommend to use the same CMake version and same compiler version to build the HPX and PeriHPX.
 
 ### Compiling library
-Assuming all the dependencies are installed at standard paths such as `/usr/local`, we build NLMech as follows
+Assuming all the dependencies are installed at standard paths such as `/usr/local`, we build PeriHPX as follows
 ```sh
-git clone https://github.com/nonlocalmodels/NLMech.git 
-cd NLMech
+git clone https://github.com/perihpx/PeriHPX.git 
+cd PeriHPX
 mkdir build && cd build 
 
 # turn building documentation and tools, dependency on PCL off by using 'OFF' instead of 'ON'
@@ -131,26 +131,26 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 make -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1
 ```
 
-## Running NLMech
-To quickly run the tests and examples, you may use Docker image with the [latest Successful build](https://hub.docker.com/r/diehlpk/nlmech/tags?page=1&ordering=last_updated) of the main branch. 
+## Running PeriHPX
+To quickly run the tests and examples, you may use Docker image with the [latest Successful build](https://hub.docker.com/r/diehlpk/PeriHPX/tags?page=1&ordering=last_updated) of the main branch. 
 
 ```sh
-podman/docker pull diehlpk/nlmech:latest
-podman/docker run -it docker.io/diehlpk/nlmech /bin/bash
-cd /app/NLMech/examples/qsModel/1D
+podman/docker pull diehlpk/PeriHPX:latest
+podman/docker run -it docker.io/diehlpk/PeriHPX /bin/bash
+cd /app/PeriHPX/examples/qsModel/1D
 # Generate the mesh file
-/app/NLMech/build/bin/mesh -i input_mesh.yaml -d 1
+/app/PeriHPX/build/bin/mesh -i input_mesh.yaml -d 1
 # Run the simulation
-/app/NLMech/build/bin/NLMech -i input.yaml --hpx:threads=2
+/app/PeriHPX/build/bin/PeriHPX -i input.yaml --hpx:threads=2
 ```
 
-In [examples](https://nonlocalmodels.github.io/examples/), we provide information on how to prepare a simulation setup input file using [YAML](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html).
+In [examples](https://perihpx.github.io/examples/), we provide information on how to prepare a simulation setup input file using [YAML](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html).
 
-Asume, you have build NLMech on your own, you can go the the `build` folder and run the executable as below
+Asume, you have build PeriHPX on your own, you can go the the `build` folder and run the executable as below
 
 ```sh
 cd build
-./bin/NLMech -i input.yaml --hpx:threads=n
+./bin/PeriHPX -i input.yaml --hpx:threads=n
 ```
 
 with the first argument `-i` the `input.yaml` file is specified and the second argument `--hpx:threads` the amount
@@ -162,26 +162,26 @@ The one-dimensional quasi-static example is computational inexpesive, therfore, 
 simulation soon. For scaling test, we recommend to use any of the two-dimensional examples. 
 
 ## Trouble, issues, bugs
-In case you found a bug in the library, want to contribute, or need a feature, please create a new [issue](https://github.com/nonlocalmodels/NLMech/issues). 
+In case you found a bug in the library, want to contribute, or need a feature, please create a new [issue](https://github.com/perihpx/PeriHPX/issues). 
 
 
 ## Releases
-The current stable version is [![GitHub release](https://img.shields.io/github/release/nonlocalmodels/NLMech.svg)](https://GitHub.com/nonlocalmodels/NLMech/releases/). Main development branch is the [main branch](https://github.com/nonlocalmodels/NLMech). For more details, we refer to the [Changelog](https://github.com/nonlocalmodels/NLMech/blob/main/CHANGELOG.md) file.
+The current stable version is [![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg)](https://GitHub.com/perihpx/PeriHPX/releases/). Main development branch is the [main branch](https://github.com/perihpx/PeriHPX). For more details, we refer to the [Changelog](https://github.com/perihpx/PeriHPX/blob/main/CHANGELOG.md) file.
 
 ## Code of conduct
-We have adopted a [code of conduct](https://github.com/nonlocalmodels/NLMech/blob/main/CODE_OF_CONDUCT.md) for this project. 
+We have adopted a [code of conduct](https://github.com/perihpx/PeriHPX/blob/main/CODE_OF_CONDUCT.md) for this project. 
 
 ## Contributing
-The source code is released under the [![GitHub license](https://img.shields.io/github/license/nonlocalmodels/nonlocalmodels.github.io.svg)](https://github.com/nonlocalmodels/nonlocalmodels.github.io/blob/main/LICENSE) license. If you like to contribute, we only accept your pull request using the same license. Please feel free to add your name to license header of the files you added or contributed to. If possible please add a test for your new feature using [CTest](https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest). We adapted the Google C++ [Style Guide](https://google.github.io/styleguide/cppguide.html) for this project. We use the [clang-format](https://clang.llvm.org/docs/ClangFormat.html) tool to format the source code with respect to this style guide. Please run the `format.sh` script before your do the pull request.
+The source code is released under the [![GitHub license](https://img.shields.io/github/license/perihpx/PeriHPX.svg)](https://github.com/perihpx/PeriHPX/blob/main/LICENSE) license. If you like to contribute, we only accept your pull request using the same license. Please feel free to add your name to license header of the files you added or contributed to. If possible please add a test for your new feature using [CTest](https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest). We adapted the Google C++ [Style Guide](https://google.github.io/styleguide/cppguide.html) for this project. We use the [clang-format](https://clang.llvm.org/docs/ClangFormat.html) tool to format the source code with respect to this style guide. Please run the `format.sh` script before your do the pull request.
 
 ## Citing
-In publications, please use our paper as the main citation for NLMech: 
+In publications, please use our paper as the main citation for PeriHPX: 
 * Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21.
 
-For more references, we refer to NLMech's [publication list](https://nonlocalmodels.github.io/publications/).
+For more references, we refer to PeriHPX's [publication list](https://perihpx.github.io/publications/).
 
 ## Acknowledgments
-NLMech has been funded by:
+PeriHPX has been funded by:
 * Army Research Office Grant # W911NF-16-1-0456 to PI Dr. Robert Lipton (Professor at Louisiana State University). This grant supported Prashant K. Jha on a postdoctoral position from October 2016 - July 2019.
 *  Canada Research Chairs Program under the Canada Research Chair in Multiscale Modelling of Advanced Aerospace Materials held by M. Lévesque; Natural Sciences and Engineering Research Council of Canada (NSERC) Discovery Grants Program under Discovery Grant RGPIN-2016-06412.
 * We are grateful for the support of the [Google Summer of Code program](https://summerofcode.withgoogle.com/) funding internships.

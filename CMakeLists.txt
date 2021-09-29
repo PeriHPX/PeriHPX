@@ -7,7 +7,7 @@
 #####################################################################
 # Setup 
 #####################################################################
-project(NLMech
+project(PeriHPX
     DESCRIPTION "Framework for non-local mechanics"
     LANGUAGES CXX C)
 
@@ -175,9 +175,9 @@ endif()
 
 
 ##############################################################################
-# Build NLMech
+# Build PeriHPX
 ##############################################################################
-add_hpx_executable(NLMech SOURCES src/main.cpp 
+add_hpx_executable(PeriHPX SOURCES src/main.cpp 
                    DEPENDENCIES Inp Model ${LAPACK_LIBRARIES})
 
 

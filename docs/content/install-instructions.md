@@ -1,14 +1,14 @@
 # Installation 
 
-This tutorial guides you how to install [NLMech](https://github.com/nonlocalmodels/NLMech) from scratch. In addition, we provide some [Docker files](https://github.com/nonlocalmodels/buildscripts/blob/main/Docker/) to build the code on [Fedora](https://getfedora.org/), since we use the same OS on [Circle-CI](https://app.circleci.com/pipelines/github/nonlocalmodels/NLMech). In addition, we provide some [bash script](https://github.com/nonlocalmodels/buildscripts/tree/main/bash) to install the code in one step. 
+This tutorial guides you how to install [PeriHPX](https://github.com/perihpx/PeriHPX) from scratch. In addition, we provide some [Docker files](https://github.com/perihpx/buildscripts/blob/main/Docker/) to build the code on [Fedora](https://getfedora.org/), since we use the same OS on [Circle-CI](https://app.circleci.com/pipelines/github/perihpx/PeriHPX). In addition, we provide some [bash script](https://github.com/perihpx/buildscripts/tree/main/bash) to install the code in one step. 
 
-In this installation guide, we will use a set of [scripts](https://github.com/nonlocalmodels/HPCBuildInfrastructure) to build the code on HPC clusters.
+In this installation guide, we will use a set of [scripts](https://github.com/perihpx/HPCBuildInfrastructure) to build the code on HPC clusters.
 
 ## Prerequisites 
 
 ### Tools
 
-To compile NLMech and its dependencies the following tools are needed:
+To compile PeriHPX and its dependencies the following tools are needed:
 * GCC compiler collection (gcc) > 4.9, however, gcc >= 8 is recommended
 * [autoconf](https://www.gnu.org/software/autoconf/)
 * [wget](https://www.gnu.org/software/wget/)
@@ -35,10 +35,10 @@ dnf install @development-tools cmake git wget blas-devel lapack-devel freeglut-d
 
 ## Using the HPCBuildInfrastructure
 
-First, we clone the [HPCBuildInfrastructure](https://github.com/nonlocalmodels/HPCBuildInfrastructure) 
+First, we clone the [HPCBuildInfrastructure](https://github.com/perihpx/HPCBuildInfrastructure) 
 
 ```bash
-git clone https://github.com/nonlocalmodels/HPCBuildInfrastructure.git
+git clone https://github.com/perihpx/HPCBuildInfrastructure.git
 cd HPCBuildInfrastructure/
 ```
 The uses version of each library is defined in the `config.sh`, if you need to change them. 
@@ -80,10 +80,10 @@ The first command `Release` specifies the `CMAKE_BUILD_TYPE` of the build. Note 
 ./build-all.sh Release without-gcc yamlcpp
 ```
 
-### Build NLMech
+### Build PeriHPX
 
 ```bash
-./build-all.sh Release without-gcc NLMech
+./build-all.sh Release without-gcc PeriHPX
 ```
 
-All these instructions are available in a single [bash script](https://github.com/nonlocalmodels/buildscripts/blob/main/bash/buildAll.sh) and a [Dockerfile](https://github.com/nonlocalmodels/buildscripts/blob/main/Docker/FedoraAll).
+All these instructions are available in a single [bash script](https://github.com/perihpx/buildscripts/blob/main/bash/buildAll.sh) and a [Dockerfile](https://github.com/perihpx/buildscripts/blob/main/Docker/FedoraAll).

@@ -10,7 +10,7 @@ To generate a mesh the tool [mesh]() is provided and it is used as
 mesh -i input_mesh.yaml -d 1
 ```
 
-where `-d` specify the dimension of the problem and `-i` specifies the YAML fine with the mesh information. Let us look at the [example](https://github.com/nonlocalmodels/NLMech/tree/main/examples/qsModel/1D) for the one-dimensional implicit time integration example:
+where `-d` specify the dimension of the problem and `-i` specifies the YAML fine with the mesh information. Let us look at the [example](https://github.com/perihpx/PeriHPX/tree/main/examples/qsModel/1D) for the one-dimensional implicit time integration example:
 
 
 ```yaml
@@ -43,11 +43,11 @@ The tag `Domain` describes the simulation domain using the following attributes:
 * `Horizon` Describes the length of the horizon as an integer
 * `Horizon_h_Ratio` Describes the number of nodes within the horizon
 
-For more complex geometries, the [Gmsh](https://gmsh.info/) tool is recommended. Further examples are available [here](https://nonlocalmodels.github.io/examples/).
+For more complex geometries, the [Gmsh](https://gmsh.info/) tool is recommended. Further examples are available [here](https://perihpx.github.io/examples/).
 
 ## Simulation
 
-Here, all tags and attributes of the YAML files are listed and described. A detailed set of examples is available [here](https://nonlocalmodels.github.io/examples/).
+Here, all tags and attributes of the YAML files are listed and described. A detailed set of examples is available [here](https://perihpx.github.io/examples/).
 
 ### Model deck
 
@@ -92,7 +92,7 @@ The tag `Restart` describes a restart of the simulation using following attribut
 * `File` The path and file name of the last Successful simulation step
 * `Step` The time step to restart from
 
-One example of the restart of one simulation is available [here](https://nonlocalmodels.github.io/examples/restart.html).
+One example of the restart of one simulation is available [here](https://perihpx.github.io/examples/restart.html).
 
 ### Mesh
 

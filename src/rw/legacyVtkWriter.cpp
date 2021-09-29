@@ -28,7 +28,7 @@ rw::writer::LegacyVtkWriter::LegacyVtkWriter(const std::string &filename,
   }
 
   d_myfile << "# vtk DataFile Version 3.0" << std::endl;
-  d_myfile << "NLMech legacy vtk writer" << std::endl;
+  d_myfile << "PeriHPX legacy vtk writer" << std::endl;
   d_myfile << "ASCII" << std::endl;
 }
 
