@@ -110,12 +110,6 @@ jobs:
            command: |
                 docker login -u $DOCKER_USER -p $DOCKER_PASS
                 docker push ${IMAGE_NAME}
-        - run: 
-           name: Deploy to GitHub
-           command: |
-                docker login docker.pkg.github.com --username diehlpk -p ${TOKEN}
-                docker tag ${IMAGE_NAME} docker.pkg.github.com/perihpx/perihpx/perihpx:latest
-                docker push docker.pkg.github.com/perihpx/perihpx/perihpx:latest
     documentation:
       docker:
         - image: perihpx/perihpx:baseimage
