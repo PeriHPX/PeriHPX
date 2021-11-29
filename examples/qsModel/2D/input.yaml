@@ -57,7 +57,7 @@ Force_BC:
     Spatial_Function:
       Type: constant
       Parameters:
-        - -250.0
+        - -25.0
 
 Solver:
   Type: BiCGSTAB

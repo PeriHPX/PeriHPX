@@ -2,6 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/PeriHPX/PeriHPX.svg?style=shield)](https://circleci.com/gh/perihpx/PeriHPX) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dba3a9de609941adad34f3a49e3b813c)](https://www.codacy.com/gh/PeriHPX/PeriHPX/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PeriHPX/PeriHPX&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/PeriHPX/PeriHPX/badge.svg)](https://coveralls.io/github/PeriHPX/PeriHPX) [![cff badge](https://github.com/perihpx/perihpx/actions/workflows/cff-validator.yml/badge.svg)](https://github.com/perihpx/perihpx/actions/workflows/cff-validator.yml)  ![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg) [![DOI](https://joss.theoj.org/papers/10.21105/joss.03020/status.svg)](https://doi.org/10.21105/joss.03020) [![DOI](https://zenodo.org/badge/4455628.svg)](https://zenodo.org/badge/latestdoi/4455628)
 
+
+<p style="text-align:center;"><img src="https://github.com/PeriHPX/artwork/blob/main/PDF/perihpx_logo.pdf?raw=true" alt="logo" width="400"/></p>
+
 ## Introduction
 Welcome to the PeriHPX repository. In this project, we implement Peridynamics model of fracture using meshfree and finite element discretizations. A brief overview of the equations is available [here](https://perihpx.github.io/documentation/md_content_equations.html). PeriHPX primarily served as a code for academic research (e.g., [1,2]), however, we plan to improve it further for a large-scale usage. The plan also includes development of fully distributed solver using HPX library for asynchronous computation to its maximum potential. In [3], we discuss the structure of PeriHPX and use HPX library for multi-threading computation. For further list of publications based on this library, we refer to the [publication list](https://perihpx.github.io/publications/).
 
