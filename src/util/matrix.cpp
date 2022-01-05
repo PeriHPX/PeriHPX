@@ -65,6 +65,9 @@ std::vector<std::vector<double>> util::transpose(
     n[2][1] = m[1][2];
     return n;
   }
+
+  std::cerr << "Row size out of scope!" << std::endl;
+  return n;
 }
 
 double util::det(const std::vector<std::vector<double>> &m) {
@@ -81,6 +84,9 @@ double util::det(const std::vector<std::vector<double>> &m) {
     return m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2]) -
            m[0][1] * (m[1][0] * m[2][2] - m[2][0] * m[1][2]) +
            m[0][2] * (m[1][0] * m[2][1] - m[2][0] * m[1][1]);
+
+  std::cerr << "Row size out of scope!" << std::endl;
+  return -1;
 }
 
 std::vector<std::vector<double>> util::inv(
@@ -107,6 +113,7 @@ std::vector<std::vector<double>> util::inv(
     n[1][0] = -det_inv * m[1][0];
 
     return n;
+
   } else if (row_size == 3) {
     auto det_inv = 1. / det(m);
 
@@ -124,4 +131,7 @@ std::vector<std::vector<double>> util::inv(
 
     return n;
   }
+
+  std::cerr << "Row size out of scope!" << std::endl;
+  return n;
 }
