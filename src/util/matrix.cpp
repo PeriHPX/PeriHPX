@@ -25,6 +25,7 @@ bool util::checkMatrix(const std::vector<std::vector<double>> &m) {
     std::cerr << "Error: Row size and col size do not match\n";
     exit(1);
   }
+  return check;
 }
 
 std::vector<double> util::dot(const std::vector<std::vector<double>> &m,

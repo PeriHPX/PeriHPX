@@ -13,6 +13,7 @@ if(${Enable_PCL})
 endif()
 
 add_hpx_library(Geometry
+    STATIC
     SOURCES ${SOURCES})
 
 if(${Enable_PCL})

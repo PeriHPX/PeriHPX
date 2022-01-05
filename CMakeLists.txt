@@ -14,9 +14,9 @@ project(PeriHPX
 # Set the version 
 set (VERSION_MAJOR 0)
 set (VERSION_MINOR 1)
-set (VERSION_UPDATE 2)
+set (VERSION_UPDATE 4)
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.19)
 
 # Provide the configuration file to get the version
 configure_file (

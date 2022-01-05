@@ -7,4 +7,6 @@
 AUX_SOURCE_DIRECTORY(./ SOURCES)
 
 add_hpx_library(Loading 
+    STATIC
+    DEPENDENCIES Util FE
     SOURCES ${SOURCES})
