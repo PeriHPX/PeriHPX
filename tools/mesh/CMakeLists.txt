@@ -15,4 +15,4 @@ add_hpx_library(Mesh
 #target_link_libraries(Mesh Util RW ${YAML_CPP_LIB} ${VTK_LIBRARIES} Data FE)
 
 # Build mesh executible
-add_hpx_executable(mesh SOURCES mesh.cpp DEPENDENCIES Mesh FE)
+add_hpx_executable(mesh SOURCES mesh.cpp DEPENDENCIES Mesh FE libvtkIOXML.so)
