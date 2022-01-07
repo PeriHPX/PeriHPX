@@ -266,6 +266,8 @@ void loading::FLoading::apply(const double &time, std::vector<util::Point3> *f,
       // multiply by the slope
       fmax *= bc.d_timeFnParams[0];
 
+      
+
       for (auto d : bc.d_direction) {
         if (d == 1)
           (*f)[i].d_x += fmax;

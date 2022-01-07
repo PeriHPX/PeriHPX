@@ -341,7 +341,9 @@ void model::FDModel<T>::integrate() {
 
   // start time integration
   size_t i = d_n;
-  for (i; i < d_dataManager_p->getModelDeckP()->d_Nt; i++) {
+  size_t N = d_dataManager_p->getModelDeckP()->d_Nt + d_dataManager_p->getModelDeckP()->d_RelaxN;
+
+  for (i; i < N  ; i++) {
     if (d_dataManager_p->getModelDeckP()->d_timeDiscretization ==
         "central_difference")
       integrateCD();
@@ -431,12 +433,16 @@ void model::FDModel<T>::integrateCD() {
   d_n++;
   d_time += d_dataManager_p->getModelDeckP()->d_dt;
 
+  if (d_n < d_dataManager_p->getModelDeckP()->d_Nt){
+  std::cout << "force applied" << std::endl;
   // boundary condition
   d_dataManager_p->getDisplacementLoadingP()->apply(
       d_time, d_dataManager_p->getDisplacementP(),
       d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
   d_dataManager_p->getForceLoadingP()->apply(
       d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
+  
+  }
 
   // internal forces
   computeForces();
@@ -487,12 +493,15 @@ void model::FDModel<T>::integrateVerlet() {
   d_n++;
   d_time += d_dataManager_p->getModelDeckP()->d_dt;
 
+  if (d_n < d_dataManager_p->getModelDeckP()->d_Nt){
+  std::cout << "force applied" << std::endl;
   // boundary condition
   d_dataManager_p->getDisplacementLoadingP()->apply(
       d_time, d_dataManager_p->getDisplacementP(),
       d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
   d_dataManager_p->getForceLoadingP()->apply(
       d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
+  }
 
   // internal forces
   computeForces();

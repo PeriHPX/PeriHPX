@@ -80,12 +80,19 @@ struct ModelDeck {
   /*! @brief Mesh size */
   double d_h;
 
+  /*! @brief Time steps for the relaxation
+   *
+   * After the final amount of time steps is reached the laod drops to zero
+   * and the simulation proceeds without any load. 
+   */
+  size_t d_RelaxN;
+
   /*!
    * @brief Constructor
    */
   ModelDeck()
       : d_dim(0), d_isRestartActive(false), d_tFinal(0.), d_dt(0.), d_Nt(0),
-        d_horizon(0.), d_rh(0), d_h(0.){};
+        d_horizon(0.), d_rh(0), d_h(0.), d_RelaxN(0){};
 
   /*!
    * @brief Returns the string containing information about the instance of
