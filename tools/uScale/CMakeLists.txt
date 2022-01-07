@@ -16,4 +16,4 @@ target_include_directories(${ProjectName} PUBLIC src)
 target_link_libraries(${ProjectName} PUBLIC FE RW Util -lpthread ${YAML_CPP_LIB} Data)
 
 # Build executible
-add_hpx_executable(${ProjectExeName} SOURCES main.cpp DEPENDENCIES ${ProjectName})
+add_hpx_executable(${ProjectExeName} SOURCES main.cpp DEPENDENCIES ${ProjectName} libvtkIOXML.so)
