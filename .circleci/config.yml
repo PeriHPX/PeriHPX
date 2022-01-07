@@ -21,7 +21,7 @@ jobs:
                 name: Build
                 command: |  
                   cd build 
-                  make -j 2
+                  make -j 2 VERBOSE=1
             - run:
                 name: Test
                 command: |
@@ -57,7 +57,7 @@ jobs:
                 name: Build
                 command: |  
                   cd build 
-                  make -j 2
+                  make -j 2 VERBOSE=1
             - run:
                 name: Test
                 command: |
