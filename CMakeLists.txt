@@ -75,7 +75,8 @@ list(APPEND CMAKE_MODULE_PATH "${HPX_PREFIX}/../cmake/")
 find_package(YamlCpp REQUIRED)
 
 # VTK
-find_package(VTK REQUIRED)
+find_package(VTK REQUIRED COMPONENTS vtkCommonCore vtkIOXML)
+include(${VTK_USE_FILE})
 
 if (VTK_VERSION VERSION_LESS "6")
     message(FATAL_ERROR "ERROR: Only VTK library 6+ supported")
@@ -178,7 +179,7 @@ endif()
 # Build PeriHPX
 ##############################################################################
 add_hpx_executable(PeriHPX SOURCES src/main.cpp 
-                   DEPENDENCIES Inp Model ${LAPACK_LIBRARIES})
+                   DEPENDENCIES Inp Model RW ${LAPACK_LIBRARIES} libvtkIOXML.so)
 
 
 
