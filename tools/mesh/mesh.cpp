@@ -6,18 +6,19 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "src/1d/fe1D.h"
-#include "src/2d/fe2D.h"
 #include <algorithm>
 #include <hpx/modules/program_options.hpp>
 #include <iostream>
+
+#include "src/1d/fe1D.h"
+#include "src/2d/fe2D.h"
 
 int main(int argc, char *argv[]) {
   hpx::program_options::options_description desc("Allowed options");
   desc.add_options()("help", "produce help message")(
       "input-file,i", hpx::program_options::value<std::string>(),
-      "Configuration file")(
-      "dimension,d", hpx::program_options::value<size_t>(), "Dimension");
+      "Configuration file")("dimension,d",
+                            hpx::program_options::value<size_t>(), "Dimension");
 
   hpx::program_options::variables_map vm;
   hpx::program_options::store(

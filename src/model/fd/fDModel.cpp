@@ -28,12 +28,12 @@
 #include "geometry/interiorFlags.h"
 #include "geometry/neighbor.h"
 #include "inp/decks/absborbingCondDeck.h"
+#include "inp/decks/loadingDeck.h"
+#include "inp/decks/materialDeck.h"
 #include "inp/decks/modelDeck.h"
 #include "inp/decks/outputDeck.h"
 #include "inp/decks/restartDeck.h"
-#include "inp/decks/materialDeck.h"
 #include "inp/input.h"
-#include "inp/decks/loadingDeck.h"
 #include "inp/policy.h"
 #include "loading/fLoading.h"
 #include "loading/initialCondition.h"
@@ -341,9 +341,10 @@ void model::FDModel<T>::integrate() {
 
   // start time integration
   size_t i = d_n;
-  size_t N = d_dataManager_p->getModelDeckP()->d_Nt + d_dataManager_p->getModelDeckP()->d_RelaxN;
+  size_t N = d_dataManager_p->getModelDeckP()->d_Nt +
+             d_dataManager_p->getModelDeckP()->d_RelaxN;
 
-  for (i; i < N  ; i++) {
+  for (i; i < N; i++) {
     if (d_dataManager_p->getModelDeckP()->d_timeDiscretization ==
         "central_difference")
       integrateCD();
@@ -433,27 +434,23 @@ void model::FDModel<T>::integrateCD() {
   d_n++;
   d_time += d_dataManager_p->getModelDeckP()->d_dt;
 
-  if (d_n < d_dataManager_p->getModelDeckP()->d_Nt){
-  // std::cout << "force applied" << std::endl;
-  // boundary condition
-  d_dataManager_p->getDisplacementLoadingP()->apply(
-      d_time, d_dataManager_p->getDisplacementP(),
-      d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
-  d_dataManager_p->getForceLoadingP()->apply(
-      d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
-  
-  }
-  else if (d_n == d_dataManager_p->getModelDeckP()->d_Nt ){
+  if (d_n < d_dataManager_p->getModelDeckP()->d_Nt) {
+    // std::cout << "force applied" << std::endl;
+    // boundary condition
+    d_dataManager_p->getDisplacementLoadingP()->apply(
+        d_time, d_dataManager_p->getDisplacementP(),
+        d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
+    d_dataManager_p->getForceLoadingP()->apply(
+        d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
+
+  } else if (d_n == d_dataManager_p->getModelDeckP()->d_Nt) {
     auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      d_dataManager_p->getMeshP()->getNumNodes(), [this](boost::uint64_t i) {
-
-         (*this->d_dataManager_p->getDisplacementP())[i] = util::Point3();
-         (*this->d_dataManager_p->getVelocityP())[i] = util::Point3();
-
-      });
-      f.get();
-
+        hpx::execution::par(hpx::execution::task), 0,
+        d_dataManager_p->getMeshP()->getNumNodes(), [this](boost::uint64_t i) {
+          (*this->d_dataManager_p->getDisplacementP())[i] = util::Point3();
+          (*this->d_dataManager_p->getVelocityP())[i] = util::Point3();
+        });
+    f.get();
   }
 
   // internal forces
@@ -505,28 +502,23 @@ void model::FDModel<T>::integrateVerlet() {
   d_n++;
   d_time += d_dataManager_p->getModelDeckP()->d_dt;
 
-  if (d_n < d_dataManager_p->getModelDeckP()->d_Nt){
-  // std::cout << "force applied" << std::endl;
-  // boundary condition
-  d_dataManager_p->getDisplacementLoadingP()->apply(
-      d_time, d_dataManager_p->getDisplacementP(),
-      d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
-  d_dataManager_p->getForceLoadingP()->apply(
-      d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
-  }
-  else if (d_n == d_dataManager_p->getModelDeckP()->d_Nt ){
+  if (d_n < d_dataManager_p->getModelDeckP()->d_Nt) {
+    // std::cout << "force applied" << std::endl;
+    // boundary condition
+    d_dataManager_p->getDisplacementLoadingP()->apply(
+        d_time, d_dataManager_p->getDisplacementP(),
+        d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
+    d_dataManager_p->getForceLoadingP()->apply(
+        d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
+  } else if (d_n == d_dataManager_p->getModelDeckP()->d_Nt) {
     auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      d_dataManager_p->getMeshP()->getNumNodes(), [this](boost::uint64_t i) {
+        hpx::execution::par(hpx::execution::task), 0,
+        d_dataManager_p->getMeshP()->getNumNodes(), [this](boost::uint64_t i) {
+          (*this->d_dataManager_p->getDisplacementP())[i] = util::Point3();
+          (*this->d_dataManager_p->getVelocityP())[i] = util::Point3();
+        });
 
-         (*this->d_dataManager_p->getDisplacementP())[i] = util::Point3();
-         (*this->d_dataManager_p->getVelocityP())[i] = util::Point3();
-
-      });
-
-      f.get();
-
-
+    f.get();
   }
 
   // internal forces
@@ -564,14 +556,13 @@ void model::FDModel<T>::computeForces() {
   const auto &nodes = d_dataManager_p->getMeshP()->getNodes();
   const auto &volumes = d_dataManager_p->getMeshP()->getNodalVolumes();
 
-  auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      d_dataManager_p->getMeshP()->getNumNodes(),
-      [this](boost::uint64_t i) {
-        (*this->d_dataManager_p->getForceP())[i] +=
-            this->computeForce(i).second;
-      }  // loop over nodes
-  );     // end of parallel for loop
+  auto f = hpx::for_loop(hpx::execution::par(hpx::execution::task), 0,
+                         d_dataManager_p->getMeshP()->getNumNodes(),
+                         [this](boost::uint64_t i) {
+                           (*this->d_dataManager_p->getForceP())[i] +=
+                               this->computeForce(i).second;
+                         }  // loop over nodes
+  );                        // end of parallel for loop
   f.get();
 }
 

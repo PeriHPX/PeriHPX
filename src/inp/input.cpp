@@ -8,10 +8,10 @@
 
 #include "input.h"
 
-#include <hpx/config.hpp>
 #include <yaml-cpp/yaml.h>
 
 #include <cmath>
+#include <hpx/config.hpp>
 #include <iostream>
 
 #include "decks/fractureDeck.h"
@@ -27,12 +27,9 @@
 #include "decks/quadratureDeck.h"
 #include "decks/restartDeck.h"
 #include "decks/solverDeck.h"
-#include "inp/decks/meshDeck.h"
 #include "inp/decks/absborbingCondDeck.h"
+#include "inp/decks/meshDeck.h"
 #include "util/utilIO.h"
-#include <cmath>
-#include <iostream>
-#include <yaml-cpp/yaml.h>
 
 static inline bool definitelyGreaterThan(const double &a, const double &b) {
   return (a - b) >

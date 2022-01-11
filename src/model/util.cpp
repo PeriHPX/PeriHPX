@@ -1,4 +1,5 @@
 #include "util.h"
+
 #include "util/fastMethods.h"
 
 model::Output::Output(inp::Input *d_input_p, data::DataManager *d_dataManager_p,

@@ -32,8 +32,8 @@ void util::StateBasedHelperFunctions::dilatation(data::DataManager *dataManager,
       dataManager->getMeshP()->getNodesP()->size(), 0.));
 
   hpx::for_loop(
-      hpx::execution::par, 0,
-      dataManager->getMeshP()->getNodesP()->size(), [&](boost::uint64_t i) {
+      hpx::execution::par, 0, dataManager->getMeshP()->getNodesP()->size(),
+      [&](boost::uint64_t i) {
         size_t k = 0;
         double w = 1;
         for (auto j : dataManager->getNeighborP()->getNeighbors(i)) {

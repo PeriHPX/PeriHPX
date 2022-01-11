@@ -16,8 +16,8 @@
 
 #ifdef ENABLE_PCL
 
-#include <pcl/point_cloud.h>
 #include <pcl/kdtree/kdtree_flann.h>
+#include <pcl/point_cloud.h>
 
 #endif
 
@@ -66,25 +66,25 @@ geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
 
 #else
 
-  auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      nodes->size(), [this, horizon, nodes](boost::uint64_t i) {
-        //  for (size_t i=0; i<nodes->size(); i++) {
-        util::Point3 xi = (*nodes)[i];
+  auto f =
+      hpx::for_loop(hpx::execution::par(hpx::execution::task), 0, nodes->size(),
+                    [this, horizon, nodes](boost::uint64_t i) {
+                      //  for (size_t i=0; i<nodes->size(); i++) {
+                      util::Point3 xi = (*nodes)[i];
 
-        // loop over all the nodes and check which nodes are
-        // within the horizon ball of i_node
-        std::vector<size_t> neighs;
-        for (size_t j = 0; j < nodes->size(); j++) {
-          if (j == i) continue;
+                      // loop over all the nodes and check which nodes are
+                      // within the horizon ball of i_node
+                      std::vector<size_t> neighs;
+                      for (size_t j = 0; j < nodes->size(); j++) {
+                        if (j == i) continue;
 
-          if (util::compare::definitelyLessThan(xi.dist((*nodes)[j]),
-                                                horizon + 1.0E-10))
-            neighs.push_back(j);
-        }  // loop over nodes j
+                        if (util::compare::definitelyLessThan(
+                                xi.dist((*nodes)[j]), horizon + 1.0E-10))
+                          neighs.push_back(j);
+                      }  // loop over nodes j
 
-        this->d_neighbors[i] = neighs;
-      });  // end of parallel for loop
+                      this->d_neighbors[i] = neighs;
+                    });  // end of parallel for loop
 
   f.get();
 

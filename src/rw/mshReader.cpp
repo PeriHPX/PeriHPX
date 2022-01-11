@@ -8,9 +8,10 @@
 
 #include "mshReader.h"
 
+#include <gmsh.h>
+
 #include <fstream>
 #include <iostream>
-#include <gmsh.h>
 
 #include "util/feElementDefs.h"
 

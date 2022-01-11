@@ -7,13 +7,15 @@
 // ////////////////////////////////////////////////////////////////////////////////
 
 #include "utilGeom.h"
+
+#include <cmath>  // definition of sin, cosine etc
+#include <iostream>
+
 #include "compare.h"
 #include "fe/quadElem.h"
 #include "feElementDefs.h"
 #include "transfomation.h"
 #include "utilFunction.h"
-#include <cmath>  // definition of sin, cosine etc
-#include <iostream>
 
 std::vector<util::Point3> util::geometry::getCornerPoints(
     size_t dim, const std::pair<util::Point3, util::Point3> &box) {

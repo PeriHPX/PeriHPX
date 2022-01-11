@@ -6,11 +6,12 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "src/compute.h"
 #include <algorithm>
 #include <hpx/hpx_main.hpp>
 #include <hpx/modules/program_options.hpp>
 #include <iostream>
+
+#include "src/compute.h"
 
 int main(int argc, char *argv[]) {
   hpx::program_options::options_description desc("Allowed options");

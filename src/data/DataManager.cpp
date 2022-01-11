@@ -12,10 +12,10 @@
 #include <iostream>
 
 #include "fe/mesh.h"
-#include "geometry/neighbor.h"
-#include "geometry/volumeCorrection.h"
 #include "geometry/fracture.h"
 #include "geometry/interiorFlags.h"
+#include "geometry/neighbor.h"
+#include "geometry/volumeCorrection.h"
 #include "inp/decks/materialDeck.h"
 #include "inp/decks/modelDeck.h"
 #include "inp/decks/outputDeck.h"
