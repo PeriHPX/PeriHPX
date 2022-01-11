@@ -434,7 +434,7 @@ void model::FDModel<T>::integrateCD() {
   d_time += d_dataManager_p->getModelDeckP()->d_dt;
 
   if (d_n < d_dataManager_p->getModelDeckP()->d_Nt){
-  std::cout << "force applied" << std::endl;
+  // std::cout << "force applied" << std::endl;
   // boundary condition
   d_dataManager_p->getDisplacementLoadingP()->apply(
       d_time, d_dataManager_p->getDisplacementP(),
@@ -442,6 +442,18 @@ void model::FDModel<T>::integrateCD() {
   d_dataManager_p->getForceLoadingP()->apply(
       d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
   
+  }
+  else if (d_n == d_dataManager_p->getModelDeckP()->d_Nt ){
+    auto f = hpx::for_loop(
+      hpx::execution::par(hpx::execution::task), 0,
+      d_dataManager_p->getMeshP()->getNumNodes(), [this](boost::uint64_t i) {
+
+         (*this->d_dataManager_p->getDisplacementP())[i] = util::Point3();
+         (*this->d_dataManager_p->getVelocityP())[i] = util::Point3();
+
+      });
+      f.get();
+
   }
 
   // internal forces
@@ -494,13 +506,27 @@ void model::FDModel<T>::integrateVerlet() {
   d_time += d_dataManager_p->getModelDeckP()->d_dt;
 
   if (d_n < d_dataManager_p->getModelDeckP()->d_Nt){
-  std::cout << "force applied" << std::endl;
+  // std::cout << "force applied" << std::endl;
   // boundary condition
   d_dataManager_p->getDisplacementLoadingP()->apply(
       d_time, d_dataManager_p->getDisplacementP(),
       d_dataManager_p->getVelocityP(), d_dataManager_p->getMeshP());
   d_dataManager_p->getForceLoadingP()->apply(
       d_time, d_dataManager_p->getForceP(), d_dataManager_p->getMeshP());
+  }
+  else if (d_n == d_dataManager_p->getModelDeckP()->d_Nt ){
+    auto f = hpx::for_loop(
+      hpx::execution::par(hpx::execution::task), 0,
+      d_dataManager_p->getMeshP()->getNumNodes(), [this](boost::uint64_t i) {
+
+         (*this->d_dataManager_p->getDisplacementP())[i] = util::Point3();
+         (*this->d_dataManager_p->getVelocityP())[i] = util::Point3();
+
+      });
+
+      f.get();
+
+
   }
 
   // internal forces
