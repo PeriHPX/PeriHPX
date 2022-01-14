@@ -21,7 +21,7 @@ jobs:
                 name: Build
                 command: |  
                   cd build 
-                  make -j 2
+                  make -j 2 VERBOSE=1
             - run:
                 name: Test
                 command: |
@@ -57,7 +57,7 @@ jobs:
                 name: Build
                 command: |  
                   cd build 
-                  make -j 2
+                  make -j 2 VERBOSE=1
             - run:
                 name: Test
                 command: |
@@ -94,7 +94,7 @@ jobs:
               fi
     deploy:
       machine:
-        image: ubuntu-2004:202008-01
+        image: ubuntu-2004:202111-02
       environment:
         IMAGE_FOLDER_NAME: .circleci/Docker
         IMAGE_NAME: perihpx/perihpx:latest

@@ -8,5 +8,6 @@ AUX_SOURCE_DIRECTORY(./ SOURCES)
 AUX_SOURCE_DIRECTORY(./fd SOURCES)
 AUX_SOURCE_DIRECTORY(./quasistatic SOURCES)
 
-add_library(Model ${SOURCES})
-target_link_libraries(Model PUBLIC Util Inp Material Loading Geometry FE Data)
+add_library(Model STATIC ${SOURCES})
+target_link_libraries(Model PUBLIC Util Inp Material Loading Geometry FE Data ${VTK_LIBRARIES})
+
