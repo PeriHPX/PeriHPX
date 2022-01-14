@@ -7,9 +7,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "triElem.h"
-#include "util/feElementDefs.h"  // global definition of elements
+
 #include <iostream>
+
 #include "util/compare.h"
+#include "util/feElementDefs.h"  // global definition of elements
 #include "util/matrix.h"
 #include "util/utilIO.h"
 

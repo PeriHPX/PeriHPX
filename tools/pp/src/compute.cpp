@@ -7,6 +7,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "compute.h"
+
+#include <yaml-cpp/yaml.h>  // YAML reader
+
+#include <cfloat>
+#include <cmath>
+#include <hpx/include/parallel_algorithm.hpp>
+#include <iostream>
+
 #include "external/csv.h"            // csv reader
 #include "fe/lineElem.h"             // definition of LineElem
 #include "fe/mesh.h"                 // definition of Mesh
@@ -25,11 +33,6 @@
 #include "util/fastMethods.h"        // max and min operation
 #include "util/feElementDefs.h"      // definition of fe element type
 #include "util/utilGeom.h"           // definition of isPointInsideRectangle
-#include <cmath>
-#include <hpx/include/parallel_algorithm.hpp>
-#include <iostream>
-#include <yaml-cpp/yaml.h>  // YAML reader
-#include <cfloat>
 
 namespace {
 
@@ -895,13 +898,13 @@ void tools::pp::Compute::transformU(rw::writer::Writer *writer) {
   std::vector<util::Point3> u_temp(d_dataManager_p->getMeshP()->getNumNodes(),
                                    util::Point3());
   auto scale = d_currentData->d_transformU_p->d_scale;
-  auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      d_dataManager_p->getMeshP()->getNumNodes(),
-      [&u_temp, scale, this](boost::uint64_t i) {
-        u_temp[i] = util::Point3(scale * d_u[i].d_x, scale * d_u[i].d_y,
-                                 scale * d_u[i].d_z);
-      });
+  auto f = hpx::for_loop(hpx::execution::par(hpx::execution::task), 0,
+                         d_dataManager_p->getMeshP()->getNumNodes(),
+                         [&u_temp, scale, this](boost::uint64_t i) {
+                           u_temp[i] = util::Point3(scale * d_u[i].d_x,
+                                                    scale * d_u[i].d_y,
+                                                    scale * d_u[i].d_z);
+                         });
   f.get();
 
   if (!d_writerReady) {
@@ -1091,18 +1094,18 @@ void tools::pp::Compute::computeStrain(rw::writer::Writer *writer) {
   // compute magnitude of strain
   if (data->d_magStrainTensor) {
     magS = std::vector<float>(strain.size(), 0.);
-    auto f2 = hpx::for_loop(
-        hpx::execution::par(hpx::execution::task), 0,
-        d_dataManager_p->getMeshP()->getNumElements(),
-        [&magS, strain, data](boost::uint64_t e) {
-          if (data->d_magStrainComp.empty()) {
-            for (size_t i = 0; i < 6; i++) magS[e] = std::abs(strain[e].get(i));
-          } else if (data->d_magStrainComp == "xx") {
-            magS[e] = std::abs(strain[e](0, 0));
-          } else if (data->d_magStrainComp == "yy") {
-            magS[e] = std::abs(strain[e](1, 1));
-          }
-        });
+    auto f2 = hpx::for_loop(hpx::execution::par(hpx::execution::task), 0,
+                            d_dataManager_p->getMeshP()->getNumElements(),
+                            [&magS, strain, data](boost::uint64_t e) {
+                              if (data->d_magStrainComp.empty()) {
+                                for (size_t i = 0; i < 6; i++)
+                                  magS[e] = std::abs(strain[e].get(i));
+                              } else if (data->d_magStrainComp == "xx") {
+                                magS[e] = std::abs(strain[e](0, 0));
+                              } else if (data->d_magStrainComp == "yy") {
+                                magS[e] = std::abs(strain[e](1, 1));
+                              }
+                            });
     f2.get();
   }
 
@@ -1607,8 +1610,7 @@ void tools::pp::Compute::computeJIntegral() {
 
     // loop over nodes in compliment of domain A
     auto f = hpx::for_loop(
-        hpx::execution::par(hpx::execution::task), 0,
-        search_node_comp.size(),
+        hpx::execution::par(hpx::execution::task), 0, search_node_comp.size(),
         [&pd_internal_works, &pd_internal_works_rate, h, cd, search_nodes,
          search_node_comp, this](boost::uint64_t i) {
           auto id = search_node_comp[i];
@@ -1679,8 +1681,7 @@ void tools::pp::Compute::computeJIntegral() {
 
     // loop over nodes in compliment of domain A
     auto f = hpx::for_loop(
-        hpx::execution::par(hpx::execution::task), 0,
-        search_nodes.size(),
+        hpx::execution::par(hpx::execution::task), 0, search_nodes.size(),
         [&pd_strain_energies, &kinetic_energies, h, cd, search_nodes,
          search_node_comp, this](boost::uint64_t i) {
           auto id = search_nodes[i];

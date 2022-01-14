@@ -7,10 +7,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "interiorFlags.h"
+
+#include <iostream>
+
 #include "inp/decks/interiorFlagsDeck.h"
 #include "util/compare.h"
 #include "util/utilGeom.h"
-#include <iostream>
 #include "util/utilIO.h"
 
 //

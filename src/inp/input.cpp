@@ -8,10 +8,10 @@
 
 #include "input.h"
 
-#include <hpx/config.hpp>
 #include <yaml-cpp/yaml.h>
 
 #include <cmath>
+#include <hpx/config.hpp>
 #include <iostream>
 
 #include "decks/fractureDeck.h"
@@ -27,12 +27,9 @@
 #include "decks/quadratureDeck.h"
 #include "decks/restartDeck.h"
 #include "decks/solverDeck.h"
-#include "inp/decks/meshDeck.h"
 #include "inp/decks/absborbingCondDeck.h"
+#include "inp/decks/meshDeck.h"
 #include "util/utilIO.h"
-#include <cmath>
-#include <iostream>
-#include <yaml-cpp/yaml.h>
 
 static inline bool definitelyGreaterThan(const double &a, const double &b) {
   return (a - b) >
@@ -132,6 +129,9 @@ void inp::Input::setModelDeck() {
     std::cerr << "Error: Please specify the dimension.\n";
     exit(1);
   }
+
+  if (config["Model"]["Relaxation_Steps"])
+    d_modelDeck_p->d_RelaxN = config["Model"]["Relaxation_Steps"].as<size_t>();
 
   // read discretization info
   if (config["Model"]["Discretization_Type"]["Time"])

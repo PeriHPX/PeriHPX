@@ -4,8 +4,10 @@
 // (See accompanying file LICENSE.txt)
 
 #include "mshWriter.h"
-#include <iostream>
+
 #include <util/feElementDefs.h>
+
+#include <iostream>
 
 static int ntag = 0;
 static int etag = 0;

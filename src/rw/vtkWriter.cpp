@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "vtkWriter.h"
+
 #include <util/feElementDefs.h>
 #include <vtkCellArray.h>
 #include <vtkCellData.h>

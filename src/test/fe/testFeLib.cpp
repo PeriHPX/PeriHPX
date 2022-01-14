@@ -7,7 +7,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "testFeLib.h"
+
+#include <fe/tetElem.h>
+#include <util/feElementDefs.h>
+
+#include <algorithm>
+#include <fstream>
 #include <hpx/timing/high_resolution_clock.hpp>
+#include <string>
 
 #include "../../external/csv.h"
 #include "fe/massMatrix.h"
@@ -15,12 +22,6 @@
 #include "fe/quadElem.h"
 #include "fe/triElem.h"
 #include "util/point.h"
-#include <util/feElementDefs.h>
-
-#include <algorithm>
-#include <fe/tetElem.h>
-#include <fstream>
-#include <string>
 
 static int debug_id = -1;
 //

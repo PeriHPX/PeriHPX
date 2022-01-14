@@ -6,8 +6,9 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "testGeomLib.h"
 #include <hpx/hpx_main.hpp>
+
+#include "testGeomLib.h"
 
 int main() {
   //

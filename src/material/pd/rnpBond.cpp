@@ -10,15 +10,15 @@
 
 #include <iostream>
 
-#include "influenceFn.h"
 #include "data/DataManager.h"
+#include "geometry/fracture.h"
+#include "geometry/interiorFlags.h"
+#include "geometry/neighbor.h"
+#include "influenceFn.h"
 #include "inp/decks/materialDeck.h"
 #include "inp/decks/modelDeck.h"
 #include "inp/decks/outputDeck.h"
 #include "util/compare.h"
-#include "geometry/fracture.h"
-#include "geometry/neighbor.h"
-#include "geometry/interiorFlags.h"
 
 material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
                                data::DataManager *dataManager)

@@ -7,9 +7,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "lineElem.h"
-#include "util/feElementDefs.h"  // global definition of elements
+
 #include <iostream>
+
 #include "util/compare.h"
+#include "util/feElementDefs.h"  // global definition of elements
 #include "util/utilIO.h"
 
 fe::LineElem::LineElem(size_t order)
