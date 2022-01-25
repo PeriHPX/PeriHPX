@@ -13,82 +13,54 @@
 #include "inp/decks/neighborDeck.h"
 #include "util/compare.h"
 #include "util/utilIO.h"
+#include "util/parallel.h"
 
-#ifdef ENABLE_PCL
-
-#include <pcl/point_cloud.h>
-#include <pcl/kdtree/kdtree_flann.h>
-
-#endif
+#include <nanoflann.hpp>
 
 geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
                              const std::vector<util::Point3> *nodes)
     : d_neighborDeck_p(deck) {
+  
   d_neighbors.resize(nodes->size());
 
-#ifdef ENABLE_PCL
+  PointCloud cloud;
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  cloud.pts.resize(nodes->size());
 
-  cloud->points.resize(nodes->size());
+  util::parallel::copy<std::vector<util::Point3>>(*nodes,cloud.pts);
+
+
+
+  nanoflann::KDTreeSingleIndexAdaptor<
+        nanoflann::L2_Simple_Adaptor<double, PointCloud>,
+        PointCloud, 3 /* dim */
+        > index(3 /*dim*/, cloud, {10 /* max leaf */});
+  
+  index.buildIndex();
+
+  const double search_radius = static_cast<double>(horizon*horizon);
+  
+  nanoflann::SearchParams params;
 
   hpx::for_loop(hpx::execution::par, 0, nodes->size(),
-                [this, cloud, nodes](boost::uint64_t i) {
-                  (*cloud)[i].x = (*nodes)[i].d_x;
-                  (*cloud)[i].y = (*nodes)[i].d_y;
-                  (*cloud)[i].z = (*nodes)[i].d_z;
-                });
+                [this,nodes, search_radius,params,&index](boost::uint64_t i) {
+                  
+                  std::vector<std::pair<uint32_t, double>> ret_matches;
 
-  pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;
-
-  kdtree.setInputCloud(cloud);
-
-  hpx::for_loop(hpx::execution::par, 0, nodes->size(),
-                [this, kdtree, nodes, horizon](boost::uint64_t i) {
-                  std::vector<int> neighs;
-                  std::vector<float> pointRadiusSquaredDistance;
-
-                  pcl::PointXYZ searchPoint;
-                  searchPoint.x = (*nodes)[i].d_x;
-                  searchPoint.y = (*nodes)[i].d_y;
-                  searchPoint.z = (*nodes)[i].d_z;
-
+                  const double query_pt[3] = {(*nodes)[i].d_x,(*nodes)[i].d_y,(*nodes)[i].d_z};
+            
                   this->d_neighbors[i] = std::vector<size_t>();
 
-                  if (kdtree.radiusSearch(searchPoint, horizon, neighs,
-                                          pointRadiusSquaredDistance) > 0) {
-                    for (std::size_t j = 0; j < neighs.size(); ++j)
-                      if (neighs[j] != i) {
-                        this->d_neighbors[i].push_back(size_t(neighs[j]));
+                  const size_t nMatches = index.radiusSearch(
+                  &query_pt[0], search_radius, ret_matches, params);
+
+                  for (std::size_t j = 0; j < nMatches; ++j)
+                      if (ret_matches[j].first != i) {
+                        this->d_neighbors[i].push_back(size_t(ret_matches[j].first));
                       }
-                  }
                 });
 
-#else
-
-  auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      nodes->size(), [this, horizon, nodes](boost::uint64_t i) {
-        //  for (size_t i=0; i<nodes->size(); i++) {
-        util::Point3 xi = (*nodes)[i];
-
-        // loop over all the nodes and check which nodes are
-        // within the horizon ball of i_node
-        std::vector<size_t> neighs;
-        for (size_t j = 0; j < nodes->size(); j++) {
-          if (j == i) continue;
-
-          if (util::compare::definitelyLessThan(xi.dist((*nodes)[j]),
-                                                horizon + 1.0E-10))
-            neighs.push_back(j);
-        }  // loop over nodes j
-
-        this->d_neighbors[i] = neighs;
-      });  // end of parallel for loop
-
-  f.get();
-
-#endif
+  cloud.pts.clear();
 }
 
 const std::vector<size_t> &geometry::Neighbor::getNeighbors(const size_t &i) {

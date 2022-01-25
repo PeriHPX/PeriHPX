@@ -94,12 +94,6 @@ find_package(BlazeIterative REQUIRED)
 find_package(LAPACK REQUIRED)
 find_package(BLAS REQUIRED)
 
-
-set(Enable_PCL FALSE CACHE BOOL "Enables PCL for faster neighborsearch")
-if(${Enable_PCL})
-    find_package(PCL REQUIRED)
-endif()
-
 #####################################################################
 # Set the compiler flags
 #####################################################################
