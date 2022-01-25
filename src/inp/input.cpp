@@ -130,6 +130,9 @@ void inp::Input::setModelDeck() {
     exit(1);
   }
 
+  if (config["Model"]["Relaxation_Steps"])
+    d_modelDeck_p->d_RelaxN = config["Model"]["Relaxation_Steps"].as<size_t>();
+
   // read discretization info
   if (config["Model"]["Discretization_Type"]["Time"])
     d_modelDeck_p->d_timeDiscretization =

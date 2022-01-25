@@ -55,7 +55,7 @@ geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
           if (ret_matches[j].first != i) {
             this->d_neighbors[i].push_back(size_t(ret_matches[j].first));
           }
-      });
+      }); // end of parallel for loop
 
   cloud.pts.clear();
 }
