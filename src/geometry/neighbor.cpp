@@ -9,56 +9,53 @@
 #include "neighbor.h"
 
 #include <hpx/include/parallel_algorithm.hpp>
+#include <nanoflann.hpp>
 
 #include "inp/decks/neighborDeck.h"
 #include "util/compare.h"
-#include "util/utilIO.h"
 #include "util/parallel.h"
-
-#include <nanoflann.hpp>
+#include "util/utilIO.h"
 
 geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
                              const std::vector<util::Point3> *nodes)
     : d_neighborDeck_p(deck) {
-  
   d_neighbors.resize(nodes->size());
 
   PointCloud cloud;
 
   cloud.pts.resize(nodes->size());
 
-  util::parallel::copy<std::vector<util::Point3>>(*nodes,cloud.pts);
-
-
+  util::parallel::copy<std::vector<util::Point3>>(*nodes, cloud.pts);
 
   nanoflann::KDTreeSingleIndexAdaptor<
-        nanoflann::L2_Simple_Adaptor<double, PointCloud>,
-        PointCloud, 3 /* dim */
-        > index(3 /*dim*/, cloud, {10 /* max leaf */});
-  
+      nanoflann::L2_Simple_Adaptor<double, PointCloud>, PointCloud, 3 /* dim */
+      >
+      index(3 /*dim*/, cloud, {10 /* max leaf */});
+
   index.buildIndex();
 
-  const double search_radius = static_cast<double>(horizon*horizon);
-  
+  const double search_radius = static_cast<double>(horizon * horizon);
+
   nanoflann::SearchParams params;
 
-  hpx::for_loop(hpx::execution::par, 0, nodes->size(),
-                [this,nodes, search_radius,params,&index](boost::uint64_t i) {
-                  
-                  std::vector<std::pair<uint32_t, double>> ret_matches;
+  hpx::for_loop(
+      hpx::execution::par, 0, nodes->size(),
+      [this, nodes, search_radius, params, &index](boost::uint64_t i) {
+        std::vector<std::pair<uint32_t, double>> ret_matches;
 
-                  const double query_pt[3] = {(*nodes)[i].d_x,(*nodes)[i].d_y,(*nodes)[i].d_z};
-            
-                  this->d_neighbors[i] = std::vector<size_t>();
+        const double query_pt[3] = {(*nodes)[i].d_x, (*nodes)[i].d_y,
+                                    (*nodes)[i].d_z};
 
-                  const size_t nMatches = index.radiusSearch(
-                  &query_pt[0], search_radius, ret_matches, params);
+        this->d_neighbors[i] = std::vector<size_t>();
 
-                  for (std::size_t j = 0; j < nMatches; ++j)
-                      if (ret_matches[j].first != i) {
-                        this->d_neighbors[i].push_back(size_t(ret_matches[j].first));
-                      }
-                });
+        const size_t nMatches = index.radiusSearch(&query_pt[0], search_radius,
+                                                   ret_matches, params);
+
+        for (std::size_t j = 0; j < nMatches; ++j)
+          if (ret_matches[j].first != i) {
+            this->d_neighbors[i].push_back(size_t(ret_matches[j].first));
+          }
+      });
 
   cloud.pts.clear();
 }

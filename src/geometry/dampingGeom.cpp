@@ -7,12 +7,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "dampingGeom.h"
+
+#include <iostream>
+
 #include "fe/mesh.h"
 #include "inp/decks/absborbingCondDeck.h"
 #include "util/compare.h"
 #include "util/utilGeom.h"
 #include "util/utilIO.h"
-#include <iostream>
 
 static double damping_geom_tol = 1.0e-8;
 

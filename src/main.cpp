@@ -8,9 +8,9 @@
 
 #include <Config.h>
 
-#include <hpx/hpx_main.hpp>           // Need main source file
-#include <hpx/timing/high_resolution_clock.hpp>
+#include <hpx/hpx_main.hpp>  // Need main source file
 #include <hpx/modules/program_options.hpp>
+#include <hpx/timing/high_resolution_clock.hpp>
 #include <iostream>
 
 #include "inp/decks/materialDeck.h"
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
       "input-file,i", hpx::program_options::value<std::string>(),
       "Configuration file");
 
- hpx::program_options::variables_map vm;
+  hpx::program_options::variables_map vm;
   hpx::program_options::store(
       hpx::program_options::parse_command_line(argc, argv, desc), vm);
   hpx::program_options::notify(vm);

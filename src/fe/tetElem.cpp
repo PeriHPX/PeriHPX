@@ -7,12 +7,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "tetElem.h"
-#include "util/compare.h"
-#include "util/matrix.h"
-#include <iostream>
-#include "util/utilIO.h"
 
+#include <iostream>
+
+#include "util/compare.h"
 #include "util/feElementDefs.h"  // global definition of elements
+#include "util/matrix.h"
+#include "util/utilIO.h"
 
 namespace {
 

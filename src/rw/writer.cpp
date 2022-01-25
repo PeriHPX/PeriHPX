@@ -7,9 +7,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "writer.h"
-#include "vtkWriter.h"
+
 #include "legacyVtkWriter.h"
 #include "mshWriter.h"
+#include "vtkWriter.h"
 
 rw::writer::Writer::Writer()
     : d_vtkWriter_p(nullptr),

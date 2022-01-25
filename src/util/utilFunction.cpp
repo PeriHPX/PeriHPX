@@ -7,9 +7,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "utilFunction.h"
+
+#include <cmath>     // definition of sin, cosine etc
+#include <iostream>  // cerr
+
 #include "compare.h"  // compare functions
-#include <cmath>      // definition of sin, cosine etc
-#include <iostream>   // cerr
 
 double util::function::hatFunction(const double &x, const double &x_min,
                                    const double &x_max) {

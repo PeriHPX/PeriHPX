@@ -12,6 +12,7 @@
 #include <vtkCellArray.h>
 #include <vtkCellData.h>
 #include <vtkDoubleArray.h>
+#include <vtkErrorCode.h>
 #include <vtkFieldData.h>
 #include <vtkIdList.h>
 #include <vtkIntArray.h>
@@ -20,7 +21,6 @@
 #include <vtkUnsignedCharArray.h>
 #include <vtkUnsignedIntArray.h>
 #include <vtkVersion.h>
-#include <vtkErrorCode.h>
 
 #include "util/feElementDefs.h"
 

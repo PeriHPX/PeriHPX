@@ -79,11 +79,6 @@ We use cmake to build the code. We list the dependencies and how they are used i
 
   Note on Fedora, you need only to install Blaze_Itertaive.
 
-Following dependencies are optional, but are recommended for the large simulations:
-  * [PCL](https://github.com/PointCloudLibrary/pcl) 1.11 
-    - Used in neighbor search calculation (KDTree)
-  * [Flann](https://github.com/flann-lib/flann)  1.9
-    - Required to build PCL library
 
 ### Building dependencies
 Building above dependencies is quite a challenge. To help with this, we provide the bash scripts for Ubuntu-20.04 and Fedor operating systems: [Bash scripts](https://github.com/perihpx/buildscripts/tree/main/bash)).
@@ -106,25 +101,22 @@ git clone https://github.com/perihpx/PeriHPX.git
 cd PeriHPX
 mkdir build && cd build 
 
-# turn building documentation and tools, dependency on PCL off by using 'OFF' instead of 'ON'
+# turn building documentation and tools 'ON'
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DEnable_Documentation=ON \
       -DEnable_Tools=ON \
-      -DEnable_PCL=ON \
       .. 
       
 # compile the code
 make -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1
 ```
 
-In case certain libraries such as `HPX, PCL, Blaze_Iterative` are installed at custom paths, one would need to provide correct paths to `cmake` as follows:
+In case certain libraries such as `HPX, Blaze_Iterative` are installed at custom paths, one would need to provide correct paths to `cmake` as follows:
 ```sh
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DEnable_Documentation=ON \
       -DEnable_Tools=ON \
-      -DEnable_PCL=ON \
       -DHPX_DIR=<hpx-path>/lib/cmake/HPX \
-      -DPCL_DIR=<pcl-path> \
       -DYAML_CPP_DIR=<yaml-cpp-path> \
       -DBLAZEITERATIVE_DIR=<blaze-iterative path> \
       -DGMSH_DIR=<gmsh-path> \
@@ -194,3 +186,5 @@ PeriHPX has been funded by:
 [2] Jha, P. K., & Lipton, R. P. (2020). Kinetic relations and local energy balance for LEFM from a nonlocal peridynamic model. International Journal of Fracture, 226(1), 81-95.
 
 [3] Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21.
+
+For more references, we refer to the PeriHPX's [publication list](http://perihpx.stellar-group.org/publications/).

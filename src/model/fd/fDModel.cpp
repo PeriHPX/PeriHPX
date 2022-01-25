@@ -28,12 +28,12 @@
 #include "geometry/interiorFlags.h"
 #include "geometry/neighbor.h"
 #include "inp/decks/absborbingCondDeck.h"
+#include "inp/decks/loadingDeck.h"
+#include "inp/decks/materialDeck.h"
 #include "inp/decks/modelDeck.h"
 #include "inp/decks/outputDeck.h"
 #include "inp/decks/restartDeck.h"
-#include "inp/decks/materialDeck.h"
 #include "inp/input.h"
-#include "inp/decks/loadingDeck.h"
 #include "inp/policy.h"
 #include "loading/fLoading.h"
 #include "loading/initialCondition.h"
@@ -529,14 +529,13 @@ void model::FDModel<T>::computeForces() {
   const auto &nodes = d_dataManager_p->getMeshP()->getNodes();
   const auto &volumes = d_dataManager_p->getMeshP()->getNodalVolumes();
 
-  auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      d_dataManager_p->getMeshP()->getNumNodes(),
-      [this](boost::uint64_t i) {
-        (*this->d_dataManager_p->getForceP())[i] +=
-            this->computeForce(i).second;
-      }  // loop over nodes
-  );     // end of parallel for loop
+  auto f = hpx::for_loop(hpx::execution::par(hpx::execution::task), 0,
+                         d_dataManager_p->getMeshP()->getNumNodes(),
+                         [this](boost::uint64_t i) {
+                           (*this->d_dataManager_p->getForceP())[i] +=
+                               this->computeForce(i).second;
+                         }  // loop over nodes
+  );                        // end of parallel for loop
   f.get();
 }
 

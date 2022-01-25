@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "matrix.h"
+
 #include "utilIO.h"
 
 bool util::checkMatrix(const std::vector<std::vector<double>> &m) {

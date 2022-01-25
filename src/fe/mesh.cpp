@@ -21,8 +21,8 @@
 #include "lineElem.h"
 #include "quadElem.h"
 #include "rw/reader.h"
-#include "triElem.h"
 #include "tetElem.h"
+#include "triElem.h"
 #include "util/compare.h"
 #include "util/feElementDefs.h"
 #include "util/utilGeom.h"
@@ -269,8 +269,8 @@ void fe::Mesh::computeVol() {
   //
   d_vol.resize(d_numNodes);
   auto f = hpx::for_loop(
-      hpx::execution::par(hpx::execution::task), 0,
-      this->d_numNodes, [this, quads](boost::uint64_t i) {
+      hpx::execution::par(hpx::execution::task), 0, this->d_numNodes,
+      [this, quads](boost::uint64_t i) {
         double v = 0.0;
 
         for (auto e : this->d_nec[i]) {
