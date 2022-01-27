@@ -114,6 +114,11 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
     exit(1);
   }
 
+  if(file_type == -1){
+    std::cerr << "Error: only the following file types are support: .csv or .msh or .vtu" << std::endl;
+     exit(1);
+  }
+
   //
   bool is_fd = false;
   if (d_spatialDiscretization == "finite_difference") is_fd = true;
