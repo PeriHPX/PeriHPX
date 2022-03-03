@@ -342,7 +342,7 @@ void model::FDModel<T>::integrate() {
   // start time integration
   size_t i = d_n;
   size_t N = d_dataManager_p->getModelDeckP()->d_Nt +
-             d_dataManager_p->getModelDeckP()->d_RelaxN;
+             d_dataManager_p->getModelDeckP()->d_RelaxN ;
 
   for (i; i < N; i++) {
     if (d_dataManager_p->getModelDeckP()->d_timeDiscretization ==
@@ -354,7 +354,7 @@ void model::FDModel<T>::integrate() {
 
     // handle general output
     if ((d_n % d_dataManager_p->getOutputDeckP()->d_dtOut == 0) &&
-        (d_n >= d_dataManager_p->getOutputDeckP()->d_dtOut)) {
+        (d_n >= d_dataManager_p->getOutputDeckP()->d_dtOut) && (d_n <= N) ) {
       if (d_policy_p->enablePostProcessing()) computePostProcFields();
 
       model::Output(d_input_p, d_dataManager_p, d_n, d_time);
