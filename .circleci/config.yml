@@ -52,7 +52,7 @@ jobs:
             command: |
               mkdir -p build
               cd build
-              cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Tools=ON -DCMAKE_CXX_FLAGS="-g -O0 -fprofile-arcs -ftest-coverage -fpic" ..
+              cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Tools=ON -DCMAKE_CXX_FLAGS="-g -O0 --coverage" ..
               make 
         - run:
             name: Run tests
@@ -63,13 +63,16 @@ jobs:
             name: Report
             command: |
               cd build
-              gcovr --exclude-directories=build --exclude-directories=data --exclude-directories=/usr/include/ -r ..
+              lcov --capture --directory . --output-file coverage.info
+              lcov --remove coverage.info '/usr/*' --output-file coverage.info
+              lcov --list coverage.info
         - run:
             name: Publish code coverage
             command: |
               if [ "${CIRCLE_BRANCH}" == "main" ]; then
                 cd build
-                COVERALLS_REPO_TOKEN="${CTOKEN}" coveralls -i src --gcov-options '\-lp' 
+                #COVERALLS_REPO_TOKEN="${CTOKEN}" coveralls -i src --gcov-options '\-lp' 
+                bash <(curl -s https://codecov.io/bash) -t ${CTOKEN}
               fi
     deploy:
       machine:
