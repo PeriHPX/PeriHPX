@@ -226,6 +226,22 @@ public:
    */
   void close();
 
+  /**
+   * @name Crack information
+   */
+  /**@{*/
+
+   /*!
+   * @brief Writes a file with the intital crack visualized as lines
+      * @param filename Name of file which will be created
+   * @param compress_type Compression type (optional)
+   * @param start First point of the crack
+   * @param end Last point of the crack
+   */
+  void writeInitialCrack(const std::string &filename , const std::string &compress_type, util::Point3 start,util::Point3 end);
+
+   /** @}*/
+
 private:
   /*! @brief Pointer to the vtk writer class */
   rw::writer::VtkWriter *d_vtkWriter_p;
@@ -246,6 +262,7 @@ private:
    *  @param name Name of the field
    */
   inline void checkLength(const size_t length, const std::string &name);
+
 
 }; // class Writer
 

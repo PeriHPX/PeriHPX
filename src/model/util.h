@@ -16,6 +16,7 @@
 #include "inp/decks/outputDeck.h"
 #include "inp/decks/policyDeck.h"
 #include "inp/decks/restartDeck.h"
+#include "inp/decks/fractureDeck.h"
 #include "rw/writer.h"
 #include "data/DataManager.h"
 #include "fe/mesh.h"

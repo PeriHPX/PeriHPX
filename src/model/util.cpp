@@ -25,6 +25,22 @@ model::Output::Output(inp::Input *d_input_p, data::DataManager *d_dataManager_p,
       rw::writer::Writer(filename, d_input_p->getOutputDeck()->d_outFormat,
                          d_input_p->getOutputDeck()->d_compressType);
 
+  if (d_n == 0) {
+    size_t index = 0;
+
+    if (d_input_p->getOutputDeck()->isTagInOutput("Initial_Crack")) {
+      for (auto &crack : d_input_p->getFractureDeck()->d_cracks) {
+        writer.writeInitialCrack(d_input_p->getOutputDeck()->d_path +
+                                     "/initial-crack-" + std::to_string(index) +
+                                     ".vtu",
+                                 d_input_p->getOutputDeck()->d_compressType,
+                                 crack.d_initPt, crack.d_initPb);
+
+        index++;
+      }
+    }
+  }
+
   // write mesh
   if (d_dataManager_p->getMeshP()->getNumElements() != 0 &&
       d_input_p->getOutputDeck()->d_performFEOut)

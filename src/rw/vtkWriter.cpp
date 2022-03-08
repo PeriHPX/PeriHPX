@@ -11,11 +11,13 @@
 #include <util/feElementDefs.h>
 #include <vtkCellArray.h>
 #include <vtkCellData.h>
+#include <vtkCellType.h>
 #include <vtkDoubleArray.h>
 #include <vtkIdList.h>
 #include <vtkIntArray.h>
 #include <vtkPointData.h>
 #include <vtkPoints.h>
+#include <vtkPolyLine.h>
 #include <vtkUnsignedIntArray.h>
 
 rw::writer::VtkWriter::VtkWriter(const std::string &filename,
@@ -314,4 +316,40 @@ void rw::writer::VtkWriter::appendFieldData(const std::string &name,
   t->SetNumberOfTuples(1);
   t->SetTuple1(0, data);
   d_grid_p->GetFieldData()->AddArray(t);
+}
+
+void rw::writer::VtkWriter::writeInitialCrack(const std::string &filename,
+                                              const std::string &compress_type,
+                                              util::Point3 start,
+                                              util::Point3 end) {
+  auto writer = vtkSmartPointer<vtkXMLUnstructuredGridWriter>::New();
+  writer->SetFileName(const_cast<char *>(filename.c_str()));
+
+  auto points = vtkSmartPointer<vtkPoints>::New();
+
+  points->InsertNextPoint(start.d_x, start.d_y, start.d_z);
+  points->InsertNextPoint(start.d_x, start.d_y, start.d_z);
+
+  auto line = vtkPolyLine::New();
+  line->GetPointIds()->SetNumberOfIds(2);
+  line->GetPointIds()->SetId(0, 0);
+  line->GetPointIds()->SetId(1, 1);
+
+  auto cells = vtkSmartPointer<vtkCellArray>::New();
+  cells->InsertNextCell(line);
+
+  auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+  grid->SetPoints(points);
+
+  grid->SetCells(VTK_POLY_LINE, cells);
+
+  writer->SetInputData(grid);
+
+  writer->SetDataModeToAppended();
+  writer->EncodeAppendedDataOn();
+  if (compress_type == "zlib")
+    writer->SetCompressorTypeToZLib();
+  else
+    writer->SetCompressor(0);
+  writer->Write();
 }

@@ -223,3 +223,15 @@ inline void rw::writer::Writer::checkLength(const size_t length,
     std::cerr << "Warning: Output field " << name << " is empty!" << std::endl;
   }
 }
+
+void rw::writer::Writer::writeInitialCrack(const std::string &filename,
+                                           const std::string &compress_type,
+                                           util::Point3 start,
+                                           util::Point3 end) {
+  if (d_format == "vtu")
+    d_vtkWriter_p->writeInitialCrack(filename, compress_type, start, end);
+  else
+    std::cerr << "Warning: Writing the initial crack only avaible using the "
+                 "VTK writer!"
+              << std::endl;
+}
