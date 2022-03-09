@@ -17,8 +17,10 @@
 #include <vtkIntArray.h>
 #include <vtkPointData.h>
 #include <vtkPoints.h>
-#include <vtkPolyLine.h>
 #include <vtkUnsignedIntArray.h>
+#include <vtkXMLPolyDataWriter.h>
+#include <vtkPolyLine.h>
+#include <vtkPolyData.h>
 
 rw::writer::VtkWriter::VtkWriter(const std::string &filename,
                                  const std::string &compress_type)
@@ -322,13 +324,21 @@ void rw::writer::VtkWriter::writeInitialCrack(const std::string &filename,
                                               const std::string &compress_type,
                                               util::Point3 start,
                                               util::Point3 end) {
-  auto writer = vtkSmartPointer<vtkXMLUnstructuredGridWriter>::New();
+
+  auto writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
   writer->SetFileName(const_cast<char *>(filename.c_str()));
 
   auto points = vtkSmartPointer<vtkPoints>::New();
 
   points->InsertNextPoint(start.d_x, start.d_y, start.d_z);
-  points->InsertNextPoint(start.d_x, start.d_y, start.d_z);
+  points->InsertNextPoint(end.d_x, end.d_y, end.d_z);
+
+  //vtkSmartPointer<vtkLineSource> lineSource = vtkSmartPointer<vtkLineSource>::New();
+  //lineSource->SetPoint1(points->GetPoint(0));
+  //lineSource->SetPoint2(points->GetPoint(1));
+  //lineSource->Update();
+
+
 
   auto line = vtkPolyLine::New();
   line->GetPointIds()->SetNumberOfIds(2);
@@ -338,12 +348,16 @@ void rw::writer::VtkWriter::writeInitialCrack(const std::string &filename,
   auto cells = vtkSmartPointer<vtkCellArray>::New();
   cells->InsertNextCell(line);
 
-  auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-  grid->SetPoints(points);
+  auto lineData = vtkSmartPointer<vtkPolyData>::New();
 
-  grid->SetCells(VTK_POLY_LINE, cells);
+  lineData->SetPoints(points);
+  lineData->SetLines(cells);
 
-  writer->SetInputData(grid);
+  
+
+  //writer->SetInputData(lineSource->GetOutput());
+  
+  writer->SetInputData(lineData);
 
   writer->SetDataModeToAppended();
   writer->EncodeAppendedDataOn();

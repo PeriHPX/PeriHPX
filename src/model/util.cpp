@@ -32,9 +32,10 @@ model::Output::Output(inp::Input *d_input_p, data::DataManager *d_dataManager_p,
       for (auto &crack : d_input_p->getFractureDeck()->d_cracks) {
         writer.writeInitialCrack(d_input_p->getOutputDeck()->d_path +
                                      "/initial-crack-" + std::to_string(index) +
-                                     ".vtu",
+                                     ".vtp",
                                  d_input_p->getOutputDeck()->d_compressType,
-                                 crack.d_initPt, crack.d_initPb);
+                                  crack.d_initPb,crack.d_initPt);
+                                 std::cout << crack.d_initPt << " " << crack.d_initPb << std::endl;
 
         index++;
       }
