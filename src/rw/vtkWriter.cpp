@@ -17,10 +17,10 @@
 #include <vtkIntArray.h>
 #include <vtkPointData.h>
 #include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyLine.h>
 #include <vtkUnsignedIntArray.h>
 #include <vtkXMLPolyDataWriter.h>
-#include <vtkPolyLine.h>
-#include <vtkPolyData.h>
 
 rw::writer::VtkWriter::VtkWriter(const std::string &filename,
                                  const std::string &compress_type)
@@ -324,7 +324,6 @@ void rw::writer::VtkWriter::writeInitialCrack(const std::string &filename,
                                               const std::string &compress_type,
                                               util::Point3 start,
                                               util::Point3 end) {
-
   auto writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
   writer->SetFileName(const_cast<char *>(filename.c_str()));
 
@@ -333,12 +332,11 @@ void rw::writer::VtkWriter::writeInitialCrack(const std::string &filename,
   points->InsertNextPoint(start.d_x, start.d_y, start.d_z);
   points->InsertNextPoint(end.d_x, end.d_y, end.d_z);
 
-  //vtkSmartPointer<vtkLineSource> lineSource = vtkSmartPointer<vtkLineSource>::New();
-  //lineSource->SetPoint1(points->GetPoint(0));
-  //lineSource->SetPoint2(points->GetPoint(1));
-  //lineSource->Update();
-
-
+  // vtkSmartPointer<vtkLineSource> lineSource =
+  // vtkSmartPointer<vtkLineSource>::New();
+  // lineSource->SetPoint1(points->GetPoint(0));
+  // lineSource->SetPoint2(points->GetPoint(1));
+  // lineSource->Update();
 
   auto line = vtkPolyLine::New();
   line->GetPointIds()->SetNumberOfIds(2);
@@ -353,10 +351,8 @@ void rw::writer::VtkWriter::writeInitialCrack(const std::string &filename,
   lineData->SetPoints(points);
   lineData->SetLines(cells);
 
-  
+  // writer->SetInputData(lineSource->GetOutput());
 
-  //writer->SetInputData(lineSource->GetOutput());
-  
   writer->SetInputData(lineData);
 
   writer->SetDataModeToAppended();
