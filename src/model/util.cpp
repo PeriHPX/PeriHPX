@@ -35,8 +35,6 @@ model::Output::Output(inp::Input *d_input_p, data::DataManager *d_dataManager_p,
                                      ".vtp",
                                  d_input_p->getOutputDeck()->d_compressType,
                                  crack.d_initPb, crack.d_initPt);
-        std::cout << crack.d_initPt << " " << crack.d_initPb << std::endl;
-
         index++;
       }
     }

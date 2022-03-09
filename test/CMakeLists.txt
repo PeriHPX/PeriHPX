@@ -69,17 +69,6 @@ add_test(NAME tools.mesh.2d
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/tools/mesh/uniform_triangle
 )
 
-# Read 2D traingle mesh generate with gmsh
-add_test(NAME mesh.2d.read.triangle.gmsh
-    COMMAND ${EXECUTABLE_OUTPUT_PATH}/PeriHPX -i input_2d_gmsh_triangle.yaml --hpx:threads=1
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/io
-)
-
-# Read 2D traingle mesh generate with gmsh
-add_test(NAME mesh.2d.read.quad.gmsh
-    COMMAND ${EXECUTABLE_OUTPUT_PATH}/PeriHPX -i input_2d_gmsh_quad.yaml --hpx:threads=1
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/io
-)
 
 
 ##############################################################################
@@ -95,6 +84,26 @@ WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/qsModel/1D
 # Depencies
 set_tests_properties(quasistatic.1D.elastic_legacy_vtk PROPERTIES
   FIXTURES_SETUP quasistatic.1D.elastic.mesh)
+
+# Read 2D traingle mesh generate with gmsh
+add_test(NAME mesh.2d.read.triangle.gmsh
+    COMMAND ${EXECUTABLE_OUTPUT_PATH}/PeriHPX -i input_2d_gmsh_triangle.yaml --hpx:threads=1
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/io
+)
+
+# Read 2D quad mesh generate with gmsh
+add_test(NAME mesh.2d.read.quad.gmsh
+    COMMAND ${EXECUTABLE_OUTPUT_PATH}/PeriHPX -i input_2d_gmsh_quad.yaml --hpx:threads=1
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/io
+)
+
+# Read 2D quad mesh withan intitial crack and output the crack
+add_test(NAME mesh.2d.read.quad.gmsh-crack
+    COMMAND ${EXECUTABLE_OUTPUT_PATH}/PeriHPX -i input_2d_gmsh_quad.yaml --hpx:threads=1
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/examples/io
+)
+
+
 
 ##############################################################################
 # Restart

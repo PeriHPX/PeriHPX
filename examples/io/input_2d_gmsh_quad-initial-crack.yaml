@@ -1,0 +1,41 @@
+Model: 
+  Dimension: 2 
+  Discretization_Type:
+    Spatial: finite_difference
+    Time: central_difference
+  Final_Time: 1 
+  Time_Steps: 1
+  Horizon: 0.5
+  Horizon_h_Ratio: 5
+Mesh: 
+  File: mesh_2d_quad.msh 
+  Keep_Element_Conn: true
+Material: 
+  Type: RNPBond
+  Density: 1200
+  Compute_From_Classical: true 
+  E: 72.6e9
+  Gc: 3.8
+  Bond_Potential:
+    Type: 1
+    Check_Sc_Factor: 10.0
+    Irreversible_Bond_Fracture: true
+  No_Penetration: true
+  Influence_Function:
+    Type: 1
+Fracture:
+  Cracks:
+    Sets: 1
+    Set_1:
+      Orientation: 1
+      Line: [0, 2.5, 1, 2.5]
+Output: 
+  Path: ./ 
+  Tags: 
+    - Node_Volume 
+    - Initial_Crack
+  Output_Interval: 1 
+  Compress_Type: zlib
+  Perform_FE_Out: true 
+HPX: 
+    Partitions: 1 
