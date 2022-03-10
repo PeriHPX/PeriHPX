@@ -24,6 +24,15 @@ void rw::reader::MshReader::readMesh(size_t dim,
                                      std::vector<size_t> *enc,
                                      std::vector<std::vector<size_t>> *nec,
                                      std::vector<double> *volumes, bool is_fd) {
+
+  std::ifstream f(d_filename);
+  if (! f.good())
+  { 
+    std::cerr << "Error: Could not open the file: " << d_filename << "!" << std::endl;
+    exit(1);
+  }
+  f.close();
+
   gmsh::initialize();
   gmsh::option::setNumber("General.Terminal", 1);
   gmsh::open(d_filename);
@@ -39,10 +48,14 @@ void rw::reader::MshReader::readMesh(size_t dim,
   std::vector<double> nodeCoords, nodeParams;
   gmsh::model::mesh::getNodes(nodeTags, nodeCoords, nodeParams, -1, -1);
 
+  std::cout << "size = " << nodeTags.size() << std::endl;
+
   // getting all elements using GMSH API
   std::vector<int> elemTypes;
   std::vector<std::vector<std::size_t>> elemTags, elemNodeTags;
   gmsh::model::mesh::getElements(elemTypes, elemTags, elemNodeTags, -1, -1);
+
+  std::cout << "size = " << elemTypes.size() << std::endl;
 
   // specify type of element to read
   if (dim != 2 and dim != 3) {
