@@ -1,7 +1,11 @@
 # Changelog
 
-## 0.1.1 
-- Transition to PeriHPX
+## 1.0.3
+- Update to the new logo
+- add cff file for citation
 
-## 0.1.0 
-- Import from NLMech v0.1.0
+## 1.0.2 
+- Inittial release of PeriHPX
+
+## 1.0.1 
+- Import from NLMech 
