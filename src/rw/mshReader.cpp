@@ -24,11 +24,12 @@ void rw::reader::MshReader::readMesh(size_t dim,
                                      std::vector<size_t> *enc,
                                      std::vector<std::vector<size_t>> *nec,
                                      std::vector<double> *volumes, bool is_fd) {
-
+  // Add file exists check, since gmsh will nto do that and just provides a
+  // empty mesh
   std::ifstream f(d_filename);
-  if (! f.good())
-  { 
-    std::cerr << "Error: Could not open the file: " << d_filename << "!" << std::endl;
+  if (!f.good()) {
+    std::cerr << "Error: Could not open the file: " << d_filename << "!"
+              << std::endl;
     exit(1);
   }
   f.close();
@@ -48,14 +49,10 @@ void rw::reader::MshReader::readMesh(size_t dim,
   std::vector<double> nodeCoords, nodeParams;
   gmsh::model::mesh::getNodes(nodeTags, nodeCoords, nodeParams, -1, -1);
 
-  std::cout << "size = " << nodeTags.size() << std::endl;
-
   // getting all elements using GMSH API
   std::vector<int> elemTypes;
   std::vector<std::vector<std::size_t>> elemTags, elemNodeTags;
   gmsh::model::mesh::getElements(elemTypes, elemTags, elemNodeTags, -1, -1);
-
-  std::cout << "size = " << elemTypes.size() << std::endl;
 
   // specify type of element to read
   if (dim != 2 and dim != 3) {
@@ -105,23 +102,46 @@ void rw::reader::MshReader::readMesh(size_t dim,
     exit(1);
   }
 
-  nec->resize(elemNodeTags[element_id].size());
-
   size_t con_size = 0;
 
   if (type == 2) con_size = 3;
 
   if (type == 3) con_size = 4;
 
-  size_t elem_counter = 0;
-  // for (size_t i = 0 ; i < elemNodeTags.size() ; i++)
-  for (size_t j = 0; j < elemNodeTags[element_id].size(); j++) {
-    enc->push_back(elemNodeTags[element_id][j] - 1);
-    (*nec)[elemNodeTags[element_id][j] - 1].push_back(elem_counter);
+  nec->resize(elemNodeTags[element_id].size() / con_size);
 
-    if ((j + 1) % con_size == 0) elem_counter++;
+  size_t index = 0;
+  for (size_t j = 0; j < elemNodeTags[element_id].size() / con_size; j++) {
+    if (con_size == 3) {
+      index = j * 3;
+
+      enc->push_back(elemNodeTags[element_id][index] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 1] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 2] - 1);
+
+      (*nec)[elemNodeTags[element_id][index] - 1] = {
+          elemNodeTags[element_id][index] - 1,
+          elemNodeTags[element_id][index + 1] - 1,
+          elemNodeTags[element_id][index + 2] - 1};
+    }
+
+    if (con_size == 4) {
+      index = j * 4;
+
+      enc->push_back(elemNodeTags[element_id][index] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 1] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 2] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 3] - 1);
+
+      (*nec)[elemNodeTags[element_id][index] - 1] = {
+          elemNodeTags[element_id][index] - 1,
+          elemNodeTags[element_id][index + 1] - 1,
+          elemNodeTags[element_id][index + 2] - 1,
+          elemNodeTags[element_id][index + 3] - 1};
+    }
   }
-  num_elems = elemNodeTags[element_id].size();
+
+  num_elems = nec->size();
 
   gmsh::clear();
   gmsh::finalize();

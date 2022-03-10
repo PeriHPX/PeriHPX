@@ -226,6 +226,8 @@ public:
    */
   std::vector<util::Point3> getElementConnectivityNodes(const size_t
                                                               &i) const {
+
+    
     std::vector<util::Point3> nds;
     for (size_t k = 0; k < d_eNumVertex; k++)
       nds.emplace_back(d_nodes[d_enc[d_eNumVertex * i + k]]);
