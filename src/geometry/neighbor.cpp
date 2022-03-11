@@ -19,17 +19,12 @@
 geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
                              const std::vector<util::Point3> *nodes)
     : d_neighborDeck_p(deck) {
-  d_neighbors.resize(nodes->size());
+
+  d_neighbors = std::vector<std::vector<size_t>>(nodes->size());
 
   PointCloud cloud;
 
-  cloud.pts.resize(nodes->size());
-
-  std::cout << " Size " << nodes->size() << std::endl;
-
-  util::parallel::copy<std::vector<util::Point3>>(*nodes, cloud.pts);
-
-  std::cout << " Size 1" << nodes->size() << std::endl;
+  cloud.pts = *nodes;
 
   nanoflann::KDTreeSingleIndexAdaptor<
       nanoflann::L2_Simple_Adaptor<double, PointCloud>, PointCloud, 3 /* dim */
@@ -38,20 +33,15 @@ geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
 
   index.buildIndex();
 
-  std::cout << " Size 2 " << nodes->size() << std::endl;
-
   const double search_radius = static_cast<double>(horizon * horizon);
-
-  std::cout << " Size 3" << nodes->size() << std::endl;
 
   nanoflann::SearchParams params;
 
   hpx::for_loop(
-      hpx::execution::seq, 0, nodes->size(),
+      hpx::execution::par, 0, nodes->size(),
       [this, nodes, search_radius, params, &index](boost::uint64_t i) {
         std::vector<std::pair<uint32_t, double>> ret_matches;
 
-         std::cout << " Index " << i << std::endl;
         const double query_pt[3] = {(*nodes)[i].d_x, (*nodes)[i].d_y,
                                     (*nodes)[i].d_z};
 
