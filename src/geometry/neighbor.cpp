@@ -19,7 +19,6 @@
 geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
                              const std::vector<util::Point3> *nodes)
     : d_neighborDeck_p(deck) {
-
   d_neighbors = std::vector<std::vector<size_t>>(nodes->size());
 
   PointCloud cloud;

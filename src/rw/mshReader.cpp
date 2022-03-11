@@ -64,7 +64,7 @@ void rw::reader::MshReader::readMesh(size_t dim,
 
   // Convert the coordinates to the internal datastrucutre
   nodes->resize(nodeTags.size());
-  //nodes = new std::vector<util::Point3>(nodeTags.size());
+  // nodes = new std::vector<util::Point3>(nodeTags.size());
 
   for (size_t i = 0; i < nodeTags.size(); i++) {
     size_t index = (nodeTags[i] - 1) * 3;
@@ -118,10 +118,9 @@ void rw::reader::MshReader::readMesh(size_t dim,
       enc->push_back(elemNodeTags[element_id][index + 1] - 1);
       enc->push_back(elemNodeTags[element_id][index + 2] - 1);
 
-      nec->push_back({
-          elemNodeTags[element_id][index] - 1,
-          elemNodeTags[element_id][index + 1] - 1,
-          elemNodeTags[element_id][index + 2] - 1});
+      nec->push_back({elemNodeTags[element_id][index] - 1,
+                      elemNodeTags[element_id][index + 1] - 1,
+                      elemNodeTags[element_id][index + 2] - 1});
     }
 
     if (con_size == 4) {
@@ -132,10 +131,10 @@ void rw::reader::MshReader::readMesh(size_t dim,
       enc->push_back(elemNodeTags[element_id][index + 2] - 1);
       enc->push_back(elemNodeTags[element_id][index + 3] - 1);
 
-      nec->push_back({ elemNodeTags[element_id][index] - 1,
-          elemNodeTags[element_id][index + 1] - 1,
-          elemNodeTags[element_id][index + 2] - 1,
-          elemNodeTags[element_id][index + 3] - 1});
+      nec->push_back({elemNodeTags[element_id][index] - 1,
+                      elemNodeTags[element_id][index + 1] - 1,
+                      elemNodeTags[element_id][index + 2] - 1,
+                      elemNodeTags[element_id][index + 3] - 1});
     }
   }
 

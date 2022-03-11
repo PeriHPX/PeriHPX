@@ -474,5 +474,4 @@ void fe::Mesh::nodesAtCentroid() {
 
   // delete old data and replace with new node data
   d_nodes = fe_nodes;
-
 }
