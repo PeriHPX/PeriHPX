@@ -24,6 +24,16 @@ void rw::reader::MshReader::readMesh(size_t dim,
                                      std::vector<size_t> *enc,
                                      std::vector<std::vector<size_t>> *nec,
                                      std::vector<double> *volumes, bool is_fd) {
+  // Add file exists check, since gmsh will nto do that and just provides a
+  // empty mesh
+  std::ifstream f(d_filename);
+  if (!f.good()) {
+    std::cerr << "Error: Could not open the file: " << d_filename << "!"
+              << std::endl;
+    exit(1);
+  }
+  f.close();
+
   gmsh::initialize();
   gmsh::option::setNumber("General.Terminal", 1);
   gmsh::open(d_filename);
@@ -54,6 +64,7 @@ void rw::reader::MshReader::readMesh(size_t dim,
 
   // Convert the coordinates to the internal datastrucutre
   nodes->resize(nodeTags.size());
+  // nodes = new std::vector<util::Point3>(nodeTags.size());
 
   for (size_t i = 0; i < nodeTags.size(); i++) {
     size_t index = (nodeTags[i] - 1) * 3;
@@ -92,23 +103,42 @@ void rw::reader::MshReader::readMesh(size_t dim,
     exit(1);
   }
 
-  nec->resize(elemNodeTags[element_id].size());
-
   size_t con_size = 0;
 
   if (type == 2) con_size = 3;
 
   if (type == 3) con_size = 4;
 
-  size_t elem_counter = 0;
-  // for (size_t i = 0 ; i < elemNodeTags.size() ; i++)
-  for (size_t j = 0; j < elemNodeTags[element_id].size(); j++) {
-    enc->push_back(elemNodeTags[element_id][j] - 1);
-    (*nec)[elemNodeTags[element_id][j] - 1].push_back(elem_counter);
+  size_t index = 0;
+  for (size_t j = 0; j < elemNodeTags[element_id].size() / con_size; j++) {
+    if (con_size == 3) {
+      index = j * 3;
 
-    if ((j + 1) % con_size == 0) elem_counter++;
+      enc->push_back(elemNodeTags[element_id][index] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 1] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 2] - 1);
+
+      nec->push_back({elemNodeTags[element_id][index] - 1,
+                      elemNodeTags[element_id][index + 1] - 1,
+                      elemNodeTags[element_id][index + 2] - 1});
+    }
+
+    if (con_size == 4) {
+      index = j * 4;
+
+      enc->push_back(elemNodeTags[element_id][index] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 1] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 2] - 1);
+      enc->push_back(elemNodeTags[element_id][index + 3] - 1);
+
+      nec->push_back({elemNodeTags[element_id][index] - 1,
+                      elemNodeTags[element_id][index + 1] - 1,
+                      elemNodeTags[element_id][index + 2] - 1,
+                      elemNodeTags[element_id][index + 3] - 1});
+    }
   }
-  num_elems = elemNodeTags[element_id].size();
+
+  num_elems = nec->size();
 
   gmsh::clear();
   gmsh::finalize();

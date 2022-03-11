@@ -19,18 +19,16 @@
 geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
                              const std::vector<util::Point3> *nodes)
     : d_neighborDeck_p(deck) {
-  d_neighbors.resize(nodes->size());
+  d_neighbors = std::vector<std::vector<size_t>>(nodes->size());
 
   PointCloud cloud;
 
-  cloud.pts.resize(nodes->size());
-
-  util::parallel::copy<std::vector<util::Point3>>(*nodes, cloud.pts);
+  cloud.pts = *nodes;
 
   nanoflann::KDTreeSingleIndexAdaptor<
       nanoflann::L2_Simple_Adaptor<double, PointCloud>, PointCloud, 3 /* dim */
       >
-      index(3 /*dim*/, cloud, {10 /* max leaf */});
+      index(3 /*dim*/, cloud, {50 /* max leaf */});
 
   index.buildIndex();
 

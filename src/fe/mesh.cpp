@@ -236,6 +236,7 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
 }
 
 void fe::Mesh::computeVol() {
+  std::cout << "drin compute volume" << std::endl;
   // initialize quadrature data
   fe::BaseElem *quads;
   if (d_eType == util::vtk_type_triangle)
@@ -245,6 +246,8 @@ void fe::Mesh::computeVol() {
   else if (d_eType == util::vtk_type_tetra)
     quads = new fe::TetElem(2);
 
+  std::cout << d_nec.size() << " " << d_numNodes << std::endl;
+
   // check if we have valid element-node connectivity data for nodal volume
   // calculations
   if (d_nec.size() != d_numNodes || d_enc.empty()) {
@@ -252,6 +255,7 @@ void fe::Mesh::computeVol() {
                  "element mesh as the element-node connectivity data is "
                  "invalid."
               << std::endl;
+    // exit(1);
   }
 
   if (false) {
@@ -262,19 +266,13 @@ void fe::Mesh::computeVol() {
     std::cout << util::io::printStr(d_enc, 0) << "\n";
   }
 
-  // check if we have volid element-node connectivity data for nodal volume
-  // calculations
-  if (d_nec.size() != d_numNodes || d_enc.empty()) {
-    std::cerr << "Error: Can not compute nodal volume for given finite "
-                 "element mesh as the element-node connectivity data is "
-                 "invalid."
-              << std::endl;
-  }
-
   //
   // compute nodal volume
   //
   d_vol.resize(d_numNodes);
+  std::cout << d_vol.size() << std::endl;
+  exit(1);
+
   auto f = hpx::for_loop(
       hpx::execution::par(hpx::execution::task), 0, this->d_numNodes,
       [this, quads](boost::uint64_t i) {
@@ -462,6 +460,7 @@ void fe::Mesh::nodesAtCentroid() {
   // loop over all elements
   for (size_t i = 0; i < d_numElems; i++) {
     // get nodes of this element
+
     auto el_nodes = getElementConnectivityNodes(i);
 
     // compute centroid of the element and volume of the element
@@ -469,7 +468,8 @@ void fe::Mesh::nodesAtCentroid() {
 
     // add to node data
     fe_nodes[i] = center_and_vol.first;
-    d_vol[i] = center_and_vol.second;
+
+    d_vol[i] = std::abs(center_and_vol.second);
   }
 
   // delete old data and replace with new node data

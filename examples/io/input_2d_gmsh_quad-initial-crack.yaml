@@ -8,7 +8,8 @@ Model:
   Horizon: 0.5
   Horizon_h_Ratio: 5
 Mesh: 
-  File: mesh_2d_quad.msh 
+  File: mesh_2d_quad.msh
+  Is_Centroid_Based_Discretization: true
   Keep_Element_Conn: true
 Material: 
   Type: RNPBond

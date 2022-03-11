@@ -24,13 +24,7 @@ namespace parallel {
 template<typename T>
 inline void copy(T in, T &out) {
 
-	hpx::for_loop(hpx::execution::par, 0, in.size(),
-			[&out, in](boost::uint64_t i) {
-
-				out[i] = in[i];
-
-			});
-
+	hpx::copy(hpx::execution::par,in.begin(), in.end(), out.begin());
 }
 
 /*
