@@ -10,3 +10,7 @@ coverage:
   # do not run coverage on patch nor changes
   patch: no
   changes: no
+
+# ignore external libraries
+ignore:
+  - "src/external/"
