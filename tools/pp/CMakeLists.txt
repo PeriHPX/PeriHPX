@@ -11,4 +11,4 @@ add_library(PP ${SOURCES})
 target_link_libraries(PP Util Inp Material RW Geometry FE Data ${VTK_LIBRARIES})
 
 # Build mesh executible
-add_hpx_executable(pp SOURCES pp.cpp DEPENDENCIES PP libvtkIOXML.so)
+add_hpx_executable(pp SOURCES pp.cpp DEPENDENCIES PP)
