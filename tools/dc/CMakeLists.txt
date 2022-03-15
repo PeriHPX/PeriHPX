@@ -14,4 +14,4 @@ add_library(DC ${SOURCES})
 target_link_libraries(DC PUBLIC FE RW Util ${YAML_CPP_LIB} ${VTK_LIBRARIES} Data -lpthread)
 
 # Build dc executible
-add_hpx_executable(dc SOURCES dc.cpp DEPENDENCIES DC libvtkIOXML.so)
+add_hpx_executable(dc SOURCES dc.cpp DEPENDENCIES DC)
