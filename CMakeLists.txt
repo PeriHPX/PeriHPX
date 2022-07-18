@@ -75,7 +75,7 @@ list(APPEND CMAKE_MODULE_PATH "${HPX_PREFIX}/../cmake/")
 find_package(YamlCpp REQUIRED)
 
 # VTK 
-find_package(VTK REQUIRED COMPONENTS vtkCommonCore vtkIOXML vtkCommonDataModel )
+find_package(VTK REQUIRED COMPONENTS CommonCore IOXML CommonDataModel )
 include(${VTK_USE_FILE})
 
 if (VTK_VERSION VERSION_LESS "6")
