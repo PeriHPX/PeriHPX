@@ -173,7 +173,7 @@ endif()
 # Build PeriHPX
 ##############################################################################
 add_hpx_executable(PeriHPX SOURCES src/main.cpp 
-                   DEPENDENCIES Inp Model RW ${LAPACK_LIBRARIES} libvtkIOXML.so)
+                   DEPENDENCIES Inp Model RW ${LAPACK_LIBRARIES})
 
 
 
