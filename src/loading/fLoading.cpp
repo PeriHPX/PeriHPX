@@ -128,7 +128,7 @@ void loading::FLoading::apply(const double &time, std::vector<util::Point3> *f,
       // load the fporce from coupling
       if(bc.d_regionType == "force_from_pum"){
 
-        fmax = mesh->getPrescribedValues()[i][bc.d_direction[0] - 1];
+        fmax = mesh->getPrescribedValues()[i][bc.d_direction[0] - 1] / mesh->getNodalVolume(i);
 
       }
 
