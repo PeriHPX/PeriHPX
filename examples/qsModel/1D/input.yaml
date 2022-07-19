@@ -46,7 +46,7 @@ Force_BC:
 Solver:
   Type: ConjugateGradient
   Max_Iteration: 100
-  Tolerance: 1e-9
+  Tolerance: 1e-12
   Perturbation: 1e-7
 Output: 
   Path: ./ 
