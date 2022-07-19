@@ -556,13 +556,14 @@ void model::FDModel<T>::computeForces() {
   const auto &nodes = d_dataManager_p->getMeshP()->getNodes();
   const auto &volumes = d_dataManager_p->getMeshP()->getNodalVolumes();
 
-  auto f = hpx::experimental::for_loop(hpx::execution::par(hpx::execution::task), 0,
-                         d_dataManager_p->getMeshP()->getNumNodes(),
-                         [this](boost::uint64_t i) {
-                           (*this->d_dataManager_p->getForceP())[i] +=
-                               this->computeForce(i).second;
-                         }  // loop over nodes
-  );                        // end of parallel for loop
+  auto f =
+      hpx::experimental::for_loop(hpx::execution::par(hpx::execution::task), 0,
+                                  d_dataManager_p->getMeshP()->getNumNodes(),
+                                  [this](boost::uint64_t i) {
+                                    (*this->d_dataManager_p->getForceP())[i] +=
+                                        this->computeForce(i).second;
+                                  }  // loop over nodes
+      );                             // end of parallel for loop
   f.get();
 }
 
