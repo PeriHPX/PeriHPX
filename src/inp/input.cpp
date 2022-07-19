@@ -232,7 +232,8 @@ void inp::Input::setMeshDeck() {
     exit(1);
   }
   if (config["Mesh"]["Load_PUM_data"])
-    d_meshDeck_p->d_loadPUMData = config["Mesh"]["Load_PUM_data"].as<std::string>();
+    d_meshDeck_p->d_loadPUMData =
+        config["Mesh"]["Load_PUM_data"].as<std::string>();
   else
     d_meshDeck_p->d_loadPUMData = "None";
 
