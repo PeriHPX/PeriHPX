@@ -372,7 +372,7 @@ private:
    * @param is_centroid_based Specify if we create node at the center of element
    * @param has_coupling_data Specify if we read the additional data needed for coupling
    */
-  void createData(const std::string &filename, bool ref_config, bool is_centroid_based, bool has_coupling_data);
+  void createData(const std::string &filename, bool ref_config, bool is_centroid_based, std::string has_coupling_data);
 
   /*!
    * @brief Converts standard fem mesh to particle mesh with nodes at the

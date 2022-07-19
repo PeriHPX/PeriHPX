@@ -608,7 +608,6 @@ util::VectorXi model::QuasiStaticModel<T>::computeResidual() {
         for (auto n : bcN[k])
 
           if (std::find(bcN[k].begin(), bcN[k].end(), i) != bcN[k].end()) {
-            // dimensions.erase(dimensions.begin()+d-1);
             dimensions[d - 1] = std::numeric_limits<std::size_t>::max();
           }
       }
