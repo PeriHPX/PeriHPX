@@ -37,7 +37,7 @@ template<typename T>
 inline void addInplace(T &a, T b) {
 
 
-	hpx::for_loop(hpx::execution::par, 0, a.size(),
+	hpx::experimental::for_loop(hpx::execution::par, 0, a.size(),
 			[&a, b](boost::uint64_t i) {
 
 				a[i] = a[i] + b[i];
@@ -54,7 +54,7 @@ inline void addInplace(T &a, T b) {
 template<typename T>
 inline void subInplace(T &a, T b) {
 
-	hpx::for_loop(hpx::execution::par, 0, a.size(),
+	hpx::experimental::for_loop(hpx::execution::par, 0, a.size(),
 			[&a, b](boost::uint64_t i) {
 
 				a[i] = a[i] - b[i];

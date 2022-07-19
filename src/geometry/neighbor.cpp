@@ -36,7 +36,7 @@ geometry::Neighbor::Neighbor(const double &horizon, inp::NeighborDeck *deck,
 
   nanoflann::SearchParams params;
 
-  hpx::for_loop(
+  hpx::experimental::for_loop(
       hpx::execution::par, 0, nodes->size(),
       [this, nodes, search_radius, params, &index](boost::uint64_t i) {
         std::vector<std::pair<uint32_t, double>> ret_matches;
