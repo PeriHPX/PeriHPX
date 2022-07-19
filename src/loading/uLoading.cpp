@@ -170,7 +170,7 @@ void loading::ULoading::apply(const double &time, std::vector<util::Point3> *u,
     for (auto i : d_bcNodes[s]) {
       util::Point3 x = mesh->getNode(i);
       double umax = bc.d_timeFnParams[0];
-      double du = 0.;
+      double du = 0.; 
       double dv = 0.;
 
       if (bc.d_regionType == "displacement_from_pum") {
