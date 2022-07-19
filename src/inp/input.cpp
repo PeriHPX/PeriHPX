@@ -580,8 +580,7 @@ void inp::Input::setLoadingDeck() {
         }  // read bc region
         else if (e["Location"]["Displacement_from_pum"]) {
           bc.d_regionType = "displacement_from_pum";
-        }
-        else if (e["Location"]["Force_from_pum"]) {
+        } else if (e["Location"]["Force_from_pum"]) {
           bc.d_regionType = "force_from_pum";
         }
 

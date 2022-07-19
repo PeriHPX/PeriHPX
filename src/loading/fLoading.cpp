@@ -23,7 +23,8 @@ loading::FLoading::FLoading(inp::LoadingDeck *deck, fe::Mesh *mesh) {
   for (const auto &bc : d_bcData) {
     // check bc first
     if (bc.d_regionType != "line" and bc.d_regionType != "rectangle" and
-        bc.d_regionType != "angled_rectangle" and bc.d_regionType != "cuboid" and bc.d_regionType != "force_from_pum" ) {
+        bc.d_regionType != "angled_rectangle" and
+        bc.d_regionType != "cuboid" and bc.d_regionType != "force_from_pum") {
       std::cerr
           << "Error: Force bc region type = " << bc.d_regionType
           << " not recognized. Should be rectangle or angled_rectangle. \n";
@@ -106,7 +107,7 @@ loading::FLoading::FLoading(inp::LoadingDeck *deck, fe::Mesh *mesh) {
             3, xi, util::Point3(bc.d_x1, bc.d_y1, bc.d_z1),
             util::Point3(bc.d_x2, bc.d_y2, bc.d_z2));
       else if (bc.d_regionType == "force_from_pum")
-      if (mesh->getPrescribedNodes()[i] == 1) fix = true;
+        if (mesh->getPrescribedNodes()[i] == 1) fix = true;
 
       if (fix) fix_nodes.push_back(i);
     }  // loop over nodes
@@ -126,10 +127,9 @@ void loading::FLoading::apply(const double &time, std::vector<util::Point3> *f,
       double fmax = 1.0;
 
       // load the fporce from coupling
-      if(bc.d_regionType == "force_from_pum"){
-
-        fmax = mesh->getPrescribedValues()[i][bc.d_direction[0] - 1] / mesh->getNodalVolume(i);
-
+      if (bc.d_regionType == "force_from_pum") {
+        fmax = mesh->getPrescribedValues()[i][bc.d_direction[0] - 1] /
+               mesh->getNodalVolume(i);
       }
 
       // apply spatial function

@@ -174,7 +174,7 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
     // Read the data for coupling
     std::cout << has_coupling_data.size() << std::endl;
     std::cout << has_coupling_data << std::endl;
-    if (has_coupling_data.compare("None")!=0) {
+    if (has_coupling_data.compare("None") != 0) {
       rw::reader::readVtuFilePointData(filename, "Boundary-Layer",
                                        &d_prescribed_nodes);
 
@@ -186,8 +186,9 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
                                          &d_prescribed_values);
 
       else {
-        std::cerr << "Error: For coupling data only Force or Displacement is allowed:"
-                  << std::endl;
+        std::cerr
+            << "Error: For coupling data only Force or Displacement is allowed:"
+            << std::endl;
         exit(1);
       }
     }
