@@ -232,9 +232,9 @@ void inp::Input::setMeshDeck() {
     exit(1);
   }
   if (config["Mesh"]["Load_PUM_data"])
-    d_meshDeck_p->d_loadPUMData = config["Mesh"]["Load_PUM_data"].as<bool>();
+    d_meshDeck_p->d_loadPUMData = config["Mesh"]["Load_PUM_data"].as<std::string>();
   else
-    d_meshDeck_p->d_loadPUMData = false;
+    d_meshDeck_p->d_loadPUMData = "None";
 
   if (d_modelDeck_p->d_h < 1.0E-12)
     d_meshDeck_p->d_computeMeshSize = true;

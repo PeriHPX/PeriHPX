@@ -76,10 +76,9 @@ find_package(YamlCpp REQUIRED)
 
 # VTK 
 find_package(VTK REQUIRED COMPONENTS vtkCommonCore vtkIOXML vtkCommonDataModel )
-include(${VTK_USE_FILE})
 
-if (VTK_VERSION VERSION_LESS "6")
-    message(FATAL_ERROR "ERROR: Only VTK library 6+ supported")
+if (VTK_VERSION VERSION_LESS "8")
+    message(FATAL_ERROR "ERROR: Only VTK library 8+ supported")
 endif ()
 
 # Gmsh
