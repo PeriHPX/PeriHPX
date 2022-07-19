@@ -212,7 +212,7 @@ tools::pp::Compute::Compute(const std::string &filename)
                                      d_dataManager_p->getMeshP()->getNodesP());
 
     if (d_uPlus) {
-      auto f2 = hpx::for_loop(
+      auto f2 = hpx::experimental::for_loop(
           hpx::execution::par(hpx::execution::task), 0,
           d_dataManager_p->getMeshP()->getNumNodes(),
           [this](boost::uint64_t i) {
@@ -898,7 +898,7 @@ void tools::pp::Compute::transformU(rw::writer::Writer *writer) {
   std::vector<util::Point3> u_temp(d_dataManager_p->getMeshP()->getNumNodes(),
                                    util::Point3());
   auto scale = d_currentData->d_transformU_p->d_scale;
-  auto f = hpx::for_loop(hpx::execution::par(hpx::execution::task), 0,
+  auto f = hpx::experimental::for_loop(hpx::execution::par(hpx::execution::task), 0,
                          d_dataManager_p->getMeshP()->getNumNodes(),
                          [&u_temp, scale, this](boost::uint64_t i) {
                            u_temp[i] = util::Point3(scale * d_u[i].d_x,
@@ -933,7 +933,7 @@ void tools::pp::Compute::transformV(rw::writer::Writer *writer) {
     v_mark = d_v;
 
     if (data->d_markVInRectGiven) {
-      auto f = hpx::for_loop(
+      auto f = hpx::experimental::for_loop(
           hpx::execution::par(hpx::execution::task), 0,
           d_dataManager_p->getMeshP()->getNumNodes(),
           [&v_mark, data, this](boost::uint64_t i) {
@@ -975,7 +975,7 @@ void tools::pp::Compute::transformV(rw::writer::Writer *writer) {
 
     if (!data->d_combineMarkV) v_mark = d_v;
 
-    auto f = hpx::for_loop(
+    auto f = hpx::experimental::for_loop(
         hpx::execution::par(hpx::execution::task), 0,
         d_dataManager_p->getMeshP()->getNumNodes(),
         [&v_mark, data, this](boost::uint64_t i) {
@@ -1044,7 +1044,7 @@ void tools::pp::Compute::computeStrain(rw::writer::Writer *writer) {
   }
 
   // compute strain and stress
-  auto f = hpx::for_loop(
+  auto f = hpx::experimental::for_loop(
       hpx::execution::par(hpx::execution::task), 0,
       d_dataManager_p->getMeshP()->getNumElements(),
       [&strain, &stress, data, quad, this](boost::uint64_t e) {
@@ -1094,7 +1094,7 @@ void tools::pp::Compute::computeStrain(rw::writer::Writer *writer) {
   // compute magnitude of strain
   if (data->d_magStrainTensor) {
     magS = std::vector<float>(strain.size(), 0.);
-    auto f2 = hpx::for_loop(hpx::execution::par(hpx::execution::task), 0,
+    auto f2 = hpx::experimental::for_loop(hpx::execution::par(hpx::execution::task), 0,
                             d_dataManager_p->getMeshP()->getNumElements(),
                             [&magS, strain, data](boost::uint64_t e) {
                               if (data->d_magStrainComp.empty()) {
@@ -1131,7 +1131,7 @@ void tools::pp::Compute::computeStrain(rw::writer::Writer *writer) {
     std::vector<util::Point3> elem_quads = std::vector<util::Point3>(
         d_dataManager_p->getMeshP()->getNumElements(), util::Point3());
 
-    auto f2 = hpx::for_loop(
+    auto f2 = hpx::experimental::for_loop(
         hpx::execution::par(hpx::execution::task), 0,
         d_dataManager_p->getMeshP()->getNumElements(),
         [&elem_quads, quad, this](boost::uint64_t e) {
@@ -1183,7 +1183,7 @@ void tools::pp::Compute::computeDamage(rw::writer::Writer *writer,
         "Error: Need neighbor list to compute damage. This should have "
         "been created at the beginning.\n");
 
-  auto f = hpx::for_loop(
+  auto f = hpx::experimental::for_loop(
       hpx::execution::par(hpx::execution::task), 0,
       d_dataManager_p->getMeshP()->getNumNodes(),
       [&Z, this](boost::uint64_t i) {
@@ -1453,7 +1453,7 @@ void tools::pp::Compute::computeJIntegral() {
     //  collect all quad points
     // std::vector<util::Point3> quad_points(2 * N, util::Point3());
 
-    //    auto f = hpx::for_loop(
+    //    auto f = hpx::experimental::for_loop(
     //        hpx::execution::par(hpx::execution::task), 0,
     //        N,
     //        [&ced, N, h, cd, ctip, &line_quad, search_nodes, search_elems,
@@ -1609,7 +1609,7 @@ void tools::pp::Compute::computeJIntegral() {
         std::vector<double>(search_node_comp.size(), 0.);
 
     // loop over nodes in compliment of domain A
-    auto f = hpx::for_loop(
+    auto f = hpx::experimental::for_loop(
         hpx::execution::par(hpx::execution::task), 0, search_node_comp.size(),
         [&pd_internal_works, &pd_internal_works_rate, h, cd, search_nodes,
          search_node_comp, this](boost::uint64_t i) {
@@ -1680,7 +1680,7 @@ void tools::pp::Compute::computeJIntegral() {
     auto kinetic_energies = std::vector<double>(search_nodes.size(), 0.);
 
     // loop over nodes in compliment of domain A
-    auto f = hpx::for_loop(
+    auto f = hpx::experimental::for_loop(
         hpx::execution::par(hpx::execution::task), 0, search_nodes.size(),
         [&pd_strain_energies, &kinetic_energies, h, cd, search_nodes,
          search_node_comp, this](boost::uint64_t i) {
@@ -1748,7 +1748,7 @@ void tools::pp::Compute::computeJIntegral() {
         std::vector<double>(d_dataManager_p->getMeshP()->getNumNodes(), 0.);
 
     // loop over nodes in compliment of domain A
-    auto f = hpx::for_loop(
+    auto f = hpx::experimental::for_loop(
         hpx::execution::par(hpx::execution::task), 0,
         d_dataManager_p->getMeshP()->getNumNodes(),
         [&pd_fracture_energies, this](boost::uint64_t i) {

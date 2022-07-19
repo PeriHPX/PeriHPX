@@ -27,7 +27,7 @@ void geometry::VolumeCorrection::correctVolume(
     const std::vector<util::Point3> *nodes) {
   d_volumeCorrection_p = new std::vector<std::vector<double>>(nodes->size());
 
-  hpx::for_loop(hpx::execution::par, 0, nodes->size(), [&](boost::uint64_t i) {
+  hpx::experimental::for_loop(hpx::execution::par, 0, nodes->size(), [&](boost::uint64_t i) {
     (*d_volumeCorrection_p)[i] =
         std::vector<double>(neighbors->getNeighbors(i).size(), 1.);
 
@@ -49,7 +49,7 @@ void geometry::VolumeCorrection::weightedVolume(
     fe::Mesh *p_mesh) {
   d_weightedVolume_p = new std::vector<double>(nodes->size(), 1);
 
-  hpx::for_loop(hpx::execution::par, 0, nodes->size(), [&](boost::uint64_t i) {
+  hpx::experimental::for_loop(hpx::execution::par, 0, nodes->size(), [&](boost::uint64_t i) {
     double tmp = 0;
     size_t k = 0;
 

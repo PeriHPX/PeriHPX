@@ -23,7 +23,7 @@ double util::methods::add(const std::vector<double> &data) {
 
 double util::methods::max(const std::vector<double> &data, size_t *i) {
   auto max_i =
-      hpx::parallel::max_element(hpx::execution::par, data.begin(), data.end());
+      hpx::max_element(hpx::execution::par, data.begin(), data.end());
 
   if (i != nullptr) *i = std::distance(data.begin(), max_i);
   return data[std::distance(data.begin(), max_i)];
@@ -31,7 +31,7 @@ double util::methods::max(const std::vector<double> &data, size_t *i) {
 
 double util::methods::min(const std::vector<double> &data, size_t *i) {
   auto min_i =
-      hpx::parallel::min_element(hpx::execution::par, data.begin(), data.end());
+      hpx::min_element(hpx::execution::par, data.begin(), data.end());
 
   if (i != nullptr) *i = std::distance(data.begin(), min_i);
   return data[std::distance(data.begin(), min_i)];
@@ -43,7 +43,7 @@ float util::methods::add(const std::vector<float> &data) {
 
 float util::methods::max(const std::vector<float> &data, size_t *i) {
   auto max_i =
-      hpx::parallel::max_element(hpx::execution::par, data.begin(), data.end());
+      hpx::max_element(hpx::execution::par, data.begin(), data.end());
 
   if (i != nullptr) *i = std::distance(data.begin(), max_i);
   return data[std::distance(data.begin(), max_i)];
@@ -51,14 +51,14 @@ float util::methods::max(const std::vector<float> &data, size_t *i) {
 
 float util::methods::min(const std::vector<float> &data, size_t *i) {
   auto min_i =
-      hpx::parallel::min_element(hpx::execution::par, data.begin(), data.end());
+      hpx::min_element(hpx::execution::par, data.begin(), data.end());
 
   if (i != nullptr) *i = std::distance(data.begin(), min_i);
   return data[std::distance(data.begin(), min_i)];
 }
 
 util::Point3 util::methods::maxLength(const std::vector<util::Point3> &data) {
-  auto max_i = hpx::parallel::max_element(hpx::execution::par, data.begin(),
+  auto max_i = hpx::max_element(hpx::execution::par, data.begin(),
                                           data.end(), &compare_point);
 
   return data[std::distance(data.begin(), max_i)];

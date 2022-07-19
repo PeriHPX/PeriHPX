@@ -23,7 +23,7 @@ geometry::Fracture::Fracture(
     : d_fractureDeck_p(deck) {
   d_fracture.resize(neighbor_list->size());
 
-  auto f = hpx::for_loop(
+  auto f = hpx::experimental::for_loop(
       hpx::execution::par(hpx::execution::task), 0, neighbor_list->size(),
       [this, nodes, neighbor_list](boost::uint64_t i) {
         auto ns = (*neighbor_list)[i];
@@ -50,7 +50,7 @@ bool geometry::Fracture::addCrack(
       if (util::compare::definitelyLessThan(crack.d_activationTime, time)) {
         std::cout << "Fracture: Adding crack to system\n";
 
-        auto f = hpx::for_loop(
+        auto f = hpx::experimental::for_loop(
             hpx::execution::par(hpx::execution::task), 0, neighbor_list->size(),
             [this, nodes, neighbor_list, &crack](boost::uint64_t i) {
               auto ns = (*neighbor_list)[i];
