@@ -175,15 +175,26 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
     std::cout << has_coupling_data.size() << std::endl;
     std::cout << has_coupling_data << std::endl;
     if (has_coupling_data.compare("None") != 0) {
-      rw::reader::readVtuFilePointData(filename, "Boundary-Layer",
-                                       &d_prescribed_nodes);
 
-      if (has_coupling_data.compare("Displacement") == 0)
+
+
+      if (has_coupling_data.compare("Displacement") == 0){
         rw::reader::readVtuFilePointData(filename, "PUM-Displacement",
                                          &d_prescribed_values);
-      else if (has_coupling_data.compare("Force") == 0)
+
+rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Displacement",
+                                       &d_prescribed_nodes);
+
+      }
+
+      else if (has_coupling_data.compare("Force") == 0){
         rw::reader::readVtuFilePointData(filename, "PUM-Force",
                                          &d_prescribed_values);
+
+rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
+                                       &d_prescribed_nodes);
+
+      }
 
       else {
         std::cerr
