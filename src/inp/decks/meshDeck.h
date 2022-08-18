@@ -58,14 +58,14 @@ struct MeshDeck {
   /*!
    * @brief Specify if coupling data from PUM is loaded
    */
-  bool d_loadPUMData;
+  std::string d_loadPUMData;
 
   /*!
    * @brief Constructor
    */
   MeshDeck()
       : d_dim(0), d_computeMeshSize(false), d_h(0.),
-        d_isCentroidBasedDiscretization(false), d_keepElementConn(false){};
+        d_isCentroidBasedDiscretization(false), d_keepElementConn(false), d_loadPUMData(""){};
 
   /*!
    * @brief Returns the string containing information about the instance of
