@@ -171,6 +171,8 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
     // check if file has fixity data
     rw::reader::readVtuFilePointData(filename, "Fixity", &d_fix);
 
+
+    std::cout << has_coupling_data << std::endl;
     // Read the data for coupling
     if (has_coupling_data.compare("None") != 0) {
 

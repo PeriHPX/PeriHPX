@@ -33,7 +33,9 @@ material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
       d_contact_Rc(0.),
       d_deck(nullptr),
       d_dataManager_p(dataManager),
-      d_baseInfluenceFn_p(nullptr) {
+      d_baseInfluenceFn_p(nullptr),
+      d_vb_x(0.),
+      d_vb_y(0.) {
   d_stateActive = false;
   d_name = "RNPBond";
   d_density = deck->d_density;
@@ -41,6 +43,10 @@ material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
   d_horizon = dataManager->getModelDeckP()->d_horizon;
 
   d_dimension = dataManager->getModelDeckP()->d_dim;
+
+  d_num_nodes = d_dataManager_p->getMeshP()->getNumNodes();
+
+  d_mesh_size = d_dataManager_p->getMeshP()->getMeshSize();
 
   //  std::cout << "RNPBond \n" << std::flush;
   //  exit(0);
@@ -334,4 +340,57 @@ util::Point3 material::pd::RNPBond::getBondForceDirection(
 
 double material::pd::RNPBond::getInfFn(const double &r) const {
   return d_baseInfluenceFn_p->getInfFn(r / d_horizon);
+}
+
+util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const
+{
+auto dissipation = util::Point3();
+
+double factor = 0.;
+
+if (d_dimension==1){
+
+double diff_i = 0;
+double diff_j = 0;
+
+// Approximate the first derivative for node i
+if (i == d_num_nodes -1 )
+  diff_i = ((*d_dataManager_p->getDisplacementP())[i-1][0] - (*d_dataManager_p->getDisplacementP())[i][0]) / d_mesh_size ; 
+else 
+  diff_i = ((*d_dataManager_p->getDisplacementP())[i+1][0] - (*d_dataManager_p->getDisplacementP())[i][0]) / d_mesh_size ; 
+
+// Approximate the first derivative for node j
+if (j == d_num_nodes -1 )
+  diff_j = ((*d_dataManager_p->getDisplacementP())[j-1][0] - (*d_dataManager_p->getDisplacementP())[i][0]) / d_mesh_size ; 
+else 
+  diff_j = ((*d_dataManager_p->getDisplacementP())[j+1][0] - (*d_dataManager_p->getDisplacementP())[j][0]) / d_mesh_size ; 
+
+factor += 2 * d_vb_x *(diff_j-diff_i); 
+
+}
+
+if (d_dimension==2){
+
+double diff_i = 0;
+double diff_j = 0;
+
+// Approximate the first derivative for node i
+if (i == d_num_nodes -1 )
+  diff_i = ((*d_dataManager_p->getDisplacementP())[i-1][1] - (*d_dataManager_p->getDisplacementP())[i][1]) / d_mesh_size ; 
+else 
+  diff_i = ((*d_dataManager_p->getDisplacementP())[i+1][1] - (*d_dataManager_p->getDisplacementP())[i][1]) / d_mesh_size ; 
+
+// Approximate the first derivative for node j
+if (j == d_num_nodes -1 )
+  diff_j = ((*d_dataManager_p->getDisplacementP())[j-1][1] - (*d_dataManager_p->getDisplacementP())[i][1]) / d_mesh_size ; 
+else 
+  diff_j = ((*d_dataManager_p->getDisplacementP())[j+1][1] - (*d_dataManager_p->getDisplacementP())[j][1]) / d_mesh_size ; 
+
+factor += 2 * d_vb_y *(diff_j-diff_i); 
+  
+}
+
+dissipation =  ((*d_dataManager_p->getDisplacementP())[j] - (*d_dataManager_p->getDisplacementP())[i]) * factor / ((*d_dataManager_p->getDisplacementP())[j]-(*d_dataManager_p->getDisplacementP())[i]).length();
+
+return dissipation;
 }
