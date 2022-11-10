@@ -171,28 +171,24 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
     // check if file has fixity data
     rw::reader::readVtuFilePointData(filename, "Fixity", &d_fix);
 
-
     std::cout << has_coupling_data << std::endl;
     // Read the data for coupling
     if (has_coupling_data.compare("None") != 0) {
-
-
-
-      if (has_coupling_data.compare("Displacement") == 0){
+      if (has_coupling_data.compare("Displacement") == 0) {
         rw::reader::readVtuFilePointData(filename, "PUM-Displacement",
                                          &d_prescribed_values);
 
-rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Displacement",
-                                       &d_prescribed_nodes);
+        rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Displacement",
+                                         &d_prescribed_nodes);
 
       }
 
-      else if (has_coupling_data.compare("Force") == 0){
+      else if (has_coupling_data.compare("Force") == 0) {
         rw::reader::readVtuFilePointData(filename, "PUM-Force",
                                          &d_prescribed_values);
 
-rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
-                                       &d_prescribed_nodes);
+        rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
+                                         &d_prescribed_nodes);
 
       }
 
@@ -261,7 +257,6 @@ rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
 }
 
 void fe::Mesh::computeVol() {
- 
   // initialize quadrature data
   fe::BaseElem *quads;
   if (d_eType == util::vtk_type_triangle)
@@ -270,7 +265,6 @@ void fe::Mesh::computeVol() {
     quads = new fe::QuadElem(2);
   else if (d_eType == util::vtk_type_tetra)
     quads = new fe::TetElem(2);
-
 
   // check if we have valid element-node connectivity data for nodal volume
   // calculations

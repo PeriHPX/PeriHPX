@@ -9,6 +9,7 @@
 #include "rnpBond.h"
 
 #include <iostream>
+#include <limits>
 
 #include "data/DataManager.h"
 #include "geometry/fracture.h"
@@ -100,6 +101,11 @@ material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
   }
 
   d_deck = deck;
+
+  if (d_deck->d_has_disserpation) {
+    d_vb_x = d_deck->d_vb_x;
+    d_vb_y = d_deck->d_vb_y;
+  }
 }
 
 void material::pd::RNPBond::computeParameters(inp::MaterialDeck *deck,
@@ -342,55 +348,80 @@ double material::pd::RNPBond::getInfFn(const double &r) const {
   return d_baseInfluenceFn_p->getInfFn(r / d_horizon);
 }
 
-util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const
-{
-auto dissipation = util::Point3();
+util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
+  auto dissipation = util::Point3();
 
-double factor = 0.;
+  auto j_id = d_dataManager_p->getNeighborP()->getNeighbor(i, j);
 
-if (d_dimension==1){
+  auto rji = (d_dataManager_p->getMeshP()->getNode(j_id) -
+              d_dataManager_p->getMeshP()->getNode(i))
+                 .length();
 
-double diff_i = 0;
-double diff_j = 0;
+  // get influence function
+  auto influence = d_baseInfluenceFn_p->getInfFn(rji / d_horizon);
 
-// Approximate the first derivative for node i
-if (i == d_num_nodes -1 )
-  diff_i = ((*d_dataManager_p->getDisplacementP())[i-1][0] - (*d_dataManager_p->getDisplacementP())[i][0]) / d_mesh_size ; 
-else 
-  diff_i = ((*d_dataManager_p->getDisplacementP())[i+1][0] - (*d_dataManager_p->getDisplacementP())[i][0]) / d_mesh_size ; 
+  double factor_x = 0;
+  double factor_y = 0;
 
-// Approximate the first derivative for node j
-if (j == d_num_nodes -1 )
-  diff_j = ((*d_dataManager_p->getDisplacementP())[j-1][0] - (*d_dataManager_p->getDisplacementP())[i][0]) / d_mesh_size ; 
-else 
-  diff_j = ((*d_dataManager_p->getDisplacementP())[j+1][0] - (*d_dataManager_p->getDisplacementP())[j][0]) / d_mesh_size ; 
+  double diff_i = 0;
+  double diff_j = 0;
 
-factor += 2 * d_vb_x *(diff_j-diff_i); 
+  // Approximate the first derivative for node i
+  if (i == d_num_nodes - 1)
+    diff_i = ((*d_dataManager_p->getDisplacementP())[i - 1][0] -
+              (*d_dataManager_p->getDisplacementP())[i][0]);
+  else
+    diff_i = ((*d_dataManager_p->getDisplacementP())[i + 1][0] -
+              (*d_dataManager_p->getDisplacementP())[i][0]);
 
-}
+  diff_i /= rji;
 
-if (d_dimension==2){
+  // Approximate the first derivative for node j
+  if (j_id == d_num_nodes - 1)
+    diff_j = ((*d_dataManager_p->getDisplacementP())[j_id - 1][0] -
+              (*d_dataManager_p->getDisplacementP())[j_id][0]);
+  else
+    diff_j = ((*d_dataManager_p->getDisplacementP())[j_id + 1][0] -
+              (*d_dataManager_p->getDisplacementP())[j_id][0]);
 
-double diff_i = 0;
-double diff_j = 0;
+  diff_j /= rji;
 
-// Approximate the first derivative for node i
-if (i == d_num_nodes -1 )
-  diff_i = ((*d_dataManager_p->getDisplacementP())[i-1][1] - (*d_dataManager_p->getDisplacementP())[i][1]) / d_mesh_size ; 
-else 
-  diff_i = ((*d_dataManager_p->getDisplacementP())[i+1][1] - (*d_dataManager_p->getDisplacementP())[i][1]) / d_mesh_size ; 
+  factor_x = 2 * influence * d_vb_x * (diff_j - diff_i);
 
-// Approximate the first derivative for node j
-if (j == d_num_nodes -1 )
-  diff_j = ((*d_dataManager_p->getDisplacementP())[j-1][1] - (*d_dataManager_p->getDisplacementP())[i][1]) / d_mesh_size ; 
-else 
-  diff_j = ((*d_dataManager_p->getDisplacementP())[j+1][1] - (*d_dataManager_p->getDisplacementP())[j][1]) / d_mesh_size ; 
+  if (d_dimension > 1) {
+    double diff_i = 0;
+    double diff_j = 0;
 
-factor += 2 * d_vb_y *(diff_j-diff_i); 
-  
-}
+    // Approximate the first derivative for node i
+    if (i == d_num_nodes - 1)
+      diff_i = ((*d_dataManager_p->getDisplacementP())[i - 1][1] -
+                (*d_dataManager_p->getDisplacementP())[i][1]);
+    else
+      diff_i = ((*d_dataManager_p->getDisplacementP())[i + 1][1] -
+                (*d_dataManager_p->getDisplacementP())[i][1]) ;
 
-dissipation =  ((*d_dataManager_p->getDisplacementP())[j] - (*d_dataManager_p->getDisplacementP())[i]) * factor / ((*d_dataManager_p->getDisplacementP())[j]-(*d_dataManager_p->getDisplacementP())[i]).length();
+    diff_i /= rji;
 
-return dissipation;
+    // Approximate the first derivative for node j
+    if (j_id == d_num_nodes - 1)
+      diff_j = ((*d_dataManager_p->getDisplacementP())[j_id - 1][1] -
+                (*d_dataManager_p->getDisplacementP())[j_id][1]);
+    else
+      diff_j = ((*d_dataManager_p->getDisplacementP())[j_id + 1][1] -
+                (*d_dataManager_p->getDisplacementP())[j_id][1]);
+
+    diff_j /= rji;
+
+    factor_y = 2 * influence * d_vb_y * (diff_j - diff_i);
+  }
+
+  dissipation = (d_dataManager_p->getMeshP()->getNode(j_id) -
+                 d_dataManager_p->getMeshP()->getNode(i)) /
+                rji;
+  dissipation.d_x *= factor_x;
+  dissipation.d_y *= factor_y;
+
+  // std::cout << dissipation << std::endl;
+
+  return dissipation;
 }
