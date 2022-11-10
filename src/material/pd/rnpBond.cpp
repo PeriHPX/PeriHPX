@@ -398,7 +398,7 @@ util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
                 (*d_dataManager_p->getDisplacementP())[i][1]);
     else
       diff_i = ((*d_dataManager_p->getDisplacementP())[i + 1][1] -
-                (*d_dataManager_p->getDisplacementP())[i][1]) ;
+                (*d_dataManager_p->getDisplacementP())[i][1]);
 
     diff_i /= rji;
 
@@ -420,8 +420,6 @@ util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
                 rji;
   dissipation.d_x *= factor_x;
   dissipation.d_y *= factor_y;
-
-  // std::cout << dissipation << std::endl;
 
   return dissipation;
 }

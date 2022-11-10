@@ -187,8 +187,8 @@ void model::FDModel<T>::initHObjects() {
   d_dampingGeom_p = new geometry::DampingGeom(d_absorbingCondDeck_p,
                                               d_dataManager_p->getMeshP());
 
-std::cout << "FDModel: Has disserpation: " << d_input_p->getMaterialDeck()->d_has_disserpation << std::endl;
-
+  std::cout << "FDModel: Has disserpation: "
+            << d_input_p->getMaterialDeck()->d_has_disserpation << std::endl;
 }
 
 template <class T>
