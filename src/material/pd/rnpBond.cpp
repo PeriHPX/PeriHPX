@@ -353,7 +353,6 @@ util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
 
   double delta_t = d_dataManager_p->getModelDeckP()->d_dt;
 
- 
   auto j_id = d_dataManager_p->getNeighborP()->getNeighbor(i, j);
 
   auto rji = (d_dataManager_p->getMeshP()->getNode(j_id) -
@@ -369,11 +368,10 @@ util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
   double diff = 0;
 
   // Approximate the first derivative for node i
-    diff = ((*d_dataManager_p->getVelocityP())[j_id][0] -
-              (*d_dataManager_p->getVelocityP())[i][0]);
-    
-   diff /= delta_t;
+  diff = ((*d_dataManager_p->getVelocityP())[j_id][0] -
+          (*d_dataManager_p->getVelocityP())[i][0]);
 
+  diff /= delta_t;
 
   factor_x = 2 * influence * d_vb_x * diff;
 
@@ -381,16 +379,17 @@ util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
     double diff = 0;
 
     // Approximate the first derivative for node i
-      diff = ((*d_dataManager_p->getVelocityP())[j_id][1] -
-                (*d_dataManager_p->getVelocityP())[i][1]);
+    diff = ((*d_dataManager_p->getVelocityP())[j_id][1] -
+            (*d_dataManager_p->getVelocityP())[i][1]);
 
     diff /= delta_t;
 
     factor_y = 2 * influence * d_vb_y * diff;
   }
 
-  if( std::isnan(factor_x) or std::isnan(factor_y))
-    std::cout << factor_x << " " << factor_y << " " << i << " " << j_id << std::endl;
+  if (std::isnan(factor_x) or std::isnan(factor_y))
+    std::cout << factor_x << " " << factor_y << " " << i << " " << j_id
+              << std::endl;
 
   dissipation = (d_dataManager_p->getMeshP()->getNode(j_id) -
                  d_dataManager_p->getMeshP()->getNode(i)) /
