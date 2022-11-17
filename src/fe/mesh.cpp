@@ -100,7 +100,8 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
 // Utility functions
 //
 void fe::Mesh::createData(const std::string &filename, bool ref_config,
-                          bool is_centroid_based, bool has_coupling_data) {
+                          bool is_centroid_based,
+                          std::string has_coupling_data) {
   int file_type = -1;
 
   // find the extension of file and call correct reader
@@ -171,12 +172,34 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
     rw::reader::readVtuFilePointData(filename, "Fixity", &d_fix);
 
     // Read the data for coupling
-    if (has_coupling_data) {
-      rw::reader::readVtuFilePointData(filename, "Boundary-Layer",
+    if (has_coupling_data.compare("None") != 0) {
+
+
+
+      if (has_coupling_data.compare("Displacement") == 0){
+        rw::reader::readVtuFilePointData(filename, "PUM-Displacement",
+                                         &d_prescribed_values);
+
+rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Displacement",
                                        &d_prescribed_nodes);
 
-      rw::reader::readVtuFilePointData(filename, "PUM-Displacement",
-                                       &d_prescribed_values);
+      }
+
+      else if (has_coupling_data.compare("Force") == 0){
+        rw::reader::readVtuFilePointData(filename, "PUM-Force",
+                                         &d_prescribed_values);
+
+rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
+                                       &d_prescribed_nodes);
+
+      }
+
+      else {
+        std::cerr
+            << "Error: For coupling data only Force or Displacement is allowed:"
+            << std::endl;
+        exit(1);
+      }
     }
   }
 
@@ -236,7 +259,7 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
 }
 
 void fe::Mesh::computeVol() {
-  std::cout << "drin compute volume" << std::endl;
+ 
   // initialize quadrature data
   fe::BaseElem *quads;
   if (d_eType == util::vtk_type_triangle)
@@ -246,7 +269,6 @@ void fe::Mesh::computeVol() {
   else if (d_eType == util::vtk_type_tetra)
     quads = new fe::TetElem(2);
 
-  std::cout << d_nec.size() << " " << d_numNodes << std::endl;
 
   // check if we have valid element-node connectivity data for nodal volume
   // calculations

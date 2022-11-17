@@ -554,7 +554,6 @@ void model::FDModel<T>::integrateVerlet() {
 template <class T>
 void model::FDModel<T>::computeForces() {
   const auto &nodes = d_dataManager_p->getMeshP()->getNodes();
-  const auto &volumes = d_dataManager_p->getMeshP()->getNodalVolumes();
 
   auto f =
       hpx::experimental::for_loop(hpx::execution::par(hpx::execution::task), 0,
