@@ -262,6 +262,9 @@ struct MaterialDeck {
   /*! @brief Flag for contribution to hydrostatic force from the broken bond */
   bool d_stateContributionFromBrokenBond;
 
+  /*! @brief Falh to enable the disserpation*/
+  bool d_has_disserpation;
+
   /*! @brief Factor to check if bond is broken */
   double d_checkScFactor;
 
@@ -274,6 +277,12 @@ struct MaterialDeck {
   /*! @brief Density of material */
   double d_density;
 
+   /*! @brief Disserpative constant in x direction*/
+  double d_vb_x;
+
+  /*! @brief Disserpative constant in y direction*/
+  double d_vb_y;
+
   /*! @brief Enable non-penetration of broken bonds */
   bool d_applyContact;
 
@@ -285,7 +294,7 @@ struct MaterialDeck {
         d_influenceFnType(0), d_irreversibleBondBreak(true),
         d_stateContributionFromBrokenBond(true), d_checkScFactor(1.),
         d_computeParamsFromElastic(true), d_matData(inp::MatData()),
-        d_density(1.), d_applyContact(false){};
+        d_density(1.), d_applyContact(false), d_has_disserpation(false), d_vb_x(0), d_vb_y(0){};
 
   /*!
    * @brief Prints the information

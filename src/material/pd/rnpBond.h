@@ -149,6 +149,15 @@ public:
    */
   double getInfFn(const double &r) const ;
 
+
+/*! 
+* @brief Return the dissipative term
+* @param i Id of node i
+* @param j Id of node j
+* @return vector The dissipative term in eahc direction 
+*/
+  util::Point3 getDissipation(size_t i, size_t j) const;
+
 private:
   /*!
    * @brief Computes rnp material parameters from elastic constants
@@ -209,6 +218,12 @@ private:
   /*! @brief Parameter \f$ \beta \f$ */
   double d_beta;
 
+  /*! @brief Dissipation coefficient in x direction*/
+  double d_vb_x;
+
+  /*! @brief Dissipation coefficient in y direction*/
+  double d_vb_y;
+
   /** @}*/
 
   /*! @brief Inflection point of nonlinear function = \f$ 1/\sqrt{2\beta}\f$ */
@@ -216,6 +231,12 @@ private:
 
   /*! @brief Inverse of factor = \f$ \epsilon |B_\epsilon(0)|\f$ */
   double d_invFactor;
+
+  /*! @brief Number of nodes*/
+  size_t d_num_nodes;
+
+/*! @brief Mesh size*/
+  double d_mesh_size;
 
   /*! @brief Factor to multiply to critical strain to check if bond is
    * fractured

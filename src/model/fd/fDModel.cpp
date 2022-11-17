@@ -186,6 +186,9 @@ void model::FDModel<T>::initHObjects() {
   std::cout << "FDModel: Initializing damping object.\n";
   d_dampingGeom_p = new geometry::DampingGeom(d_absorbingCondDeck_p,
                                               d_dataManager_p->getMeshP());
+
+  std::cout << "FDModel: Has disserpation: "
+            << d_input_p->getMaterialDeck()->d_has_disserpation << std::endl;
 }
 
 template <class T>
@@ -585,8 +588,12 @@ std::pair<double, util::Point3> model::FDModel<T>::computeForce(
     auto j_id = i_neighs[j];
 
     auto fe_pair = d_material_p->getBondEF(i, j);
+
     force_i += fe_pair.first;
     energy_i += fe_pair.second;
+
+    if (d_input_p->getMaterialDeck()->d_has_disserpation)
+      force_i += d_material_p->getDissipation(i, j);
 
     // Todo: Add reaction force computation
     if (is_reaction_force(i, j_id) and

@@ -699,6 +699,27 @@ void inp::Input::setMaterialDeck() {
   // normal contact force
   if (e["No_Penetration"])
     d_materialDeck_p->d_applyContact = e["No_Penetration"].as<bool>();
+
+  if (e["Disserpation"]) {
+    d_materialDeck_p->d_has_disserpation = e["Disserpation"].as<bool>();
+
+    if (e["Disserpation_x"]) {
+      d_materialDeck_p->d_vb_x = e["Disserpation_x"].as<double>();
+    } else {
+      std::cerr << "Error: Please provide the disserpation value "
+                   "(Disserpation_x) if Diserpation is enabled"
+                << std::endl;
+    }
+
+    if (e["Disserpation_y"]) {
+      d_materialDeck_p->d_vb_y = e["Disserpation_y"].as<double>();
+    } else {
+      std::cerr << "Error: Please provide the disserpation value "
+                   "(Disserpation_y) if Diserpation is enabled"
+                << std::endl;
+    }
+  }
+
 }  // setMaterialDeck
 
 void inp::Input::setOutputDeck() {
