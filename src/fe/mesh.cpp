@@ -84,12 +84,13 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
   // check nodal volume
   size_t counter = 0;
   for (const auto &v : d_vol) {
-    if (v < 0.01 * std::pow(d_h, d_dim)) {
+    if ( v <  std::pow(d_h, d_dim) * 0.025 ) {
+
+    std::cout << d_h * d_h  * 0.025 << std::endl;
       std::cerr << "Error: Check nodal volume " << v << " is less than "
-                << 0.01 * std::pow(d_h, d_dim) << ", Node = " << counter
+                << std::pow(d_h, d_dim) * 0.025 << ", Node = " << counter
                 << " at position = " << d_nodes[counter].printStr() << "\n";
 
-      exit(1);
     }
 
     counter++;
