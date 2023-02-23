@@ -12,9 +12,9 @@ project(PeriHPX
     LANGUAGES CXX C)
 
 # Set the version 
-set (VERSION_MAJOR 0)
+set (VERSION_MAJOR 1)
 set (VERSION_MINOR 1)
-set (VERSION_UPDATE 4)
+set (VERSION_UPDATE 0)
 
 cmake_minimum_required(VERSION 3.19)
 
