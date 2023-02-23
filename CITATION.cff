@@ -7,13 +7,13 @@
 # Metadata for citation of this software according to the CFF format (https://citation-file-format.github.io/)
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
-title: 'PeriHPX/PeriHPX: Intital release of PeriHPX'
-doi: 10.5281/zenodo.5539359 
+title: 'PeriHPX: Coupling with PUM and dissipative fracture
+doi: 10.5281/zenodo.7600725
 authors:
 - given-names: Patrick
   family-names: Diehl
   affiliation: Center of Computation and Technology, LSU
-version: 1.0.2
-date-released: 2021-09-29
+version: 1.1
+date-released: 2023-02-02
 repository-code: https://github.com/PeriHPX/PeriHPX
 license: BSL-1.0
