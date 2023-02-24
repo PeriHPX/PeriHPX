@@ -267,12 +267,13 @@ void fe::Mesh::computeVol() {
 
   // check if we have valid element-node connectivity data for nodal volume
   // calculations
+
   if (d_nec.size() != d_numNodes || d_enc.empty()) {
-    std::cerr << "Error: Can not compute nodal volume for given finite "
+    std::cerr << "Error 2: Can not compute nodal volume for given finite "
                  "element mesh as the element-node connectivity data is "
                  "invalid."
               << std::endl;
-    // exit(1);
+     exit(1);
   }
 
   if (false) {
