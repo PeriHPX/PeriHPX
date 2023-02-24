@@ -231,6 +231,9 @@ void inp::Input::setMeshDeck() {
     std::cerr << "Error: Please specify mesh filename.\n";
     exit(1);
   }
+ if (config["Mesh"]["Gmsh_file_version"]){
+    d_meshDeck_p->d_gmsh_msh_version = config["Mesh"]["Gmsh_file_version"].as<double>();
+}
   if (config["Mesh"]["Load_PUM_data"])
     d_meshDeck_p->d_loadPUMData =
         config["Mesh"]["Load_PUM_data"].as<std::string>();

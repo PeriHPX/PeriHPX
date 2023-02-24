@@ -25,6 +25,7 @@
 #include "inp/decks/materialDeck.h"  // definition of MaterialDeck
 #include "inp/decks/modelDeck.h"     // definition of ModelDeck
 #include "inp/decks/outputDeck.h"    // definition of OutputDeck
+#include "inp/decks/meshDeck.h"      // definition of MeshDeck
 #include "inp/input.h"               // definition of Input
 #include "inp/policy.h"              // definition of Policy
 #include "material/materials.h"      // definition of Material
@@ -208,7 +209,7 @@ tools::pp::Compute::Compute(const std::string &filename)
       rw::reader::readVtuFileRestart(sim_out_filename, &d_u, &d_v,
                                      d_dataManager_p->getMeshP()->getNodesP());
     else if (d_outputDeck_p->d_outFormat == "msh")
-      rw::reader::readMshFileRestart(sim_out_filename, &d_u, &d_v,
+      rw::reader::readMshFileRestart(sim_out_filename, d_input_p->getMeshDeck()->d_gmsh_msh_version,  &d_u, &d_v,
                                      d_dataManager_p->getMeshP()->getNodesP());
 
     if (d_uPlus) {
