@@ -30,12 +30,12 @@
 #include "inp/decks/absborbingCondDeck.h"
 #include "inp/decks/loadingDeck.h"
 #include "inp/decks/materialDeck.h"
+#include "inp/decks/meshDeck.h"
 #include "inp/decks/modelDeck.h"
 #include "inp/decks/outputDeck.h"
 #include "inp/decks/restartDeck.h"
 #include "inp/input.h"
 #include "inp/policy.h"
-#include "inp/decks/meshDeck.h"
 #include "loading/fLoading.h"
 #include "loading/initialCondition.h"
 #include "loading/uLoading.h"
@@ -122,10 +122,10 @@ void model::FDModel<T>::restart(inp::Input *deck) {
                                    d_dataManager_p->getVelocityP(),
                                    d_dataManager_p->getMeshP()->getNodesP());
   else if (d_dataManager_p->getOutputDeckP()->d_outFormat == "msh")
-    rw::reader::readMshFileRestart(d_restartDeck_p->d_file, d_input_p->getMeshDeck()->d_gmsh_msh_version,
-                                   d_dataManager_p->getDisplacementP(),
-                                   d_dataManager_p->getVelocityP(),
-                                   d_dataManager_p->getMeshP()->getNodesP());
+    rw::reader::readMshFileRestart(
+        d_restartDeck_p->d_file, d_input_p->getMeshDeck()->d_gmsh_msh_version,
+        d_dataManager_p->getDisplacementP(), d_dataManager_p->getVelocityP(),
+        d_dataManager_p->getMeshP()->getNodesP());
 
   // integrate in time
   integrate();

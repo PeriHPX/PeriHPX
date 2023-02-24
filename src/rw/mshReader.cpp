@@ -15,8 +15,9 @@
 
 #include "util/feElementDefs.h"
 
-rw::reader::MshReader::MshReader(const std::string &filename,double gmsh_file_version)
-    : d_filename(filename),d_gmsh_file_version(gmsh_file_version){};
+rw::reader::MshReader::MshReader(const std::string &filename,
+                                 double gmsh_file_version)
+    : d_filename(filename), d_gmsh_file_version(gmsh_file_version){};
 
 void rw::reader::MshReader::readMesh(size_t dim,
                                      std::vector<util::Point3> *nodes,
