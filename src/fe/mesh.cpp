@@ -86,7 +86,6 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
   for (const auto &v : d_vol) {
     if ( v <  std::pow(d_h, d_dim) * 0.025 ) {
 
-    std::cout << d_h * d_h  * 0.025 << std::endl;
       std::cerr << "Error: Check nodal volume " << v << " is less than "
                 << std::pow(d_h, d_dim) * 0.025 << ", Node = " << counter
                 << " at position = " << d_nodes[counter].printStr() << "\n";
@@ -172,7 +171,6 @@ void fe::Mesh::createData(const std::string &filename, const double gmsh_file_ve
     // check if file has fixity data
     rw::reader::readVtuFilePointData(filename, "Fixity", &d_fix);
 
-    std::cout << has_coupling_data << std::endl;
     // Read the data for coupling
     if (has_coupling_data.compare("None") != 0) {
       if (has_coupling_data.compare("Displacement") == 0) {
@@ -269,12 +267,13 @@ void fe::Mesh::computeVol() {
 
   // check if we have valid element-node connectivity data for nodal volume
   // calculations
+
   if (d_nec.size() != d_numNodes || d_enc.empty()) {
-    std::cerr << "Error: Can not compute nodal volume for given finite "
+    std::cerr << "Error 2: Can not compute nodal volume for given finite "
                  "element mesh as the element-node connectivity data is "
                  "invalid."
               << std::endl;
-    // exit(1);
+     exit(1);
   }
 
   if (false) {
@@ -289,9 +288,7 @@ void fe::Mesh::computeVol() {
   // compute nodal volume
   //
   d_vol.resize(d_numNodes);
-  std::cout << d_vol.size() << std::endl;
-  exit(1);
-
+ 
   auto f = hpx::for_loop(
       hpx::execution::par(hpx::execution::task), 0, this->d_numNodes,
       [this, quads](boost::uint64_t i) {

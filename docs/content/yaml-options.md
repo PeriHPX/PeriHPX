@@ -101,13 +101,15 @@ Example of a `Mesh` deck:
 ```yaml
 Mesh:
   File: mesh.vtu
+  Gmsh_File_Version: 2.2
   Keep_Element_Conn: true
 ```
 
 The tag `Mesh` describes the mesh of the simulation using following attributes:
 
 * `File` Path and file name to the mesh either in the gmsh or vtu file format.
-* `Keep_Element_Conn` Keep the mesh information available
+* `Gmsh_File_Version` Specify the Gmsh file format version.
+* `Keep_Element_Conn` Keep the mesh information available.
 
 ### Output
 

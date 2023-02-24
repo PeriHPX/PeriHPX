@@ -155,6 +155,7 @@ void rw::reader::MshReader::readNodes(std::vector<util::Point3> *nodes) {
   }
 
   gmsh::initialize();
+  gmsh::option::setNumber("Mesh.MshFileVersion", d_gmsh_file_version);
   gmsh::option::setNumber("General.Terminal", 1);
   gmsh::open(d_filename);
 
