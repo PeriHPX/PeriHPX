@@ -7,7 +7,7 @@
 # Metadata for citation of this software according to the CFF format (https://citation-file-format.github.io/)
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
-title: 'PeriHPX: Coupling with PUM and dissipative fracture
+title: 'PeriHPX: Coupling with PUM and dissipative fracture'
 doi: 10.5281/zenodo.7600725
 authors:
 - given-names: Patrick
