@@ -28,8 +28,9 @@ public:
   /*!
    * @brief Constructor
    * @param filename Name of the mesh file
+   * @param gmsh_file_version Version of the gmsh file format
    */
-  explicit MshReader(const std::string &filename);
+  explicit MshReader(const std::string &filename,double gmsh_file_version);
 
   /*!
    * @brief Reads mesh data into node file and element file
@@ -80,6 +81,10 @@ private:
 
   /*! @brief vtk/vtu file */
   std::ifstream d_file;
+
+/*! @brief Version of the gmsh file format */
+double d_gmsh_file_version;
+
 };
 
 } // namespace reader

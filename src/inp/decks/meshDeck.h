@@ -60,12 +60,18 @@ struct MeshDeck {
    */
   std::string d_loadPUMData;
 
+
+  /*!
+   * @brief Specif the Gmsh file versaion of the mesh file
+   */
+  double d_gmsh_msh_version;
+
   /*!
    * @brief Constructor
    */
   MeshDeck()
       : d_dim(0), d_computeMeshSize(false), d_h(0.),
-        d_isCentroidBasedDiscretization(false), d_keepElementConn(false), d_loadPUMData(""){};
+        d_isCentroidBasedDiscretization(false), d_keepElementConn(false), d_loadPUMData(""),d_gmsh_msh_version(4.1){};
 
   /*!
    * @brief Returns the string containing information about the instance of
@@ -85,7 +91,9 @@ struct MeshDeck {
     oss << tabS << "Mesh filename = " << d_filename << std::endl;
     oss << tabS << "Compute mesh size = " << d_computeMeshSize << std::endl;
     oss << tabS << "Mesh size = " << d_h << std::endl;
-    oss << tabS << "Is this centroid-based particle mesh = " << d_isCentroidBasedDiscretization <<
+    oss << tabS << "Is this centroid-based particle mesh = " << d_isCentroidBasedDiscretization << std::endl;
+    oss << tabS << "Is this centroid-based particle mesh = " << d_loadPUMData << std::endl;
+    oss << tabS << "Gmsh file format versiob = " << d_gmsh_msh_version <<
         std::endl;
     oss << tabS << std::endl;
 

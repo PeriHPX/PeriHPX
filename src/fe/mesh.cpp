@@ -75,7 +75,7 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
     inp::Policy::getInstance()->addToTags(1, "Mesh_d_vol");
 
   // read mesh data from file
-  createData(d_filename, false, deck->d_isCentroidBasedDiscretization,
+  createData(d_filename, deck->d_gmsh_msh_version, false, deck->d_isCentroidBasedDiscretization,
              deck->d_loadPUMData);
 
   // check if we need to compute mesh size
@@ -100,7 +100,7 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
 //
 // Utility functions
 //
-void fe::Mesh::createData(const std::string &filename, bool ref_config,
+void fe::Mesh::createData(const std::string &filename, const double gmsh_file_version, bool ref_config,
                           bool is_centroid_based,
                           std::string has_coupling_data) {
   int file_type = -1;
@@ -134,7 +134,7 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
   if (file_type == 0)
     rw::reader::readCsvFile(filename, d_dim, &d_nodes, &d_vol);
   else if (file_type == 1)
-    rw::reader::readMshFile(filename, d_dim, &d_nodes, d_eType, d_numElems,
+    rw::reader::readMshFile(filename, gmsh_file_version, d_dim, &d_nodes, d_eType, d_numElems,
                             &d_enc, &d_nec, &d_vol, false);
   else if (file_type == 2) {
     //
@@ -442,7 +442,7 @@ void fe::Mesh::readFromFile(inp::MeshDeck *deck, const std::string &filename) {
   d_filename = filename;
 
   // read file
-  createData(filename, false, deck->d_isCentroidBasedDiscretization,
+  createData(filename, deck->d_gmsh_msh_version, false, deck->d_isCentroidBasedDiscretization,
              deck->d_loadPUMData);
 
   // check if we need to compute mesh size
