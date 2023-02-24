@@ -181,10 +181,12 @@ PeriHPX has been funded by:
 * We are grateful for the support of the [Google Summer of Code program](https://summerofcode.withgoogle.com/) funding internships.
 
 ## References
-[1] Jha, P. K., & Lipton, R. (2019). Numerical convergence of finite difference approximations for state based peridynamic fracture models. Computer Methods in Applied Mechanics and Engineering, 351, 184-225.
+[1] Jha, P. K., & Lipton, R. (2019). Numerical convergence of finite difference approximations for state based peridynamic fracture models. Computer Methods in Applied Mechanics and Engineering, 351, 184-225. [Link](https://www.sciencedirect.com/science/article/pii/S0045782519301537?casa_token=67Szbz3TcSwAAAAA:8L5j6hiZsJttjOaPAEcAj3EhNE7QRm_xquuTSK6scPMtkiUXXqcQgEARpiuFG8-yv40Nm5tr9hA)
 
-[2] Jha, P. K., & Lipton, R. P. (2020). Kinetic relations and local energy balance for LEFM from a nonlocal peridynamic model. International Journal of Fracture, 226(1), 81-95.
+[2] Jha, P. K., & Lipton, R. P. (2020). Kinetic relations and local energy balance for LEFM from a nonlocal peridynamic model. International Journal of Fracture, 226(1), 81-95. [Link](https://idp.springer.com/authorize/casa?redirect_uri=https://link.springer.com/article/10.1007/s10704-020-00480-0&casa_token=N_V7_2Wi1q4AAAAA:MLygi-MRrv2a7ojCmHYbSBRoMUejXsQQcrUlC9-bEwXvvc08zahzsuZJmwIkZNWR815ACiXuCk22IAuwVA)
 
-[3] Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21.
+[3] Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21. [Link](https://link.springer.com/article/10.1007/s42452-020-03784-x)
+
+[4] Jha, P. K., Diehl, P. (2021) NLmech: Implementation of finite difference/meshfree discretization of nonlocal fracture models. Journal of Open Source Software 6.65 (2021): 3020. [Link](https://joss.theoj.org/papers/10.21105/joss.03020.pdf)
 
 For more references, we refer to the PeriHPX's [publication list](http://perihpx.stellar-group.org/publications/).
