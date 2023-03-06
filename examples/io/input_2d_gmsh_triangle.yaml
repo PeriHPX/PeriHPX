@@ -2,7 +2,7 @@ Model:
   Dimension: 2 
   Discretization_Type:
     Spatial: finite_difference
-    Time: quasi_static
+    Time: velocity_verlet
   Final_Time: 1 
   Time_Steps: 1
   Horizon: 0.5
@@ -20,11 +20,6 @@ Material:
   Is_Plane_Strain: False
   Influence_Function: 
     Type: 1 
-Solver:
-  Type: BiCGSTAB
-  Max_Iteration: 200
-  Tolerance: 1e-6
-  Perturbation: 1e-7
 Output: 
   Path: ./ 
   Tags: 

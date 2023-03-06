@@ -35,6 +35,7 @@ Output:
   Tags: 
     - Node_Volume 
     - Initial_Crack
+    - Neighbors_Crack
   Output_Interval: 1 
   Compress_Type: zlib
   Perform_FE_Out: true 
