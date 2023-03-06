@@ -180,11 +180,11 @@ model::Output::Output(inp::Input *d_input_p, data::DataManager *d_dataManager_p,
   }
 
   tag = "Neighbors";
-  auto with_crack = d_input_p->getOutputDeck()->isTagInOutput("Neighbors_Crack");
+  auto with_crack =
+      d_input_p->getOutputDeck()->isTagInOutput("Neighbors_Crack");
 
-  if (d_input_p->getOutputDeck()->isTagInOutput(tag) || with_crack ) {
+  if (d_input_p->getOutputDeck()->isTagInOutput(tag) || with_crack) {
     tag = "Neighbors_Crack";
-    
 
     std::vector<size_t> amountNeighbors;
     size_t nodes = d_dataManager_p->getMeshP()->getNumNodes();
