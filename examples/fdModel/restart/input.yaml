@@ -45,6 +45,8 @@ Output:
     - Velocity
     - Force
     - Damage_Z
+    - Neighbors_Crack
+    - Broken_Bonds
   Output_Interval: 1
   Compress_Type: zlib
   Perform_FE_Out: true

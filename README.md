@@ -24,7 +24,7 @@ We provide shell scripts to help with the installation of dependencies and the P
 
 ### Build tools
 The following build tools are needed to compile the PeriHPX and its dependencies:
-  * GCC compiler collection (gcc) > 4.9, however, gcc >= 8 is recommended
+  * GCC compiler collection (gcc) > 4.9, however, gcc >= 10 is recommended
   * [autoconf](https://www.gnu.org/software/autoconf/)
   * [wget](https://www.gnu.org/software/wget/)
   * [cmake](https://cmake.org/)
@@ -45,11 +45,11 @@ The following build tools are needed to compile the PeriHPX and its dependencies
 
 ### Dependencies
 We use cmake to build the code. We list the dependencies and how they are used in the code below:
-  * [CMake](https://cmake.org/) 3.16
+  * [CMake](https://cmake.org/) 3.18
     - To generate makefiles
-  * [Boost](https://www.boost.org/) 1.75
+  * [Boost](https://www.boost.org/) 1.79
     - Required to build HPX and YAML libraries
-  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.6.0
+  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.7.1
     - Provides methods for multithreading computation
   * [Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/) 3.8
     - Required to build the BlazeIterative library
@@ -57,9 +57,9 @@ We use cmake to build the code. We list the dependencies and how they are used i
     - Provides linear algebra support such as storage and inversion of stiffness matrix
   * [gmsh](https://gmsh.info/) 4.7
     - Our code directly interfaces with gmsh to use input-ouput functions of gmsh
-  * [VTK](https://www.vtk.org) 9.0
+  * [VTK](https://www.vtk.org) 9.2
     - For read-write operations on `.vtu` type files
-  * [YAML-CPP](https://github.com/jbeder/yaml-cpp) 0.6
+  * [YAML-CPP](https://github.com/jbeder/yaml-cpp) 0.7
     - To parse `.yaml` input files
 
   On Ubuntu you might install all dependencies using the papackage manager:
