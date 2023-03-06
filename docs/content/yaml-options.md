@@ -142,6 +142,10 @@ The tag `Output` describes the mesh of the simulation using following attributes
   * `Neighbors` Initial number of neighbors without applying the intitial cracks (scalar)
   * `Neighbors_Crack` Initial number of neighbors wit applying the intitial cracks (scalar)
   * `Broken_Bonds` Broken bonds per node (scalar)
+  * `Strain_Tensor` Strain tensor for state-based PD models
+  * `Stress_Tensor` Stress tensor for state-based PD models
+  * `Displacement` Peridynamic displacement field (vector)
+  * `Initial_Crack` write a file for each intital crack with a line for visualization
 * `Perform_FE_Out` Store the mesh information in the output
 
 ### Boundary conditions
