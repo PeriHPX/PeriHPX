@@ -139,8 +139,8 @@ The tag `Output` describes the mesh of the simulation using following attributes
   * `Strain_Energy` Peridynamic strain energey (scalar)
   * `Fixity` Nodes with applied non-local boundary conditions (scalar)
   * `Node_Volume` Volumes of the discrete nodes (scalar)
-  * `Neighbors` Initial number of neighbors without applying the intitial cracks (scalar)
-  * `Neighbors_Crack` Initial number of neighbors wit applying the intitial cracks (scalar)
+  * `Neighbors` Initial number of neighbors without applying the initial cracks (scalar)
+  * `Neighbors_Crack` Initial number of neighbors with applying the initial cracks (scalar)
   * `Broken_Bonds` Broken bonds per node (scalar)
   * `Strain_Tensor` Strain tensor for state-based PD models
   * `Stress_Tensor` Stress tensor for state-based PD models
