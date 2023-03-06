@@ -134,7 +134,14 @@ The tag `Output` describes the mesh of the simulation using following attributes
 * `Path` Defines the path were the output is written to
 * `Compress_Type` Defines the compression type for the vtu file (`zlib` or `ascii`)
 * `Output_Interval` Defines the interval a output file is written
-* `Tag` Defines the field appended to the out file. The mesh is always added and all other simulation data needs to be listed.
+* `Tag` Defines the field appended to the out file. The mesh is always added and all other simulation data needs to be listed. Yhe following tags are available:
+  * `Force_Density` Peridynamic force density (vetor)
+  * `Strain_Energy` Peridynamic strain energey (scalar)
+  * `Fixity` Nodes with applied non-local boundary conditions (scalar)
+  * `Node_Volume` Volumes of the discrete nodes (scalar)
+  * `Neighbors` Initial number of neighbors without applying the intitial cracks (scalar)
+  * `Neighbors_Crack` Initial number of neighbors wit applying the intitial cracks (scalar)
+  * `Broken_Bonds` Broken bonds per node (scalar)
 * `Perform_FE_Out` Store the mesh information in the output
 
 ### Boundary conditions
