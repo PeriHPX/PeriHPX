@@ -65,7 +65,7 @@ We use cmake to build the code. We list the dependencies and how they are used i
   On Ubuntu you might install all dependencies using the papackage manager:
 
   ```bash
-  apt-get install libyaml-cpp-dev libvtk7-dev gmsh boost-devel
+  apt-get install libyaml-cpp-dev libvtk7-dev gmsh libboost-all-dev
   ```
 
   Note that on Ubuntu you need to install HPX, Blaze, and Blaze_Iterative since
