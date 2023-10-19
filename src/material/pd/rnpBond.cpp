@@ -9,6 +9,7 @@
 #include "rnpBond.h"
 
 #include <iostream>
+#include <limits>
 
 #include "data/DataManager.h"
 #include "geometry/fracture.h"
@@ -33,7 +34,9 @@ material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
       d_contact_Rc(0.),
       d_deck(nullptr),
       d_dataManager_p(dataManager),
-      d_baseInfluenceFn_p(nullptr) {
+      d_baseInfluenceFn_p(nullptr),
+      d_vb_x(0.),
+      d_vb_y(0.) {
   d_stateActive = false;
   d_name = "RNPBond";
   d_density = deck->d_density;
@@ -41,6 +44,10 @@ material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
   d_horizon = dataManager->getModelDeckP()->d_horizon;
 
   d_dimension = dataManager->getModelDeckP()->d_dim;
+
+  d_num_nodes = d_dataManager_p->getMeshP()->getNumNodes();
+
+  d_mesh_size = d_dataManager_p->getMeshP()->getMeshSize();
 
   //  std::cout << "RNPBond \n" << std::flush;
   //  exit(0);
@@ -94,6 +101,11 @@ material::pd::RNPBond::RNPBond(inp::MaterialDeck *deck,
   }
 
   d_deck = deck;
+
+  if (d_deck->d_has_disserpation) {
+    d_vb_x = d_deck->d_vb_x;
+    d_vb_y = d_deck->d_vb_y;
+  }
 }
 
 void material::pd::RNPBond::computeParameters(inp::MaterialDeck *deck,
@@ -334,4 +346,56 @@ util::Point3 material::pd::RNPBond::getBondForceDirection(
 
 double material::pd::RNPBond::getInfFn(const double &r) const {
   return d_baseInfluenceFn_p->getInfFn(r / d_horizon);
+}
+
+util::Point3 material::pd::RNPBond::getDissipation(size_t i, size_t j) const {
+  auto dissipation = util::Point3();
+
+  double delta_t = d_dataManager_p->getModelDeckP()->d_dt;
+
+  auto j_id = d_dataManager_p->getNeighborP()->getNeighbor(i, j);
+
+  auto rji = (d_dataManager_p->getMeshP()->getNode(j_id) -
+              d_dataManager_p->getMeshP()->getNode(i))
+                 .length();
+
+  // get influence function
+  auto influence = d_baseInfluenceFn_p->getInfFn(rji / d_horizon);
+
+  double factor_x = 0;
+  double factor_y = 0;
+
+  double diff = 0;
+
+  // Approximate the first derivative for node i
+  diff = ((*d_dataManager_p->getVelocityP())[j_id][0] -
+          (*d_dataManager_p->getVelocityP())[i][0]);
+
+  diff /= delta_t;
+
+  factor_x = 2 * influence * d_vb_x * diff;
+
+  if (d_dimension > 1) {
+    double diff = 0;
+
+    // Approximate the first derivative for node i
+    diff = ((*d_dataManager_p->getVelocityP())[j_id][1] -
+            (*d_dataManager_p->getVelocityP())[i][1]);
+
+    diff /= delta_t;
+
+    factor_y = 2 * influence * d_vb_y * diff;
+  }
+
+  if (std::isnan(factor_x) or std::isnan(factor_y))
+    std::cout << factor_x << " " << factor_y << " " << i << " " << j_id
+              << std::endl;
+
+  dissipation = (d_dataManager_p->getMeshP()->getNode(j_id) -
+                 d_dataManager_p->getMeshP()->getNode(i)) /
+                rji;
+  dissipation.d_x *= factor_x;
+  dissipation.d_y *= factor_y;
+
+  return dissipation;
 }

@@ -296,6 +296,7 @@ bool readVtuFileCellData(const std::string &filename,
 /*!
  * @brief Reads mesh data into node file and element file
  * @param filename Name of mesh file
+ * @param gmsh_file_version Version of the gmsh file format
  * @param dim Dimension
  * @param nodes Vector of nodes data
  * @param element_type Type of element
@@ -306,7 +307,7 @@ bool readVtuFileCellData(const std::string &filename,
  * @param is_fd Flag indicating if this mesh is for finite_difference
  * simulation
  */
-void readMshFile(const std::string &filename, size_t dim,
+void readMshFile(const std::string &filename, const double gmsh_file_version, size_t dim,
                  std::vector<util::Point3> *nodes, size_t &element_type,
                  size_t &num_elem, std::vector<size_t> *enc,
                  std::vector<std::vector<size_t>> *nec,
@@ -315,11 +316,13 @@ void readMshFile(const std::string &filename, size_t dim,
 /*!
  * @brief Reads mesh data into node file and element file
  * @param filename Name of mesh file
+ * @param gmsh_file_version Version of the gmsh file format
  * @param u Pointer to vector of nodal displacement
  * @param v Pointer to vector of nodal velocity
  * @param X Pointer to vector of nodal reference position (Optional)
  */
 void readMshFileRestart(const std::string &filename,
+ const double gmsh_file_version,
                         std::vector<util::Point3> *u,
                         std::vector<util::Point3> *v,
                         const std::vector<util::Point3> *X = nullptr);
@@ -327,11 +330,13 @@ void readMshFileRestart(const std::string &filename,
 /*!
  * @brief Reads data of specified tag from the vtu file
  * @param filename Name of mesh file
+ * @param gmsh_file_version Version of the gmsh file format
  * @param tag Name of point data to be read from .vtu file
  * @param data Pointer to vector of point data
  * @return bool True if found the data in file
  */
 bool readMshFilePointData(const std::string &filename,
+ const double gmsh_file_version,
                           const std::string &tag,
                           std::vector<double> *data);
 

@@ -180,13 +180,55 @@ model::Output::Output(inp::Input *d_input_p, data::DataManager *d_dataManager_p,
   }
 
   tag = "Neighbors";
+  auto with_crack =
+      d_input_p->getOutputDeck()->isTagInOutput("Neighbors_Crack");
+
+  if (d_input_p->getOutputDeck()->isTagInOutput(tag) || with_crack) {
+    tag = "Neighbors_Crack";
+
+    std::vector<size_t> amountNeighbors;
+    size_t nodes = d_dataManager_p->getMeshP()->getNumNodes();
+
+    for (size_t i = 0; i < nodes; i++) {
+      size_t broken = 0;
+
+      if (with_crack) {
+        for (size_t j = 0;
+             j < d_dataManager_p->getNeighborP()->getNeighbors(i).size(); j++)
+
+          if (d_dataManager_p->getFractureP()->getBondState(i, j) == true)
+
+            broken += 1;
+      }
+
+      amountNeighbors.push_back(
+          d_dataManager_p->getNeighborP()->getNeighbors(i).size() - broken);
+    }
+    if (with_crack)
+      writer.appendPointData("Neighbors_Crack", &amountNeighbors);
+    else
+      writer.appendPointData("Neighbors", &amountNeighbors);
+  }
+
+  tag = "Broken_Bonds";
   if (d_input_p->getOutputDeck()->isTagInOutput(tag)) {
     std::vector<size_t> amountNeighbors;
     size_t nodes = d_dataManager_p->getMeshP()->getNumNodes();
-    for (size_t i = 0; i < nodes; i++)
-      amountNeighbors.push_back(
-          d_dataManager_p->getNeighborP()->getNeighbors(i).size());
-    writer.appendPointData(tag, &amountNeighbors);
+
+    for (size_t i = 0; i < nodes; i++) {
+      size_t broken = 0;
+
+      for (size_t j = 0;
+           j < d_dataManager_p->getNeighborP()->getNeighbors(i).size(); j++)
+
+        if (d_dataManager_p->getFractureP()->getBondState(i, j) == true)
+
+          broken += 1;
+
+      amountNeighbors.push_back(broken);
+    }
+
+    writer.appendPointData("Broken_Bonds", &amountNeighbors);
   }
 
   tag = "Strain_Energy";

@@ -23,6 +23,7 @@
 #include "geometry/fracture.h"       // definition of Fracture
 #include "geometry/neighbor.h"       // definition of Neighbor
 #include "inp/decks/materialDeck.h"  // definition of MaterialDeck
+#include "inp/decks/meshDeck.h"      // definition of MeshDeck
 #include "inp/decks/modelDeck.h"     // definition of ModelDeck
 #include "inp/decks/outputDeck.h"    // definition of OutputDeck
 #include "inp/input.h"               // definition of Input
@@ -208,8 +209,9 @@ tools::pp::Compute::Compute(const std::string &filename)
       rw::reader::readVtuFileRestart(sim_out_filename, &d_u, &d_v,
                                      d_dataManager_p->getMeshP()->getNodesP());
     else if (d_outputDeck_p->d_outFormat == "msh")
-      rw::reader::readMshFileRestart(sim_out_filename, &d_u, &d_v,
-                                     d_dataManager_p->getMeshP()->getNodesP());
+      rw::reader::readMshFileRestart(
+          sim_out_filename, d_input_p->getMeshDeck()->d_gmsh_msh_version, &d_u,
+          &d_v, d_dataManager_p->getMeshP()->getNodesP());
 
     if (d_uPlus) {
       auto f2 = hpx::experimental::for_loop(

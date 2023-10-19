@@ -23,6 +23,7 @@
 #include "util/point.h"
 #include "inp/policy.h"
 #include "geometry/neighbor.h"
+#include "geometry/fracture.h"
 
 
 namespace inp {

@@ -75,8 +75,8 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
     inp::Policy::getInstance()->addToTags(1, "Mesh_d_vol");
 
   // read mesh data from file
-  createData(d_filename, false, deck->d_isCentroidBasedDiscretization,
-             deck->d_loadPUMData);
+  createData(d_filename, deck->d_gmsh_msh_version, false,
+             deck->d_isCentroidBasedDiscretization, deck->d_loadPUMData);
 
   // check if we need to compute mesh size
   if (deck->d_computeMeshSize) computeMeshSize();
@@ -84,12 +84,10 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
   // check nodal volume
   size_t counter = 0;
   for (const auto &v : d_vol) {
-    if (v < 0.01 * std::pow(d_h, d_dim)) {
+    if (v < std::pow(d_h, d_dim) * 0.025) {
       std::cerr << "Error: Check nodal volume " << v << " is less than "
-                << 0.01 * std::pow(d_h, d_dim) << ", Node = " << counter
+                << std::pow(d_h, d_dim) * 0.025 << ", Node = " << counter
                 << " at position = " << d_nodes[counter].printStr() << "\n";
-
-      exit(1);
     }
 
     counter++;
@@ -99,7 +97,8 @@ fe::Mesh::Mesh(inp::MeshDeck *deck)
 //
 // Utility functions
 //
-void fe::Mesh::createData(const std::string &filename, bool ref_config,
+void fe::Mesh::createData(const std::string &filename,
+                          const double gmsh_file_version, bool ref_config,
                           bool is_centroid_based,
                           std::string has_coupling_data) {
   int file_type = -1;
@@ -133,8 +132,8 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
   if (file_type == 0)
     rw::reader::readCsvFile(filename, d_dim, &d_nodes, &d_vol);
   else if (file_type == 1)
-    rw::reader::readMshFile(filename, d_dim, &d_nodes, d_eType, d_numElems,
-                            &d_enc, &d_nec, &d_vol, false);
+    rw::reader::readMshFile(filename, gmsh_file_version, d_dim, &d_nodes,
+                            d_eType, d_numElems, &d_enc, &d_nec, &d_vol, false);
   else if (file_type == 2) {
     //
     // old reading of mesh
@@ -173,24 +172,21 @@ void fe::Mesh::createData(const std::string &filename, bool ref_config,
 
     // Read the data for coupling
     if (has_coupling_data.compare("None") != 0) {
-
-
-
-      if (has_coupling_data.compare("Displacement") == 0){
+      if (has_coupling_data.compare("Displacement") == 0) {
         rw::reader::readVtuFilePointData(filename, "PUM-Displacement",
                                          &d_prescribed_values);
 
-rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Displacement",
-                                       &d_prescribed_nodes);
+        rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Displacement",
+                                         &d_prescribed_nodes);
 
       }
 
-      else if (has_coupling_data.compare("Force") == 0){
+      else if (has_coupling_data.compare("Force") == 0) {
         rw::reader::readVtuFilePointData(filename, "PUM-Force",
                                          &d_prescribed_values);
 
-rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
-                                       &d_prescribed_nodes);
+        rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
+                                         &d_prescribed_nodes);
 
       }
 
@@ -259,7 +255,6 @@ rw::reader::readVtuFilePointData(filename, "PUM-Boundary-Force",
 }
 
 void fe::Mesh::computeVol() {
- 
   // initialize quadrature data
   fe::BaseElem *quads;
   if (d_eType == util::vtk_type_triangle)
@@ -269,15 +264,15 @@ void fe::Mesh::computeVol() {
   else if (d_eType == util::vtk_type_tetra)
     quads = new fe::TetElem(2);
 
-
   // check if we have valid element-node connectivity data for nodal volume
   // calculations
+
   if (d_nec.size() != d_numNodes || d_enc.empty()) {
-    std::cerr << "Error: Can not compute nodal volume for given finite "
+    std::cerr << "Error 2: Can not compute nodal volume for given finite "
                  "element mesh as the element-node connectivity data is "
                  "invalid."
               << std::endl;
-    // exit(1);
+    exit(1);
   }
 
   if (false) {
@@ -292,8 +287,6 @@ void fe::Mesh::computeVol() {
   // compute nodal volume
   //
   d_vol.resize(d_numNodes);
-  std::cout << d_vol.size() << std::endl;
-  exit(1);
 
   auto f = hpx::experimental::for_loop(
       hpx::execution::par(hpx::execution::task), 0, this->d_numNodes,
@@ -445,8 +438,8 @@ void fe::Mesh::readFromFile(inp::MeshDeck *deck, const std::string &filename) {
   d_filename = filename;
 
   // read file
-  createData(filename, false, deck->d_isCentroidBasedDiscretization,
-             deck->d_loadPUMData);
+  createData(filename, deck->d_gmsh_msh_version, false,
+             deck->d_isCentroidBasedDiscretization, deck->d_loadPUMData);
 
   // check if we need to compute mesh size
   if (deck->d_computeMeshSize) computeMeshSize();

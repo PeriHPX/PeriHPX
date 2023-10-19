@@ -1,6 +1,6 @@
 # PeriHPX 
 
-[![CircleCI](https://circleci.com/gh/PeriHPX/PeriHPX.svg?style=shield)](https://circleci.com/gh/PeriHPX/PeriHPX) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dba3a9de609941adad34f3a49e3b813c)](https://www.codacy.com/gh/PeriHPX/PeriHPX/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PeriHPX/PeriHPX&amp;utm_campaign=Badge_Grade) [![codecov](https://codecov.io/gh/PeriHPX/PeriHPX/branch/main/graph/badge.svg?token=5UFVXVNV3V)](https://codecov.io/gh/PeriHPX/PeriHPX) [![cff badge](https://github.com/perihpx/perihpx/actions/workflows/cff-validator.yml/badge.svg)](https://github.com/perihpx/perihpx/actions/workflows/cff-validator.yml)  ![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/6104/badge)](https://bestpractices.coreinfrastructure.org/projects/6104) [![DOI](https://joss.theoj.org/papers/10.21105/joss.03020/status.svg)](https://doi.org/10.21105/joss.03020) [![DOI](https://zenodo.org/badge/4455628.svg)](https://zenodo.org/badge/latestdoi/4455628)
+[![CircleCI](https://circleci.com/gh/PeriHPX/PeriHPX.svg?style=shield)](https://circleci.com/gh/PeriHPX/PeriHPX) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dba3a9de609941adad34f3a49e3b813c)](https://www.codacy.com/gh/PeriHPX/PeriHPX/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PeriHPX/PeriHPX&amp;utm_campaign=Badge_Grade) [![codecov](https://codecov.io/gh/PeriHPX/PeriHPX/branch/main/graph/badge.svg?token=5UFVXVNV3V)](https://codecov.io/gh/PeriHPX/PeriHPX) [![cff badge](https://github.com/perihpx/perihpx/actions/workflows/cff-validator.yml/badge.svg)](https://github.com/perihpx/perihpx/actions/workflows/cff-validator.yml)  ![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/6104/badge)](https://bestpractices.coreinfrastructure.org/projects/6104) [![DOI](https://joss.theoj.org/papers/10.21105/joss.03020/status.svg)](https://doi.org/10.21105/joss.03020) 
 
 
 <p style="text-align:center;"><img src="https://raw.githubusercontent.com/PeriHPX/artwork/main/PNG/perihpx_logo.png" alt="logo" width="400"/></p>
@@ -24,7 +24,7 @@ We provide shell scripts to help with the installation of dependencies and the P
 
 ### Build tools
 The following build tools are needed to compile the PeriHPX and its dependencies:
-  * GCC compiler collection (gcc) > 4.9, however, gcc >= 8 is recommended
+  * GCC compiler collection (gcc) > 4.9, however, gcc >= 10 is recommended
   * [autoconf](https://www.gnu.org/software/autoconf/)
   * [wget](https://www.gnu.org/software/wget/)
   * [cmake](https://cmake.org/)
@@ -45,11 +45,11 @@ The following build tools are needed to compile the PeriHPX and its dependencies
 
 ### Dependencies
 We use cmake to build the code. We list the dependencies and how they are used in the code below:
-  * [CMake](https://cmake.org/) 3.16
+  * [CMake](https://cmake.org/) 3.18
     - To generate makefiles
-  * [Boost](https://www.boost.org/) 1.75
+  * [Boost](https://www.boost.org/) 1.79
     - Required to build HPX and YAML libraries
-  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.6.0
+  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.7.1
     - Provides methods for multithreading computation
   * [Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/) 3.8
     - Required to build the BlazeIterative library
@@ -57,15 +57,15 @@ We use cmake to build the code. We list the dependencies and how they are used i
     - Provides linear algebra support such as storage and inversion of stiffness matrix
   * [gmsh](https://gmsh.info/) 4.7
     - Our code directly interfaces with gmsh to use input-ouput functions of gmsh
-  * [VTK](https://www.vtk.org) 9.0
+  * [VTK](https://www.vtk.org) 9.2
     - For read-write operations on `.vtu` type files
-  * [YAML-CPP](https://github.com/jbeder/yaml-cpp) 0.6
+  * [YAML-CPP](https://github.com/jbeder/yaml-cpp) 0.7
     - To parse `.yaml` input files
 
   On Ubuntu you might install all dependencies using the papackage manager:
 
   ```bash
-  apt-get install libyaml-cpp-dev libvtk7-dev gmsh boost-devel
+  apt-get install libyaml-cpp-dev libvtk7-dev gmsh libboost-all-dev
   ```
 
   Note that on Ubuntu you need to install HPX, Blaze, and Blaze_Iterative since
@@ -181,10 +181,12 @@ PeriHPX has been funded by:
 * We are grateful for the support of the [Google Summer of Code program](https://summerofcode.withgoogle.com/) funding internships.
 
 ## References
-[1] Jha, P. K., & Lipton, R. (2019). Numerical convergence of finite difference approximations for state based peridynamic fracture models. Computer Methods in Applied Mechanics and Engineering, 351, 184-225.
+[1] Jha, P. K., & Lipton, R. (2019). Numerical convergence of finite difference approximations for state based peridynamic fracture models. Computer Methods in Applied Mechanics and Engineering, 351, 184-225. [Link](https://www.sciencedirect.com/science/article/pii/S0045782519301537?casa_token=67Szbz3TcSwAAAAA:8L5j6hiZsJttjOaPAEcAj3EhNE7QRm_xquuTSK6scPMtkiUXXqcQgEARpiuFG8-yv40Nm5tr9hA)
 
-[2] Jha, P. K., & Lipton, R. P. (2020). Kinetic relations and local energy balance for LEFM from a nonlocal peridynamic model. International Journal of Fracture, 226(1), 81-95.
+[2] Jha, P. K., & Lipton, R. P. (2020). Kinetic relations and local energy balance for LEFM from a nonlocal peridynamic model. International Journal of Fracture, 226(1), 81-95. [Link](https://idp.springer.com/authorize/casa?redirect_uri=https://link.springer.com/article/10.1007/s10704-020-00480-0&casa_token=N_V7_2Wi1q4AAAAA:MLygi-MRrv2a7ojCmHYbSBRoMUejXsQQcrUlC9-bEwXvvc08zahzsuZJmwIkZNWR815ACiXuCk22IAuwVA)
 
-[3] Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21.
+[3] Diehl, P., Jha, P. K., Kaiser, H., Lipton, R., & Lévesque, M. (2020). An asynchronous and task-based implementation of peridynamics utilizing HPX—the C++ standard library for parallelism and concurrency. SN Applied Sciences, 2(12), 1-21. [Link](https://link.springer.com/article/10.1007/s42452-020-03784-x)
+
+[4] Jha, P. K., Diehl, P. (2021) NLmech: Implementation of finite difference/meshfree discretization of nonlocal fracture models. Journal of Open Source Software 6.65 (2021): 3020. [Link](https://joss.theoj.org/papers/10.21105/joss.03020.pdf)
 
 For more references, we refer to the PeriHPX's [publication list](http://perihpx.stellar-group.org/publications/).

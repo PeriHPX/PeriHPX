@@ -240,6 +240,7 @@ void loading::ULoading::apply(const double &time, std::vector<util::Point3> *u,
         if (d == 1) {
           (*u)[i].d_x = du;
           (*v)[i].d_x = dv;
+
         } else if (d == 2) {
           (*u)[i].d_y = du;
           (*v)[i].d_y = dv;

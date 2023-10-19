@@ -5,7 +5,7 @@ coverage:
     project: # settings affecting project coverage
       default:
         target: 30 # auto % coverage target
-        threshold: null  # allow for 5% reduction of coverage without failing
+        threshold: 5  # allow for 5% reduction of coverage without failing
 
   # do not run coverage on patch nor changes
   patch: no

@@ -65,3 +65,7 @@ src/Config.h
 
 #Format
 .clang-format
+
+# Simulation
+*.vtu
+*.vtk
