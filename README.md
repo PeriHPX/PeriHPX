@@ -24,7 +24,7 @@ We provide shell scripts to help with the installation of dependencies and the P
 
 ### Build tools
 The following build tools are needed to compile the PeriHPX and its dependencies:
-  * GCC compiler collection (gcc) > 10, however, gcc >= 12 is recommended
+  * GCC compiler collection (gcc) > 4.9, however, gcc >= 10 is recommended
   * [autoconf](https://www.gnu.org/software/autoconf/)
   * [wget](https://www.gnu.org/software/wget/)
   * [cmake](https://cmake.org/)
@@ -49,10 +49,12 @@ We use cmake to build the code. We list the dependencies and how they are used i
     - To generate makefiles
   * [Boost](https://www.boost.org/) 1.80
     - Required to build HPX and YAML libraries
-  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.9.1
+  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.8
     - Provides methods for multithreading computation
-  * [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) 3.4
-    - Required for linear algebra
+  * [Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/) 3.8.2
+    - Required to build the BlazeIterative library
+  * [Blaze_Iterative](https://github.com/STEllAR-GROUP/BlazeIterative) master
+    - Provides linear algebra support such as storage and inversion of stiffness matrix
   * [gmsh](https://gmsh.info/) 4.7
     - Our code directly interfaces with gmsh to use input-ouput functions of gmsh
   * [VTK](https://www.vtk.org) 9.2
@@ -72,8 +74,11 @@ We use cmake to build the code. We list the dependencies and how they are used i
   On Fedora you might install all dependencies  using the package manager
 
   ```bash
-  dnf install hpx-devel cmake eigen3-devel vtk-devel yaml-cpp-devel gmsh-devel
+  dnf install hpx-devel cmake blaze-devel vtk-devel yaml-cpp-devel gmsh-devel
   ```
+
+  Note on Fedora, you need only to install Blaze_Itertaive.
+
 
 ### Building dependencies
 Building the above dependencies is quite a challenge. To help with this, we provide the bash [scripts](https://github.com/perihpx/HPCBuildInfrastructure). 
@@ -148,7 +153,7 @@ In case you found a bug in the library, want to contribute, or need a feature, p
 
 
 ## Releases
-The current stable version is [![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg)](https://GitHub.com/perihpx/PeriHPX/releases/). Main development branch is the [main branch](https://github.com/perihpx/PeriHPX). For more details, we refer to the [Changelog](https://github.com/perihpx/PeriHPX/blob/main/CHANGELOG.md) file.
+The current stable version is [![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg)](https://GitHub.com/perihpx/PeriHPX/releases/). Main development branch is the [main branch](https://github.com/perihpx/PeriHPX)..
 
 ## Code of conduct
 We have adopted a [code of conduct](https://github.com/perihpx/PeriHPX/blob/main/CODE_OF_CONDUCT.md) for this project. 
