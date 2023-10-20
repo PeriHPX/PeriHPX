@@ -24,7 +24,7 @@ We provide shell scripts to help with the installation of dependencies and the P
 
 ### Build tools
 The following build tools are needed to compile the PeriHPX and its dependencies:
-  * GCC compiler collection (gcc) > 4.9, however, gcc >= 10 is recommended
+  * GCC compiler collection (gcc) > 10, however, gcc >= 12 is recommended
   * [autoconf](https://www.gnu.org/software/autoconf/)
   * [wget](https://www.gnu.org/software/wget/)
   * [cmake](https://cmake.org/)
@@ -45,16 +45,14 @@ The following build tools are needed to compile the PeriHPX and its dependencies
 
 ### Dependencies
 We use cmake to build the code. We list the dependencies and how they are used in the code below:
-  * [CMake](https://cmake.org/) 3.18
+  * [CMake](https://cmake.org/) 3.20
     - To generate makefiles
-  * [Boost](https://www.boost.org/) 1.79
+  * [Boost](https://www.boost.org/) 1.80
     - Required to build HPX and YAML libraries
-  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.7.1
+  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.9.1
     - Provides methods for multithreading computation
-  * [Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/) 3.8
-    - Required to build the BlazeIterative library
-  * [Blaze_Iterative](https://github.com/STEllAR-GROUP/BlazeIterative) master
-    - Provides linear algebra support such as storage and inversion of stiffness matrix
+  * [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) 3.4
+    - Required for linear algebra
   * [gmsh](https://gmsh.info/) 4.7
     - Our code directly interfaces with gmsh to use input-ouput functions of gmsh
   * [VTK](https://www.vtk.org) 9.2
@@ -74,11 +72,8 @@ We use cmake to build the code. We list the dependencies and how they are used i
   On Fedora you might install all dependencies  using the package manager
 
   ```bash
-  dnf install hpx-devel cmake blaze-devel vtk-devel yaml-cpp-devel gmsh-devel
+  dnf install hpx-devel cmake eigen3-devel vtk-devel yaml-cpp-devel gmsh-devel
   ```
-
-  Note on Fedora, you need only to install Blaze_Itertaive.
-
 
 ### Building dependencies
 Building above dependencies is quite a challenge. To help with this, we provide the bash scripts for Ubuntu-20.04 and Fedor operating systems: [Bash scripts](https://github.com/perihpx/buildscripts/tree/main/bash)).
