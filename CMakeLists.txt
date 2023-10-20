@@ -13,8 +13,8 @@ project(PeriHPX
 
 # Set the version 
 set (VERSION_MAJOR 1)
-set (VERSION_MINOR 1)
-set (VERSION_UPDATE 1)
+set (VERSION_MINOR 2)
+set (VERSION_UPDATE 0)
 
 cmake_minimum_required(VERSION 3.19)
 
