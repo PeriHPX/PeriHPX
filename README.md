@@ -76,18 +76,11 @@ We use cmake to build the code. We list the dependencies and how they are used i
   ```
 
 ### Building dependencies
-Building above dependencies is quite a challenge. To help with this, we provide the bash scripts for Ubuntu-20.04 and Fedor operating systems: [Bash scripts](https://github.com/perihpx/buildscripts/tree/main/bash)).
-
-Further, we provide various docker files
-* to build the code on Fedora using Fedora packages, see [Using Fedora Packages](https://github.com/perihpx/buildscripts/blob/main/Docker/Fedora) 
-* to build all the dependencies and the code on Fedora, see [Build Dependencies and Code on Fedora](https://github.com/perihpx/buildscripts/blob/main/Docker/FedoraAll)
-* to build dependencies and the code on Ubuntu-20.04, see [Build Dependencies and Code on Ubuntu](https://github.com/perihpx/buildscripts/blob/main/Docker/FedoraAll).
-
-In [Scripts](https://github.com/perihpx/HPCBuildInfrastructure), bash scripts to build individual dependencies such as blaze, vtk, hpx, etc, on HPC systems is provided.
+Building the above dependencies is quite a challenge. To help with this, we provide the bash [scripts](https://github.com/perihpx/HPCBuildInfrastructure). 
 
 A more detailed version of the build instruction is available [here](https://perihpx.github.io/documentation/md_content_install_instructions.html).
 
-> :exclamation: We recommend to use the same CMake version and same compiler version to build the HPX and PeriHPX.
+> :exclamation: We recommend using the same CMake version and the same compiler version to build the HPX and PeriHPX.
 
 ### Compiling library
 Assuming all the dependencies are installed at standard paths such as `/usr/local`, we build PeriHPX as follows
