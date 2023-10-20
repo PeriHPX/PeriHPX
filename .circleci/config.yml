@@ -101,7 +101,7 @@ jobs:
               cd build 
               cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Documentation=ON ..
         - run:
-            name: Documentaiton
+            name: Documentation
             command: |
               cd build
               make doc
