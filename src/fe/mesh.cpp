@@ -288,7 +288,7 @@ void fe::Mesh::computeVol() {
   //
   d_vol.resize(d_numNodes);
 
-  auto f = hpx::for_loop(
+  auto f = hpx::experimental::for_loop(
       hpx::execution::par(hpx::execution::task), 0, this->d_numNodes,
       [this, quads](boost::uint64_t i) {
         double v = 0.0;

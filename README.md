@@ -45,13 +45,13 @@ The following build tools are needed to compile the PeriHPX and its dependencies
 
 ### Dependencies
 We use cmake to build the code. We list the dependencies and how they are used in the code below:
-  * [CMake](https://cmake.org/) 3.18
+  * [CMake](https://cmake.org/) 3.20
     - To generate makefiles
-  * [Boost](https://www.boost.org/) 1.79
+  * [Boost](https://www.boost.org/) 1.80
     - Required to build HPX and YAML libraries
-  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.7.1
+  * [HPX](https://github.com/STEllAR-GROUP/hpx) 1.8
     - Provides methods for multithreading computation
-  * [Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/) 3.8
+  * [Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/) 3.8.2
     - Required to build the BlazeIterative library
   * [Blaze_Iterative](https://github.com/STEllAR-GROUP/BlazeIterative) master
     - Provides linear algebra support such as storage and inversion of stiffness matrix
@@ -153,7 +153,7 @@ In case you found a bug in the library, want to contribute, or need a feature, p
 
 
 ## Releases
-The current stable version is [![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg)](https://GitHub.com/perihpx/PeriHPX/releases/). Main development branch is the [main branch](https://github.com/perihpx/PeriHPX). For more details, we refer to the [Changelog](https://github.com/perihpx/PeriHPX/blob/main/CHANGELOG.md) file.
+The current stable version is [![GitHub release](https://img.shields.io/github/release/perihpx/PeriHPX.svg)](https://GitHub.com/perihpx/PeriHPX/releases/). Main development branch is the [main branch](https://github.com/perihpx/PeriHPX)..
 
 ## Code of conduct
 We have adopted a [code of conduct](https://github.com/perihpx/PeriHPX/blob/main/CODE_OF_CONDUCT.md) for this project. 

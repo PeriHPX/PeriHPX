@@ -171,15 +171,16 @@ void model::QuasiStaticModel<T>::computeForces(bool full) {
 
   // Clear the vector
 
-  hpx::for_loop(hpx::execution::par, 0, d_nnodes, [&](boost::uint64_t i) {
-    (*d_dataManager_p->getForceP())[i].d_x = 0.;
-    (*d_dataManager_p->getForceP())[i].d_y = 0.;
-    (*d_dataManager_p->getForceP())[i].d_z = 0.;
-  });
+  hpx::experimental::for_loop(hpx::execution::par, 0, d_nnodes,
+                              [&](boost::uint64_t i) {
+                                (*d_dataManager_p->getForceP())[i].d_x = 0.;
+                                (*d_dataManager_p->getForceP())[i].d_y = 0.;
+                                (*d_dataManager_p->getForceP())[i].d_z = 0.;
+                              });
 
-  hpx::lcos::local::mutex m;
+  hpx::mutex m;
 
-  hpx::for_loop(
+  hpx::experimental::for_loop(
       hpx::execution::par, 0, d_nnodes,
       [&](boost::uint64_t i) {
         util::Point3 force_i = util::Point3();
@@ -246,15 +247,16 @@ inline void model::QuasiStaticModel<T>::computePertubatedForces(size_t thread) {
 
   // Clear the vector
 
-  hpx::for_loop(hpx::execution::par, 0, d_nnodes, [&](boost::uint64_t i) {
-    (*d_dataManagers[thread]->getForceP())[i].d_x = 0.;
-    (*d_dataManagers[thread]->getForceP())[i].d_y = 0.;
-    (*d_dataManagers[thread]->getForceP())[i].d_z = 0.;
-  });
+  hpx::experimental::for_loop(
+      hpx::execution::par, 0, d_nnodes, [&](boost::uint64_t i) {
+        (*d_dataManagers[thread]->getForceP())[i].d_x = 0.;
+        (*d_dataManagers[thread]->getForceP())[i].d_y = 0.;
+        (*d_dataManagers[thread]->getForceP())[i].d_z = 0.;
+      });
 
-  hpx::lcos::local::mutex m;
+  hpx::mutex m;
 
-  hpx::for_loop(
+  hpx::experimental::for_loop(
       hpx::execution::par, 0, d_nnodes,
       [&](boost::uint64_t i) {
         util::Point3 force_i = util::Point3();
@@ -558,18 +560,21 @@ void model::QuasiStaticModel<T>::solver() {
            iteration < d_input_p->getSolverDeck()->d_maxIters) {
       auto new_disp = this->newton_step(res);
 
-      hpx::for_loop(hpx::execution::par, 0, d_nnodes, [&](boost::uint64_t i) {
-        size_t id = i * dim;
+      hpx::experimental::for_loop(
+          hpx::execution::par, 0, d_nnodes, [&](boost::uint64_t i) {
+            size_t id = i * dim;
 
-        (*d_dataManager_p->getDisplacementP())[i].d_x =
-            (*d_dataManager_p->getDisplacementP())[i].d_x + new_disp[id];
-        if (dim >= 2)
-          (*d_dataManager_p->getDisplacementP())[i].d_y =
-              (*d_dataManager_p->getDisplacementP())[i].d_y + new_disp[id + 1];
-        if (dim == 3)
-          (*d_dataManager_p->getDisplacementP())[i].d_z =
-              (*d_dataManager_p->getDisplacementP())[i].d_z + new_disp[id + 2];
-      });
+            (*d_dataManager_p->getDisplacementP())[i].d_x =
+                (*d_dataManager_p->getDisplacementP())[i].d_x + new_disp[id];
+            if (dim >= 2)
+              (*d_dataManager_p->getDisplacementP())[i].d_y =
+                  (*d_dataManager_p->getDisplacementP())[i].d_y +
+                  new_disp[id + 1];
+            if (dim == 3)
+              (*d_dataManager_p->getDisplacementP())[i].d_z =
+                  (*d_dataManager_p->getDisplacementP())[i].d_z +
+                  new_disp[id + 2];
+          });
 
       this->computeForces();
 

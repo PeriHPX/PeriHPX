@@ -16,7 +16,7 @@ jobs:
                 command: | 
                   mkdir -p build 
                   cd build 
-                  cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Documentation=ON -DEnable_Tools=ON -DEnable_RPM=ON ..
+                  cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Documentation=ON -DEnable_Tools=ON -DEnable_RPM=ON -DHPX_IGNORE_COMPILER_COMPATIBILITY=ON ..
             - run:
                 name: Build
                 command: |  
@@ -52,7 +52,7 @@ jobs:
             command: |
               mkdir -p build
               cd build
-              cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Tools=ON -DCMAKE_CXX_FLAGS="-g -O0 --coverage" ..
+              cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Tools=ON -DCMAKE_CXX_FLAGS="-g -O0 --coverage" -DHPX_IGNORE_COMPILER_COMPATIBILITY=ON ..
               make 
         - run:
             name: Run tests
@@ -99,7 +99,7 @@ jobs:
             command: |
               mkdir -p build 
               cd build 
-              cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Documentation=ON ..
+              cmake -DCMAKE_BUILD_TYPE=Release -DEnable_Documentation=ON -DHPX_IGNORE_COMPILER_COMPATIBILITY=ON ..
         - run:
             name: Documentation
             command: |
