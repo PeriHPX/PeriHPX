@@ -7,16 +7,16 @@
 #####################################################################
 # Setup 
 #####################################################################
-project(PeriHPX
-    DESCRIPTION "Framework for non-local mechanics"
-    LANGUAGES CXX C)
+cmake_minimum_required(VERSION 3.19)
 
 # Set the version 
 set (VERSION_MAJOR 1)
 set (VERSION_MINOR 2)
 set (VERSION_UPDATE 0)
 
-cmake_minimum_required(VERSION 3.19)
+project(PeriHPX
+    DESCRIPTION "Framework for non-local mechanics"
+    LANGUAGES CXX C VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_UPDATE})
 
 # Provide the configuration file to get the version
 configure_file (
